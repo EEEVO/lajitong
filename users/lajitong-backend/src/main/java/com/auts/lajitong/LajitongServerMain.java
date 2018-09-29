@@ -27,8 +27,8 @@ import org.springframework.context.annotation.PropertySources;
 //@EnableCircuitBreaker
 //@EnableDiscoveryClient
 //@EnableEurekaClient
-public class LicasishiServerMain {
-    private static Logger logger = LogManager.getLogger(LicasishiServerMain.class);
+public class LajitongServerMain {
+    private static Logger logger = LogManager.getLogger(LajitongServerMain.class);
 
     static {
         ParserConfig.getGlobalInstance().addAccept("com.auts.lajitong.model.");
@@ -49,9 +49,9 @@ public class LicasishiServerMain {
      * @param args args
      */
     public static void main(String[] args) {
-        SpringApplication.run(LicasishiServerMain.class, args);
+        SpringApplication.run(LajitongServerMain.class, args);
 
-        logger.info("startup success!");
+        logger.info("Lajitong server startup success!");
     }
 
 }
