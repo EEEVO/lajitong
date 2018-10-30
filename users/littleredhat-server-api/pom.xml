@@ -15,11 +15,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.auts.lajitong.server</groupId>
-    <artifactId>littleredhat-server-backend</artifactId>
+    <artifactId>littleredhat-server-api</artifactId>
     <version>0.1-SNAPSHOT</version>
 
-    <name>littleredhat-server-backend</name>
-    <description>littleredhat-server-backend</description>
+    <name>littleredhat-server-api</name>
+    <description>littleredhat-server-api</description>
 
     <repositories>
         
