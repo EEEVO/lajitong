@@ -10,7 +10,7 @@
 	"miniprogramRoot": "dist/",
 	"compileType": "miniprogram",
 	"appid": "touristappid",
-	"projectname": "%E5%B0%8F%E7%BA%A2%E5%B8%BD%E6%99%BA%E8%83%BD%E5%9B%9E%E6%94%B6",
+	"projectname": "lajitong",
 	"condition": {
 		"search": {
 			"current": -1,
