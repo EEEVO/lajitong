@@ -1,0 +1,8 @@
+{
+    "usingComponents": {
+        "i-button": "../../../static/iview/button/index",
+        "i-input": "../../../static/iview/input/index",
+        "tk-password": "../../../static/tk-components/password/index"
+    },
+    "navigationBarTitleText": "输入验证码"
+}

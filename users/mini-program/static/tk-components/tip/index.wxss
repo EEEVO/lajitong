@@ -1,0 +1,17 @@
+.tip-wrapper {
+    height: 50px;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(184, 152, 54, .8);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 15px;
+}
+.tip-text {
+    color: #fff;
+    font-size: 16px;
+}
+

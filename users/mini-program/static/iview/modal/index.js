@@ -18,6 +18,10 @@ Component({
             type: Boolean,
             value: true
         },
+        showIcon: {
+            type: Boolean,
+            value: false
+        },
         okText: {
             type: String,
             value: '确定'
@@ -42,7 +46,7 @@ Component({
         handleClickItem ({ currentTarget = {} }) {
             const dataset = currentTarget.dataset || {};
             const { index } = dataset;
-            this.triggerEvent('click', { index });
+            this.triggerEvent('iclick', index);
         },
         handleClickOk () {
             this.triggerEvent('ok');

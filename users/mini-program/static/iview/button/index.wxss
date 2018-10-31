@@ -1,1 +1,221 @@
-.i-btn{text-align:center;vertical-align:middle;touch-action:manipulation;cursor:pointer;background-image:none;white-space:nowrap;user-select:none;font-size:14px;border-radius:2px;border:0!important;position:relative;text-decoration:none;height:44px;line-height:44px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.1);color:#fff!important;background:#f7f7f7!important;color:#495060!important;margin:10px}.i-btn-hover{opacity:.9}.i-btn-long{border-radius:0;margin:0;box-shadow:none}.i-btn-large{height:48px;line-height:48px}.i-btn-small{height:40px;line-height:40px}.i-btn-primary{color:#fff!important;background:#2d8cf0!important}.i-btn-ghost{color:#fff!important;background:#fff!important;color:#495060!important}.i-btn-success{color:#fff!important;background:#19be6b!important}.i-btn-warning{color:#fff!important;background:#f90!important}.i-btn-error{color:#fff!important;background:#ed3f14!important}.i-btn-info{color:#fff!important;background:#2db7f5!important}.i-btn-circle{border-radius:44px}.i-btn-large.i-btn-circle{border-radius:48px}.i-btn-small.i-btn-circle{border-radius:40px}.i-btn-loading{opacity:.6}.i-btn-loading-inner{display:inline-block;margin-right:12px;vertical-align:middle;width:14px;height:14px;background:0 0;border-radius:50%;border:2px solid #fff;border-color:#fff #fff #fff transparent;animation:btn-spin .6s linear;animation-iteration-count:infinite}.i-btn-disabled{color:#bbbec4!important;background:#f7f7f7!important}.i-btn-inline{display:inline-block}@keyframes btn-spin{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
+.i-btn {
+    text-align: center;
+    vertical-align: middle;
+    touch-action: manipulation;
+    cursor: pointer;
+    background-image: none;
+    white-space: nowrap;
+    user-select: none;
+    font-size: 14px;
+    border-radius: 2px;
+    border: 0 !important;
+    position: relative;
+    text-decoration: none;
+    height: 50px;
+    line-height: 50px;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .1);
+    color: #fff !important;
+    background: #f7f7f7 !important;
+    color: #495060 !important;
+    margin: 10px
+}
+
+.i-btn-hover {
+    opacity: .9
+}
+
+.i-btn-long {
+    border-radius: 0;
+    margin: 0;
+    box-shadow: none
+}
+
+.i-btn-large {
+    height: 48px;
+    line-height: 48px
+}
+
+.i-btn-small {
+    height: 40px;
+    line-height: 40px
+}
+
+.i-btn-primary {
+    color: #fff !important;
+    background: #2d8cf0 !important
+}
+
+.i-btn-ghost {
+    color: #fff !important;
+    background: #fff !important;
+    color: #495060 !important
+}
+
+.i-btn-success {
+    color: #fff !important;
+    background: #19be6b !important
+}
+
+.i-btn-warning {
+    color: #fff !important;
+    background: #f90 !important
+}
+
+.i-btn-error {
+    color: #fff !important;
+    background: #ed3f14 !important
+}
+
+.i-btn-info {
+    color: #fff !important;
+    background: #2db7f5 !important
+}
+
+.i-btn-circle {
+    border-radius: 44px
+}
+
+.i-btn-large.i-btn-circle {
+    border-radius: 48px
+}
+
+.i-btn-small.i-btn-circle {
+    border-radius: 40px
+}
+
+.i-btn-loading {
+    opacity: .6
+}
+
+.i-btn-loading-inner {
+    display: inline-block;
+    margin-right: 12px;
+    vertical-align: middle;
+    width: 14px;
+    height: 14px;
+    background: 0 0;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    border-color: #fff #fff #fff transparent;
+    animation: btn-spin .6s linear;
+    animation-iteration-count: infinite
+}
+
+/*提喀自定义  start*/
+.i-btn-tika {
+    background: #F5B427 !important;
+    font-size: 17px !important;
+    color: #fff !important;
+    border: none !important;
+    border-radius: 5px;
+    box-shadow: 0 0 18px 2px rgba(0, 0, 0, 0.1);
+}
+
+.i-btn-tip {
+    font-size: 16px;
+    border: 1px solid #fff !important;
+    border-radius: 2px;
+    color: #fff !important;
+    background-color: transparent !important;
+    position: static !important;
+    box-shadow: none;
+    height: 32px;
+    line-height: 30px;
+    margin: 0;
+}
+
+.i-btn-tip:active {
+    background: rgba(184, 152, 54, 1) !important;
+}
+
+.i-btn-getCode {
+    height: 32px;
+    text-align: center;
+    line-height: 32px;
+    font-size: 14px;
+    background-color: transparent!important;
+    padding: 0 7px;
+    margin: 0;
+    border: 1px solid #F5B427!important;
+    box-shadow: none!important;
+    border-radius: 5px!important;
+    color: #F5B427!important;
+}
+
+.i-btn-getCode:active {
+    background: rgba(184, 152, 54, 1) !important;
+    color: #fff!important;
+}
+
+.i-btn-confirm {
+    padding-left: 0!important;
+    padding-right: 0!important;
+    margin-right: 0!important;
+    margin-left: 0!important;
+    margin-top: 40px;
+    font-size: 18px!important;
+    color: #fff!important;
+    height: 50px!important;
+    border: none!important;
+    border-radius: 5px!important;
+    background-color: #e75053!important;
+    box-shadow: none!important;
+}
+
+.tipModalBtn {
+    font-size: 18px!important;
+    color: #333!important;
+    height: 50px!important;
+    line-height: 50px!important;
+}
+
+.i-btn-outDeposit {
+    font-size: 16px;
+    border: 1px solid #fff !important;
+    border-radius: 5px;
+    color: #fff !important;
+    background-color: transparent !important;
+    position: static !important;
+    box-shadow: none;
+    height: 36px;
+    line-height: 35px;
+    margin: 0;
+    width: 120px;
+}
+
+.i-btn-outDeposit:active {
+    background: #fff !important;
+    color: #F5B427!important;
+}
+.outDeposit-success {
+    color: #F5B427!important;
+    border-color: #F5B427!important;
+    font-size: 14px!important;
+}
+.outDeposit-success:active {
+    background: #F5B427 !important;
+    color: #fff!important;
+}
+
+
+    /*提喀自定义  end*/
+
+.i-btn-disabled {
+    color: #bbbec4 !important;
+    background: #f7f7f7 !important;
+    box-shadow: none!important;
+}
+
+.i-btn-inline {
+    display: inline-block
+}
+
+@keyframes btn-spin {
+    0% {
+        transform: rotate(0)
+    }
+    100% {
+        transform: rotate(360deg)
+    }
+}
+

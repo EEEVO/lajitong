@@ -18,7 +18,7 @@
             </swiper-item>
         </swiper>
         <div class="nav-list">
-            <div class="nav-item" v-for="(item, index) in navList" :key="index">
+            <div @click="navItem(index)" class="nav-item" v-for="(item, index) in navList" :key="index">
                 <img :src="item.icon" alt="">
                 <h4>{{item.title}}</h4>
             </div>
@@ -29,17 +29,17 @@
                     <h5>我的环保金</h5>
                     <p>{{greenGold}} <span>元</span></p>
                 </div>
-                <div class="link">我的钱包<div class="icon-wrapper"><i-icon color="#666" type="enter" /></div></div>
+                <div @click="goWallet" class="link">我的钱包<div class="icon-wrapper"><i-icon color="#666" type="enter" /></div></div>
             </div>
             <div class="card-item card-count">
                 <div class="title">
                     <h5>累计投递</h5>
                     <p>{{count}} <span>次</span></p>
                 </div>
-                <div class="link">查看记录<div class="icon-wrapper"><i-icon color="#666" type="enter" /></div></div>
+                <div @click="goDelivery" class="link">查看记录<div class="icon-wrapper"><i-icon color="#666" type="enter" /></div></div>
             </div>
         </div>
-        <div class="code"><div class="icon-wrapper"><i-icon size="20" color="#000" type="scan" /></div><div class="txt">生成二维码投递</div></div>
+        <div @click="code" class="code"><div class="icon-wrapper"><i-icon size="20" color="#000" type="scan" /></div><div class="txt">生成二维码投递</div></div>
     </div>
 </template>
 
@@ -61,6 +61,44 @@
                 }],
                 greenGold: '0.00',
                 count: 0
+            }
+        },
+        methods: {
+            code() {
+                if(wx.getStorageSync('isLogin')) {
+                    this.$toast('生成二维码投递')
+                    return
+                }
+                this.$router.push({
+                    path: "/pages/login/main"
+                });
+            },
+            navItem(index) {
+                switch (index) {
+                    case 0:
+                        this.$toast('敬请期待');
+                        break;
+                    case 1:
+                        this.$router.push({
+                            path: "/pages/helpCenter/main"
+                        });
+                        break;
+                    case 2:
+                        this.$router.push({
+                            path: "/pages/user/main"
+                        });
+                        break;
+                }
+            },
+            goWallet() {
+                this.$router.push({
+                    path: "/pages/wallet/main"
+                });
+            },
+            goDelivery() {
+                this.$router.push({
+                    path: "/pages/delivery/main"
+                });
             }
         }
     };
@@ -168,10 +206,8 @@
                 opacity: .8;
             }
             .txt {
+                font-size: @fs16;
                 margin-left: 6px;
-            }
-            .icon-wrapper {
-                top: 0;
             }
         }
     }

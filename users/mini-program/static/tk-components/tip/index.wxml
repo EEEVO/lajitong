@@ -1,0 +1,8 @@
+<view class="tip-wrapper">
+    <text class="tip-text">{{tipText}}</text>
+    <i-button
+        class="tip-btn"
+        bindtap="handleTap"
+        type="tip"
+    >{{btnText}}</i-button>
+</view>

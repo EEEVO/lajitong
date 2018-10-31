@@ -1,13 +1,22 @@
 {
-  "pages": [
-    "pages/index/main",
-    "pages/demo/main",
-    "pages/test/main"
-  ],
-  "window": {
-    "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "WeChat",
-    "navigationBarTextStyle": "black"
-  }
+    "pages": [
+        "pages/index/main",
+        "pages/demo/main",
+        "pages/login/main",
+        "pages/verifyCode/main",
+        "pages/helpCenter/main",
+        "pages/user/main",
+        "pages/wallet/main",
+        "pages/walletDetail/main",
+        "pages/delivery/main",
+        "pages/aboutUs/main",
+        "pages/setting/main",
+        "pages/test/main"
+    ],
+    "window": {
+        "backgroundTextStyle": "light",
+        "navigationBarBackgroundColor": "#fff",
+        "navigationBarTitleText": "WeChat",
+        "navigationBarTextStyle": "black"
+    }
 }

@@ -1,0 +1,7 @@
+{
+    "usingComponents": {
+        "i-button": "../../../static/iview/button/index",
+        "i-input": "../../../static/iview/input/index"
+    },
+    "navigationBarTitleText": "获取验证码"
+}

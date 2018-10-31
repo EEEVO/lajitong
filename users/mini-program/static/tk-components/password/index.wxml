@@ -1,0 +1,10 @@
+<form>
+    <view class='content'>
+        <block wx:for="{{Length}}" wx:key="item">
+            <input class='iptbox {{Value[index] > -1? "wrapped": ""}}' value="{{Value.length>=index+1?Value[index]:''}}" disabled password='{{ispassword}}'
+                   catchtap='Tap'></input>
+        </block>
+    </view>
+    <input value="{{Value}}" type="number" name="password"  class='ipt' maxlength="{{Length}}" focus="{{isFocus}}"
+           bindinput="Focus"></input>
+</form>
