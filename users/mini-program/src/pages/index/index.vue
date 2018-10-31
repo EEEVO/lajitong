@@ -65,13 +65,15 @@
         },
         methods: {
             code() {
-                if(wx.getStorageSync('isLogin')) {
-                    this.$toast('生成二维码投递')
-                    return
-                }
+                if(this.checkLogin()) return
+                this.$toast('投递')
+            },
+            checkLogin() {
+                if(wx.getStorageSync('isLogin')) return false
                 this.$router.push({
                     path: "/pages/login/main"
                 });
+                return true
             },
             navItem(index) {
                 switch (index) {
@@ -91,11 +93,13 @@
                 }
             },
             goWallet() {
+                if(this.checkLogin()) return
                 this.$router.push({
                     path: "/pages/wallet/main"
                 });
             },
             goDelivery() {
+                if(this.checkLogin()) return
                 this.$router.push({
                     path: "/pages/delivery/main"
                 });

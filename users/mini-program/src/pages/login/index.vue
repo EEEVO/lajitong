@@ -52,6 +52,7 @@
                         mobile: this.mobile
                     }
                 });
+                this.loading = false;
                 // let res = await this.$get(API.sendVerifyCode, {
                 //     mobile: this.mobile
                 // });

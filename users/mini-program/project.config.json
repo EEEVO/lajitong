@@ -34,7 +34,7 @@
 				{
 					"id": 0,
 					"name": "current",
-					"pathName": "pages/login/main",
+					"pathName": "pages/wallet/main",
 					"query": ""
 				}
 			]

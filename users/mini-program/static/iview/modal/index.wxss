@@ -132,7 +132,7 @@
 }
 
 .i-modal-btn-ok {
-    color: #2d8cf0 !important;
+    color: #f5d739 !important;
 }
 .i-modal-btn-loading {
     display: inline-block;
