@@ -6,11 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.auts.lajitong.controller.account.AccountController;
 import com.auts.lajitong.dao.AccountMapper;
-import com.auts.lajitong.dao.FinancerMapper;
 import com.auts.lajitong.model.dao.AccountModel;
-import com.auts.lajitong.model.dao.FinancerModel;
 import com.auts.lajitong.service.AccountService;
 
 @Service
@@ -19,8 +16,6 @@ public class AccountImpl implements AccountService {
 
     @Autowired
     AccountMapper mapper;
-    @Autowired
-    FinancerMapper financerMapper;
 
     @Override
     public AccountModel login(String userName, String pwd) {
@@ -37,12 +32,6 @@ public class AccountImpl implements AccountService {
     public int register(AccountModel model) {
         mapper.register(model);
 
-        //生成理财师信息
-        FinancerModel financer = new FinancerModel();
-    	financer.setPhone(model.getPhone());
-    	financer.setUserId(Integer.parseInt(model.getUid()));
-    	financer.setName("");
-    	financerMapper.addFinancer(financer);
     	return 1;
     }
 
@@ -64,11 +53,6 @@ public class AccountImpl implements AccountService {
     @Override
     public int updateAccount(AccountModel model) {
     	int result = mapper.updateAccount(model);
-    	if(result>0 && model.getReal_name() != null){
-    		FinancerModel financer = financerMapper.queryFinancerByUserID(model.getUid());
-    		financer.setName(model.getReal_name());
-    		financerMapper.editFinancer(financer);
-    	}
         return result;
     }
 }

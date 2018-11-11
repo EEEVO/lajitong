@@ -17,7 +17,6 @@ import com.auts.lajitong.model.common.PhicommAccountDetailModel;
 import com.auts.lajitong.model.dao.TokenModel;
 import com.auts.lajitong.model.response.Pager;
 import com.auts.lajitong.page.Page;
-import com.auts.lajitong.service.FinancerService;
 import com.auts.lajitong.service.TokenService;
 import com.auts.lajitong.util.MyResponseutils;
 import com.auts.lajitong.util.PhicommHttpsClient;
@@ -44,8 +43,6 @@ public abstract class SBaseController {
 
     @Autowired
     protected TokenService tokenService;
-    @Autowired
-    protected FinancerService financerService;
 
     public static PhiHomeBaseResponse geResponse(Object result) {
         PhiHomeBaseResponse smartHomeResponseT = new PhiHomeBaseResponse();
@@ -190,11 +187,4 @@ public abstract class SBaseController {
     	return orderNo;
     }
 
-    protected String getFinancerUidByUid(String userID) {
-        if (StringUtil.isNullOrEmpty(userID)) {
-            return "";
-        }
-
-        return financerService.queryFinancerIDByUID(userID);
-    }
 }
