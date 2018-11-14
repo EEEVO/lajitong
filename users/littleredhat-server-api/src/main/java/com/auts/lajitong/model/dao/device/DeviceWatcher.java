@@ -9,37 +9,37 @@ public class DeviceWatcher {
 
     private String gpsLat;
 
-    private String signalIntensit;
+    private Integer signalIntensit;
 
-    private String firmwareVersion;
+    private Integer firmwareVersion;
 
-    private String charingVoltage;
+    private Integer charingVoltage;
 
-    private String charingCurrent;
+    private Integer charingCurrent;
 
-    private String dailyCharge;
+    private Integer dailyCharge;
 
-    private String dailyElectricity;
+    private Integer dailyElectricity;
 
-    private String mainboardTemperature;
+    private Integer mainboardTemperature;
 
-    private String batteryTemperature;
+    private Integer batteryTemperature;
 
-    private String batteryVoltage;
+    private Integer batteryVoltage;
 
-    private Long sortSum;
+    private Integer sortSum;
 
     private String mainboardId;
 
     private String wsTime;
 
-    private String capacity;
+    private Integer capacity;
 
-    private String weight;
+    private Integer weight;
 
-    private String temperatur;
+    private Integer temperatur;
 
-    private String waterLine;
+    private Integer waterLine;
 
     private Long createTime;
 
@@ -77,83 +77,83 @@ public class DeviceWatcher {
         this.gpsLat = gpsLat == null ? null : gpsLat.trim();
     }
 
-    public String getSignalIntensit() {
+    public Integer getSignalIntensit() {
         return signalIntensit;
     }
 
-    public void setSignalIntensit(String signalIntensit) {
-        this.signalIntensit = signalIntensit == null ? null : signalIntensit.trim();
+    public void setSignalIntensit(Integer signalIntensit) {
+        this.signalIntensit = signalIntensit;
     }
 
-    public String getFirmwareVersion() {
+    public Integer getFirmwareVersion() {
         return firmwareVersion;
     }
 
-    public void setFirmwareVersion(String firmwareVersion) {
-        this.firmwareVersion = firmwareVersion == null ? null : firmwareVersion.trim();
+    public void setFirmwareVersion(Integer firmwareVersion) {
+        this.firmwareVersion = firmwareVersion;
     }
 
-    public String getCharingVoltage() {
+    public Integer getCharingVoltage() {
         return charingVoltage;
     }
 
-    public void setCharingVoltage(String charingVoltage) {
-        this.charingVoltage = charingVoltage == null ? null : charingVoltage.trim();
+    public void setCharingVoltage(Integer charingVoltage) {
+        this.charingVoltage = charingVoltage;
     }
 
-    public String getCharingCurrent() {
+    public Integer getCharingCurrent() {
         return charingCurrent;
     }
 
-    public void setCharingCurrent(String charingCurrent) {
-        this.charingCurrent = charingCurrent == null ? null : charingCurrent.trim();
+    public void setCharingCurrent(Integer charingCurrent) {
+        this.charingCurrent = charingCurrent;
     }
 
-    public String getDailyCharge() {
+    public Integer getDailyCharge() {
         return dailyCharge;
     }
 
-    public void setDailyCharge(String dailyCharge) {
-        this.dailyCharge = dailyCharge == null ? null : dailyCharge.trim();
+    public void setDailyCharge(Integer dailyCharge) {
+        this.dailyCharge = dailyCharge;
     }
 
-    public String getDailyElectricity() {
+    public Integer getDailyElectricity() {
         return dailyElectricity;
     }
 
-    public void setDailyElectricity(String dailyElectricity) {
-        this.dailyElectricity = dailyElectricity == null ? null : dailyElectricity.trim();
+    public void setDailyElectricity(Integer dailyElectricity) {
+        this.dailyElectricity = dailyElectricity;
     }
 
-    public String getMainboardTemperature() {
+    public Integer getMainboardTemperature() {
         return mainboardTemperature;
     }
 
-    public void setMainboardTemperature(String mainboardTemperature) {
-        this.mainboardTemperature = mainboardTemperature == null ? null : mainboardTemperature.trim();
+    public void setMainboardTemperature(Integer mainboardTemperature) {
+        this.mainboardTemperature = mainboardTemperature;
     }
 
-    public String getBatteryTemperature() {
+    public Integer getBatteryTemperature() {
         return batteryTemperature;
     }
 
-    public void setBatteryTemperature(String batteryTemperature) {
-        this.batteryTemperature = batteryTemperature == null ? null : batteryTemperature.trim();
+    public void setBatteryTemperature(Integer batteryTemperature) {
+        this.batteryTemperature = batteryTemperature;
     }
 
-    public String getBatteryVoltage() {
+    public Integer getBatteryVoltage() {
         return batteryVoltage;
     }
 
-    public void setBatteryVoltage(String batteryVoltage) {
-        this.batteryVoltage = batteryVoltage == null ? null : batteryVoltage.trim();
+    public void setBatteryVoltage(Integer batteryVoltage) {
+        this.batteryVoltage = batteryVoltage;
     }
 
-    public Long getSortSum() {
+    public Integer getSortSum() {
         return sortSum;
     }
 
-    public void setSortSum(Long sortSum) {
+    public void setSortSum(Integer sortSum) {
         this.sortSum = sortSum;
     }
 
@@ -173,36 +173,36 @@ public class DeviceWatcher {
         this.wsTime = wsTime == null ? null : wsTime.trim();
     }
 
-    public String getCapacity() {
+    public Integer getCapacity() {
         return capacity;
     }
 
-    public void setCapacity(String capacity) {
-        this.capacity = capacity == null ? null : capacity.trim();
+    public void setCapacity(Integer capacity) {
+        this.capacity = capacity;
     }
 
-    public String getWeight() {
+    public Integer getWeight() {
         return weight;
     }
 
-    public void setWeight(String weight) {
-        this.weight = weight == null ? null : weight.trim();
+    public void setWeight(Integer weight) {
+        this.weight = weight;
     }
 
-    public String getTemperatur() {
+    public Integer getTemperatur() {
         return temperatur;
     }
 
-    public void setTemperatur(String temperatur) {
-        this.temperatur = temperatur == null ? null : temperatur.trim();
+    public void setTemperatur(Integer temperatur) {
+        this.temperatur = temperatur;
     }
 
-    public String getWaterLine() {
+    public Integer getWaterLine() {
         return waterLine;
     }
 
-    public void setWaterLine(String waterLine) {
-        this.waterLine = waterLine == null ? null : waterLine.trim();
+    public void setWaterLine(Integer waterLine) {
+        this.waterLine = waterLine;
     }
 
     public Long getCreateTime() {

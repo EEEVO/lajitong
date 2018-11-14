@@ -9,12 +9,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
 import com.auts.lajitong.controller.SBaseController;
+import com.auts.lajitong.service.DeviceService;
 import com.dls.sdk.util.MainBoardUtil;
 import com.dls.sdk.vo.Deliver;
 import com.dls.sdk.vo.DeliveryCard;
@@ -42,7 +44,8 @@ public class PlatformController extends SBaseController {
     public static String HTTP_HEAD_AUTHORIZATION = "Authorization";
     public static String HTTP_HEAD_CONTENT_TYPE = "Content-Type";
 
-
+    @Autowired
+    DeviceService deviceService;
 
     /**
      * 心跳检测
@@ -62,6 +65,7 @@ public class PlatformController extends SBaseController {
 	        MbParseResult<Shake> mbParseResult = shake.buildResult(inputStream);
 	        LOGGER.info("心跳检测:" + JSON.toJSONString(mbParseResult));
 	        System.out.println(mbParseResult);
+	        deviceService.saveShake(mbParseResult);
 
 	        String org_id = ORGANIZATION_ID; // 机构编号
 	        String[] buckets = new String[] {"401", "402", "403", "404"};  

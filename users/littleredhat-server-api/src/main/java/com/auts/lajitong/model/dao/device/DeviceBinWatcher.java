@@ -7,9 +7,9 @@ public class DeviceBinWatcher {
 
     private String deviceId;
 
-    private String sortNo;
+    private Integer sortNo;
 
-    private String volumn;
+    private Integer volumn;
 
     private String sszl;
 
@@ -17,7 +17,7 @@ public class DeviceBinWatcher {
 
     private String workStatus;
 
-    private String errorCode;
+    private Integer errorCode;
 
     private String errorMsg;
 
@@ -49,20 +49,20 @@ public class DeviceBinWatcher {
         this.deviceId = deviceId == null ? null : deviceId.trim();
     }
 
-    public String getSortNo() {
+    public Integer getSortNo() {
         return sortNo;
     }
 
-    public void setSortNo(String sortNo) {
-        this.sortNo = sortNo == null ? null : sortNo.trim();
+    public void setSortNo(Integer sortNo) {
+        this.sortNo = sortNo;
     }
 
-    public String getVolumn() {
+    public Integer getVolumn() {
         return volumn;
     }
 
-    public void setVolumn(String volumn) {
-        this.volumn = volumn == null ? null : volumn.trim();
+    public void setVolumn(Integer volumn) {
+        this.volumn = volumn;
     }
 
     public String getSszl() {
@@ -89,12 +89,12 @@ public class DeviceBinWatcher {
         this.workStatus = workStatus == null ? null : workStatus.trim();
     }
 
-    public String getErrorCode() {
+    public Integer getErrorCode() {
         return errorCode;
     }
 
-    public void setErrorCode(String errorCode) {
-        this.errorCode = errorCode == null ? null : errorCode.trim();
+    public void setErrorCode(Integer errorCode) {
+        this.errorCode = errorCode;
     }
 
     public String getErrorMsg() {
