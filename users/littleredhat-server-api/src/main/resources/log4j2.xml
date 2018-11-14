@@ -3,7 +3,7 @@
 <configuration status="off" monitorInterval="1800">  
     <properties>  
         <property name="LOG_HOME">logs</property>  
-        <property name="SERVICE_NAME">licaishi-server-backend</property>
+        <property name="SERVICE_NAME">lajitong-server-backend</property>
     </properties>  
     <appenders>
 		<!-- 定义控制台输出 -->
@@ -13,7 +13,7 @@
 		</Console>
 		<!-- 程序员调试日志，每100M一个文件 -->
 		<RollingRandomAccessFile name="DevLog"
-			fileName="${LOG_HOME}/${SERVICE_NAME}.log" filePattern="${LOG_HOME}/${SERVICE_NAME}.%d{yyyy-MM-dd-HH}.log">
+			fileName="${LOG_HOME}/${SERVICE_NAME}.log" filePattern="${LOG_HOME}/${SERVICE_NAME}.%d{yyyy-MM-dd-HH-mm-ss}.log">
 			<PatternLayout
 				pattern="%date{yyyy-MM-dd HH:mm:ss.SSS} %level [%thread][%file:%line] - %msg%n" />
 			<SizeBasedTriggeringPolicy size="100MB" />
@@ -24,16 +24,9 @@
 	</appenders>
 	<loggers>
 		<!-- Root Logger -->
-		<root level="DEBUG">
+		<root level="INFO">
 			<AppenderRef ref="async-devlog" />
 			<AppenderRef ref="Console" />
 		</root>
 	</loggers>
-log4j.logger.com.ibatis=DEBUG
-log4j.logger.com.ibatis.common.jdbc.SimpleDataSource=DEBUG
-log4j.logger.com.ibatis.common.jdbc.ScriptRunner=DEBUG
-log4j.logger.com.ibatis.sqlmap.engine.impl.SqlMapClientDelegate=DEBUG
-log4j.logger.Java.sql.Connection=DEBUG
-log4j.logger.java.sql.Statement=DEBUG
-log4j.logger.java.sql.PreparedStatement=DEBUG
 </configuration>  
