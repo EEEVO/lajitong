@@ -43,7 +43,7 @@ public class UserController extends SBaseController {
     public PhiHomeBaseResponse queryAllInfoCount(HttpServletRequest request,
             @RequestParam(value = "id", required = true) String id,
             @RequestParam(value = "nickName", required = false) String nickName,
-            @RequestParam(value = "sex", required = false) int sex) {
+            @RequestParam(value = "sex", required = false) String sex) {
         PhiHomeBaseResponse rspObj = new PhiHomeBaseResponse();
 
         LOGGER.info("id: [{}] nickName [{}], sex [{}]", id, nickName, sex);
