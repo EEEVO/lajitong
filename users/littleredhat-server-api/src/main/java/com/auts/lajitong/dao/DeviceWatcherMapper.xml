@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="andy.dao.DeviceWatcherMapper" >
+  <resultMap id="BaseResultMap" type="andy.model.DeviceWatcher" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="device_id" property="deviceId" jdbcType="VARCHAR" />
+    <result column="gps_lng" property="gpsLng" jdbcType="VARCHAR" />
+    <result column="gps_lat" property="gpsLat" jdbcType="VARCHAR" />
+    <result column="signal_intensit" property="signalIntensit" jdbcType="VARCHAR" />
+    <result column="firmware_version" property="firmwareVersion" jdbcType="VARCHAR" />
+    <result column="charing_voltage" property="charingVoltage" jdbcType="VARCHAR" />
+    <result column="charing_current" property="charingCurrent" jdbcType="VARCHAR" />
+    <result column="daily_charge" property="dailyCharge" jdbcType="VARCHAR" />
+    <result column="daily_electricity" property="dailyElectricity" jdbcType="VARCHAR" />
+    <result column="mainboard_temperature" property="mainboardTemperature" jdbcType="VARCHAR" />
+    <result column="battery_temperature" property="batteryTemperature" jdbcType="VARCHAR" />
+    <result column="battery_voltage" property="batteryVoltage" jdbcType="VARCHAR" />
+    <result column="sort_sum" property="sortSum" jdbcType="BIGINT" />
+    <result column="mainboard_id" property="mainboardId" jdbcType="VARCHAR" />
+    <result column="ws_time" property="wsTime" jdbcType="VARCHAR" />
+    <result column="capacity" property="capacity" jdbcType="VARCHAR" />
+    <result column="weight" property="weight" jdbcType="VARCHAR" />
+    <result column="temperatur" property="temperatur" jdbcType="VARCHAR" />
+    <result column="water_line" property="waterLine" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="BIGINT" />
+    <result column="update_time" property="updateTime" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, device_id, gps_lng, gps_lat, signal_intensit, firmware_version, charing_voltage, 
+    charing_current, daily_charge, daily_electricity, mainboard_temperature, battery_temperature, 
+    battery_voltage, sort_sum, mainboard_id, ws_time, capacity, weight, temperatur, water_line, 
+    create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_device_watcher
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tbl_device_watcher
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="andy.model.DeviceWatcher" >
+    insert into tbl_device_watcher (id, device_id, gps_lng, 
+      gps_lat, signal_intensit, firmware_version, 
+      charing_voltage, charing_current, daily_charge, 
+      daily_electricity, mainboard_temperature, 
+      battery_temperature, battery_voltage, sort_sum, 
+      mainboard_id, ws_time, capacity, 
+      weight, temperatur, water_line, 
+      create_time, update_time)
+    values (#{id,jdbcType=BIGINT}, #{deviceId,jdbcType=VARCHAR}, #{gpsLng,jdbcType=VARCHAR}, 
+      #{gpsLat,jdbcType=VARCHAR}, #{signalIntensit,jdbcType=VARCHAR}, #{firmwareVersion,jdbcType=VARCHAR}, 
+      #{charingVoltage,jdbcType=VARCHAR}, #{charingCurrent,jdbcType=VARCHAR}, #{dailyCharge,jdbcType=VARCHAR}, 
+      #{dailyElectricity,jdbcType=VARCHAR}, #{mainboardTemperature,jdbcType=VARCHAR}, 
+      #{batteryTemperature,jdbcType=VARCHAR}, #{batteryVoltage,jdbcType=VARCHAR}, #{sortSum,jdbcType=BIGINT}, 
+      #{mainboardId,jdbcType=VARCHAR}, #{wsTime,jdbcType=VARCHAR}, #{capacity,jdbcType=VARCHAR}, 
+      #{weight,jdbcType=VARCHAR}, #{temperatur,jdbcType=VARCHAR}, #{waterLine,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=BIGINT}, #{updateTime,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="andy.model.DeviceWatcher" >
+    insert into tbl_device_watcher
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="deviceId != null" >
+        device_id,
+      </if>
+      <if test="gpsLng != null" >
+        gps_lng,
+      </if>
+      <if test="gpsLat != null" >
+        gps_lat,
+      </if>
+      <if test="signalIntensit != null" >
+        signal_intensit,
+      </if>
+      <if test="firmwareVersion != null" >
+        firmware_version,
+      </if>
+      <if test="charingVoltage != null" >
+        charing_voltage,
+      </if>
+      <if test="charingCurrent != null" >
+        charing_current,
+      </if>
+      <if test="dailyCharge != null" >
+        daily_charge,
+      </if>
+      <if test="dailyElectricity != null" >
+        daily_electricity,
+      </if>
+      <if test="mainboardTemperature != null" >
+        mainboard_temperature,
+      </if>
+      <if test="batteryTemperature != null" >
+        battery_temperature,
+      </if>
+      <if test="batteryVoltage != null" >
+        battery_voltage,
+      </if>
+      <if test="sortSum != null" >
+        sort_sum,
+      </if>
+      <if test="mainboardId != null" >
+        mainboard_id,
+      </if>
+      <if test="wsTime != null" >
+        ws_time,
+      </if>
+      <if test="capacity != null" >
+        capacity,
+      </if>
+      <if test="weight != null" >
+        weight,
+      </if>
+      <if test="temperatur != null" >
+        temperatur,
+      </if>
+      <if test="waterLine != null" >
+        water_line,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="deviceId != null" >
+        #{deviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="gpsLng != null" >
+        #{gpsLng,jdbcType=VARCHAR},
+      </if>
+      <if test="gpsLat != null" >
+        #{gpsLat,jdbcType=VARCHAR},
+      </if>
+      <if test="signalIntensit != null" >
+        #{signalIntensit,jdbcType=VARCHAR},
+      </if>
+      <if test="firmwareVersion != null" >
+        #{firmwareVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="charingVoltage != null" >
+        #{charingVoltage,jdbcType=VARCHAR},
+      </if>
+      <if test="charingCurrent != null" >
+        #{charingCurrent,jdbcType=VARCHAR},
+      </if>
+      <if test="dailyCharge != null" >
+        #{dailyCharge,jdbcType=VARCHAR},
+      </if>
+      <if test="dailyElectricity != null" >
+        #{dailyElectricity,jdbcType=VARCHAR},
+      </if>
+      <if test="mainboardTemperature != null" >
+        #{mainboardTemperature,jdbcType=VARCHAR},
+      </if>
+      <if test="batteryTemperature != null" >
+        #{batteryTemperature,jdbcType=VARCHAR},
+      </if>
+      <if test="batteryVoltage != null" >
+        #{batteryVoltage,jdbcType=VARCHAR},
+      </if>
+      <if test="sortSum != null" >
+        #{sortSum,jdbcType=BIGINT},
+      </if>
+      <if test="mainboardId != null" >
+        #{mainboardId,jdbcType=VARCHAR},
+      </if>
+      <if test="wsTime != null" >
+        #{wsTime,jdbcType=VARCHAR},
+      </if>
+      <if test="capacity != null" >
+        #{capacity,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null" >
+        #{weight,jdbcType=VARCHAR},
+      </if>
+      <if test="temperatur != null" >
+        #{temperatur,jdbcType=VARCHAR},
+      </if>
+      <if test="waterLine != null" >
+        #{waterLine,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="andy.model.DeviceWatcher" >
+    update tbl_device_watcher
+    <set >
+      <if test="deviceId != null" >
+        device_id = #{deviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="gpsLng != null" >
+        gps_lng = #{gpsLng,jdbcType=VARCHAR},
+      </if>
+      <if test="gpsLat != null" >
+        gps_lat = #{gpsLat,jdbcType=VARCHAR},
+      </if>
+      <if test="signalIntensit != null" >
+        signal_intensit = #{signalIntensit,jdbcType=VARCHAR},
+      </if>
+      <if test="firmwareVersion != null" >
+        firmware_version = #{firmwareVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="charingVoltage != null" >
+        charing_voltage = #{charingVoltage,jdbcType=VARCHAR},
+      </if>
+      <if test="charingCurrent != null" >
+        charing_current = #{charingCurrent,jdbcType=VARCHAR},
+      </if>
+      <if test="dailyCharge != null" >
+        daily_charge = #{dailyCharge,jdbcType=VARCHAR},
+      </if>
+      <if test="dailyElectricity != null" >
+        daily_electricity = #{dailyElectricity,jdbcType=VARCHAR},
+      </if>
+      <if test="mainboardTemperature != null" >
+        mainboard_temperature = #{mainboardTemperature,jdbcType=VARCHAR},
+      </if>
+      <if test="batteryTemperature != null" >
+        battery_temperature = #{batteryTemperature,jdbcType=VARCHAR},
+      </if>
+      <if test="batteryVoltage != null" >
+        battery_voltage = #{batteryVoltage,jdbcType=VARCHAR},
+      </if>
+      <if test="sortSum != null" >
+        sort_sum = #{sortSum,jdbcType=BIGINT},
+      </if>
+      <if test="mainboardId != null" >
+        mainboard_id = #{mainboardId,jdbcType=VARCHAR},
+      </if>
+      <if test="wsTime != null" >
+        ws_time = #{wsTime,jdbcType=VARCHAR},
+      </if>
+      <if test="capacity != null" >
+        capacity = #{capacity,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null" >
+        weight = #{weight,jdbcType=VARCHAR},
+      </if>
+      <if test="temperatur != null" >
+        temperatur = #{temperatur,jdbcType=VARCHAR},
+      </if>
+      <if test="waterLine != null" >
+        water_line = #{waterLine,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="andy.model.DeviceWatcher" >
+    update tbl_device_watcher
+    set device_id = #{deviceId,jdbcType=VARCHAR},
+      gps_lng = #{gpsLng,jdbcType=VARCHAR},
+      gps_lat = #{gpsLat,jdbcType=VARCHAR},
+      signal_intensit = #{signalIntensit,jdbcType=VARCHAR},
+      firmware_version = #{firmwareVersion,jdbcType=VARCHAR},
+      charing_voltage = #{charingVoltage,jdbcType=VARCHAR},
+      charing_current = #{charingCurrent,jdbcType=VARCHAR},
+      daily_charge = #{dailyCharge,jdbcType=VARCHAR},
+      daily_electricity = #{dailyElectricity,jdbcType=VARCHAR},
+      mainboard_temperature = #{mainboardTemperature,jdbcType=VARCHAR},
+      battery_temperature = #{batteryTemperature,jdbcType=VARCHAR},
+      battery_voltage = #{batteryVoltage,jdbcType=VARCHAR},
+      sort_sum = #{sortSum,jdbcType=BIGINT},
+      mainboard_id = #{mainboardId,jdbcType=VARCHAR},
+      ws_time = #{wsTime,jdbcType=VARCHAR},
+      capacity = #{capacity,jdbcType=VARCHAR},
+      weight = #{weight,jdbcType=VARCHAR},
+      temperatur = #{temperatur,jdbcType=VARCHAR},
+      water_line = #{waterLine,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
