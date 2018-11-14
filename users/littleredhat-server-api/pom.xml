@@ -123,6 +123,13 @@
             </exclusions>
         </dependency>
         <dependency>
+            <groupId>com.dls.sdk</groupId>
+            <artifactId>redhatsdk</artifactId>
+            <version>1.0.0-SNAPSHORT</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/dls-sdk-1.0.jar</systemPath>
+        </dependency>
+        <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
             <version>4.3.5</version>
