@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.auts.lajitong.consts.Const;
 import com.auts.lajitong.controller.SBaseController;
 import com.auts.lajitong.model.common.PhiHomeBaseResponse;
 import com.auts.lajitong.service.UserService;
@@ -46,12 +47,25 @@ public class UserController extends SBaseController {
             @RequestParam(value = "sex", required = false) String sex) {
         PhiHomeBaseResponse rspObj = new PhiHomeBaseResponse();
 
-        LOGGER.info("id: [{}] nickName [{}], sex [{}]", id, nickName, sex);
-
-//        if (StringUtil.isNullOrEmpty(nickName)) {
-//
-//        }
-
+        if (nickName == null && sex == null) {
+          //不用更新
+            return successResponse(rspObj);
+        }else if (nickName == null) {
+            //只更新sex
+            if (Const.SexType.SEX_MAIL_STR.equals(sex) || Const.SexType.SEX_FEMAIL_STR.equals(sex)) {
+                int sexInt = Integer.parseInt(sex);
+                userService.updateUserSex(id, sexInt);
+            }
+        }else if(sex == null){
+            //只更新nickName
+            userService.updateUserNickName(id, nickName);
+        }else {
+            //更新两个
+            if (Const.SexType.SEX_MAIL_STR.equals(sex) || Const.SexType.SEX_FEMAIL_STR.equals(sex)) {
+                int sexInt = Integer.parseInt(sex);
+                userService.updateUser(id, nickName, sexInt);
+            }
+        }
         return successResponse(rspObj);
     }
 }

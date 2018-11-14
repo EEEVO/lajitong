@@ -63,4 +63,11 @@ public interface Const {
             String STR_TOKEN_INVILID = "TOKEN INVILID";
         }
     }
+
+    interface SexType{
+        int SEX_MAIL = 1; //男
+        String SEX_MAIL_STR = "1"; //男
+        int SEX_FEMAIL = 2; //女
+        String SEX_FEMAIL_STR = "2"; //女
+    }
 }

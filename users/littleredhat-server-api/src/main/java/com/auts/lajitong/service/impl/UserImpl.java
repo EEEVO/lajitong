@@ -5,7 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.auts.lajitong.dao.AccountMapper;
+import com.auts.lajitong.dao.UserMapper;
 import com.auts.lajitong.service.UserService;
 
 @Service
@@ -13,24 +13,25 @@ public class UserImpl implements UserService {
     private static final Logger LOGGER = LogManager.getLogger(UserImpl.class);
 
     @Autowired
-    AccountMapper mapper;
+    UserMapper mapper;
 
     @Override
-    public int updateUser(String id, String nickName) {
-        // TODO Auto-generated method stub
-        return 0;
+    public int updateUserNickName(String id, String nickName) {
+        return mapper.updateUserNickName(id, nickName);
     }
 
     @Override
-    public int updateUser(String id, int sex) {
-        // TODO Auto-generated method stub
-        return 0;
+    public int updateUserSex(String id, int sex) {
+        return mapper.updateUserSex(id, sex);
     }
 
     @Override
     public int updateUser(String id, String nickName, int sex) {
-        // TODO Auto-generated method stub
-        return 0;
+        return mapper.updateUser(id, nickName, sex);
     }
+
+
+
+
 
 }
