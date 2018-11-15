@@ -9,8 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.auts.lajitong.dao.DeviceBinWatcherMapper;
 import com.auts.lajitong.dao.DeviceWatcherMapper;
-import com.auts.lajitong.model.dao.device.DeviceBinWatcher;
-import com.auts.lajitong.model.dao.device.DeviceWatcher;
+import com.auts.lajitong.model.dao.device.DeviceBinWatcherModel;
+import com.auts.lajitong.model.dao.device.DeviceWatcherModel;
 import com.auts.lajitong.service.DeviceService;
 import com.dls.sdk.vo.MbParseResult;
 import com.dls.sdk.vo.Points;
@@ -30,20 +30,20 @@ public class DeviceServiceImpl implements DeviceService {
 	public int saveShake(MbParseResult<Shake> mbParseResult) {
 		
 		Shake shake = (Shake)mbParseResult.mbDataObject;
-		DeviceWatcher record = convertDeviceDTO(shake);
+		DeviceWatcherModel record = convertDeviceDTO(shake);
 		int result = deviceWatcherMapper.insert(record);
 		if(result > 0) {
 			List<Points> pointList = shake.getPointsList();
 			for(Points points : pointList) {
-				DeviceBinWatcher dto = convertDevicePointDTO(points);
+				DeviceBinWatcherModel dto = convertDevicePointDTO(points);
 				deviceBinWatcherMapper.insert(dto);
 			}
 		}
 		return 0;
 	}
 	
-	private DeviceWatcher convertDeviceDTO(Shake shake) {
-		DeviceWatcher dto = new DeviceWatcher();
+	private DeviceWatcherModel convertDeviceDTO(Shake shake) {
+		DeviceWatcherModel dto = new DeviceWatcherModel();
 		dto.setDeviceId(shake.getDeviceId());
 		dto.setGpsLat(shake.getDEVICE_GPS_Lat() + "");
 		dto.setGpsLng(shake.getDEVICE_GPS_LNG() + "");
@@ -69,8 +69,8 @@ public class DeviceServiceImpl implements DeviceService {
 		return dto;
 	}
 	
-	private DeviceBinWatcher convertDevicePointDTO(Points points) {
-		DeviceBinWatcher dto = new DeviceBinWatcher();
+	private DeviceBinWatcherModel convertDevicePointDTO(Points points) {
+		DeviceBinWatcherModel dto = new DeviceBinWatcherModel();
 		return dto;
 	}
 }

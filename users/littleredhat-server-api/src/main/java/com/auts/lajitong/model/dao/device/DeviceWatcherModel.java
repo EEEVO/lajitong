@@ -1,6 +1,6 @@
 package com.auts.lajitong.model.dao.device;
 
-public class DeviceWatcher {
+public class DeviceWatcherModel {
     private Long id;
 
     private String deviceId;

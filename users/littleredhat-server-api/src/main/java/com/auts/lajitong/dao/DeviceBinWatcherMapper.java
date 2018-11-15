@@ -1,17 +1,17 @@
 package com.auts.lajitong.dao;
 
-import com.auts.lajitong.model.dao.device.DeviceBinWatcher;
+import com.auts.lajitong.model.dao.device.DeviceBinWatcherModel;
 
 public interface DeviceBinWatcherMapper {
     int deleteByPrimaryKey(Long id);
 
-    int insert(DeviceBinWatcher record);
+    int insert(DeviceBinWatcherModel record);
 
-    int insertSelective(DeviceBinWatcher record);
+    int insertSelective(DeviceBinWatcherModel record);
 
-    DeviceBinWatcher selectByPrimaryKey(Long id);
+    DeviceBinWatcherModel selectByPrimaryKey(Long id);
 
-    int updateByPrimaryKeySelective(DeviceBinWatcher record);
+    int updateByPrimaryKeySelective(DeviceBinWatcherModel record);
 
-    int updateByPrimaryKey(DeviceBinWatcher record);
+    int updateByPrimaryKey(DeviceBinWatcherModel record);
 }
