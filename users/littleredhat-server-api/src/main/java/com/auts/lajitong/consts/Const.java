@@ -32,8 +32,17 @@ public interface Const {
     // 请求参数类错误
     interface ErrorCode {
 
-        int COMMON_ERROR = 10001;
-        int REQUEST_NO_PARAS = 10002;
+        int COMMON_ERROR = 10001; //请求失败
+        int REQUEST_NO_PARAS = 10002; //请求中参数不足
+        int ERROR_NO_TOKEN = 10003;// 请求中缺少Token
+        int ERROR_TOKEN_INVILD = 10004;//token失效
+        int ERROR_USER_NO_DETAIL = 10007;// 用户还未设置账号详情
+        int ERROR_DATABASE_FATAL = 10008;//操作数据库失败
+        int REQUEST_PARA_ERROR = 10009;// 请求参数不合法
+        int ERROR_NO_UID = 10010;// 请求中缺少uid
+        int ERROR_JSON = 10011;//获取json数据出错
+        int ERROR_NO_DEVICEID = 10012;// 请求中缺少deviceId
+        int ERROR_NO_DEVICE_FOUND = 10013;// 数据库中未查找到对应的设备信息
 
         interface Account {
             int OK = 0;

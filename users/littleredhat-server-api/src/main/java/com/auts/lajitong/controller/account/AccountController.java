@@ -304,6 +304,44 @@ public class AccountController extends SBaseController {
     }
 
     /**
+     * 请求发送验证码信息.
+     */
+    @RequestMapping(value = "/users/v1/verification", method = RequestMethod.GET, produces = { "application/json" })
+    public PhiHomeBaseResponse sendVerificationMsg(HttpServletRequest request,
+            @RequestParam(value = "accountId", required = true) String accountId) {
+        LOGGER.info("sendVerificationMsg accountId [{}]", accountId);
+        PhiHomeBaseResponse rsp = new PhiHomeBaseResponse();
+        if (StringUtil.isNullOrEmpty(accountId)) {
+            LOGGER.info("verificationMsg with no phonenumber");
+            return errorResponse(Const.ErrorCode.ERROR_NO_UID);
+        }
+
+        //发送验证码短信
+        String captchaCode = YPSmsApi.getRandCaptchaCode();
+        try {
+            String result = YPSmsApi.sendSms(YPSmsApi.API_KEY, String.format(YPSmsApi.CAPTCHA_TEXT, captchaCode), accountId);
+            LOGGER.info("result: " + result);
+            if(result.contains("发送成功")) {
+                CaptchaModel cm = new CaptchaModel();
+                cm.setPhoneNo(accountId);
+                cm.setCaptchaCode(captchaCode);
+                cm.setSendTime(System.currentTimeMillis() / 1000);
+                if(captchaService.queryCaptchaByPhoneNo(accountId) == null) {
+                    captchaService.addCaptcha(cm);
+                } else {
+                    captchaService.updateCaptcha(cm);
+                }
+                return successResponse(rsp);
+            } else {
+                return errorResponse(Const.ErrorCode.COMMON_ERROR);
+            }
+        } catch (IOException e) {
+            LOGGER.error("IOException ", e);
+            return errorResponse(Const.ErrorCode.COMMON_ERROR);
+        }
+    }
+
+    /**
      * 检查手机号码，是否是合法的号码，是否已经注册.
      */
     @RequestMapping(value = "/v1/checkPhonenumber", method = RequestMethod.GET, produces = { "application/json" })
