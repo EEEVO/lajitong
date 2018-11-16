@@ -43,6 +43,7 @@ public interface Const {
         int ERROR_JSON = 10011;//获取json数据出错
         int ERROR_NO_DEVICEID = 10012;// 请求中缺少deviceId
         int ERROR_NO_DEVICE_FOUND = 10013;// 数据库中未查找到对应的设备信息
+        int ERROR_SMS_SEND_TOO_OFFEN = 10014;// 注册短信发送太过于频繁
 
         interface Account {
             int OK = 0;

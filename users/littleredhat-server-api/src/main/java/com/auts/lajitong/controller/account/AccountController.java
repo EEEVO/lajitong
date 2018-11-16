@@ -332,6 +332,8 @@ public class AccountController extends SBaseController {
                     captchaService.updateCaptcha(cm);
                 }
                 return successResponse(rsp);
+            }else if(result.contains("超过频率")){
+                return errorResponse(Const.ErrorCode.COMMON_ERROR);
             } else {
                 return errorResponse(Const.ErrorCode.COMMON_ERROR);
             }
