@@ -304,7 +304,28 @@ public class AccountController extends SBaseController {
     }
 
     /**
-     * 请求发送验证码信息.
+     * 登陆接口 - 智能垃圾桶项目.
+     * accountId -- 登陆的手机号
+     * smscode -- 短信验证码
+     */
+    @RequestMapping(value = "/users/v1/login", method = RequestMethod.POST, produces = { "application/json" })
+    public PhiHomeBaseResponse loginAccount(HttpServletRequest request,
+            @RequestParam(value = "accountId", required = true) String accountId,
+            @RequestParam(value = "smscode", required = true) String smscode) {
+        LOGGER.info("loginAccount accountId [{}] smscode [{}]", accountId, smscode);
+        PhiHomeBaseResponse rsp = new PhiHomeBaseResponse();
+        if (StringUtil.isNullOrEmpty(accountId) || StringUtil.isNullOrEmpty(smscode)) {
+            LOGGER.info("verificationMsg with no phonenumber");
+            return errorResponse(Const.ErrorCode.REQUEST_NO_PARAS);
+        }
+        //检验短信验证码是否正确
+
+
+        return successResponse(rsp);
+    }
+
+    /**
+     * 请求发送验证码信息 - 智能垃圾桶项目.
      */
     @RequestMapping(value = "/users/v1/verification", method = RequestMethod.GET, produces = { "application/json" })
     public PhiHomeBaseResponse sendVerificationMsg(HttpServletRequest request,
