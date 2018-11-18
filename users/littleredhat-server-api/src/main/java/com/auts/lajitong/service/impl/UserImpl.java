@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.auts.lajitong.dao.UserMapper;
+import com.auts.lajitong.model.dao.UserModel;
 import com.auts.lajitong.service.UserService;
 
 @Service
@@ -30,8 +31,8 @@ public class UserImpl implements UserService {
         return mapper.updateUser(id, nickName, sex);
     }
 
-
-
-
-
+    @Override
+    public int addUser(UserModel model) {
+        return mapper.addUser(model);
+    }
 }

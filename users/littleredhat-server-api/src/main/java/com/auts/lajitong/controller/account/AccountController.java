@@ -26,6 +26,7 @@ import com.auts.lajitong.model.common.PhiHomeBaseResponse;
 import com.auts.lajitong.model.dao.AccountModel;
 import com.auts.lajitong.model.dao.CaptchaModel;
 import com.auts.lajitong.model.dao.TokenModel;
+import com.auts.lajitong.model.dao.UserModel;
 import com.auts.lajitong.model.request.PropertyChangeRequestModel;
 import com.auts.lajitong.model.response.AccountBaseResponseModel;
 import com.auts.lajitong.model.response.AccountDetailResponseModel;
@@ -36,10 +37,12 @@ import com.auts.lajitong.model.response.PropertyChangeResponseModel;
 import com.auts.lajitong.model.response.RegistResponseModel;
 import com.auts.lajitong.service.AccountService;
 import com.auts.lajitong.service.CaptchaService;
+import com.auts.lajitong.service.UserService;
 import com.auts.lajitong.util.Base64Utils;
 import com.auts.lajitong.util.MyResponseutils;
 import com.auts.lajitong.util.RegexUtils;
 import com.auts.lajitong.util.StringUtil;
+import com.auts.lajitong.util.UserIdGenerator;
 
 /**
  * 账户相关的Controller.
@@ -59,6 +62,9 @@ public class AccountController extends SBaseController {
     YPSmsApi ypSmsApi;
     @Autowired
     CaptchaService captchaService;
+
+    @Autowired
+    UserService userService;
 
     private static final String AVATAR_SAVE_PATH = "/root/deploy/img/avatar/lcss";
 
@@ -320,7 +326,20 @@ public class AccountController extends SBaseController {
         }
         //检验短信验证码是否正确
 
+        //检查此号码是否已经被注册过，如果是，直接不需要重新登陆
 
+        //插入数据库tbl_user
+        UserModel model = new UserModel();
+        model.setId(UserIdGenerator.gen());
+        model.setAccountId(accountId);
+        model.setNickName("");
+        model.setCreateTime(System.currentTimeMillis());
+        model.setSex(1);
+        model.setStatus(0);
+        model.setTotalProfit("0");
+        model.setWxsOpenId("");
+
+        userService.addUser(model);
         return successResponse(rsp);
     }
 
