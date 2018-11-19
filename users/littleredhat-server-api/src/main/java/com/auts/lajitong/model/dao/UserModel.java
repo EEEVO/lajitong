@@ -81,4 +81,11 @@ public class UserModel {
     public void setCreateTime(long createTime) {
         this.createTime = createTime;
     }
+
+    @Override
+    public String toString() {
+        return "UserModel [id=" + id + ", accountId=" + accountId + ", nickName=" + nickName + ", sex=" + sex
+                + ", status=" + status + ", totalProfit=" + totalProfit + ", wxsOpenId=" + wxsOpenId + ", createTime="
+                + createTime + "]";
+    }
 }

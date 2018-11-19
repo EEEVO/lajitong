@@ -35,4 +35,9 @@ public class UserImpl implements UserService {
     public int addUser(UserModel model) {
         return mapper.addUser(model);
     }
+
+    @Override
+    public UserModel queryUserByAccountId(String accountId) {
+        return mapper.queryUserByAccountId(accountId);
+    }
 }

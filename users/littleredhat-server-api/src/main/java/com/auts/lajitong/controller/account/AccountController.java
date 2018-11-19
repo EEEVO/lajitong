@@ -34,6 +34,7 @@ import com.auts.lajitong.model.response.AuthorizationCodeResponseCode;
 import com.auts.lajitong.model.response.LoginResponseModel;
 import com.auts.lajitong.model.response.PasswordResponseModel;
 import com.auts.lajitong.model.response.PropertyChangeResponseModel;
+import com.auts.lajitong.model.response.RedhatLoginResponseModel;
 import com.auts.lajitong.model.response.RegistResponseModel;
 import com.auts.lajitong.service.AccountService;
 import com.auts.lajitong.service.CaptchaService;
@@ -325,22 +326,45 @@ public class AccountController extends SBaseController {
             return errorResponse(Const.ErrorCode.REQUEST_NO_PARAS);
         }
         //检验短信验证码是否正确
+        CaptchaModel captchaModel = captchaService.queryCaptchaByPhoneNo(accountId);
+        if (captchaModel == null || !smscode.equals(captchaModel.getCaptchaCode())) {
+            LOGGER.info("verificationMsg with wrong captcha");
+            return errorResponse(Const.ErrorCode.ERROR_SMS_CAPTCHA);
+        }
 
-        //检查此号码是否已经被注册过，如果是，直接不需要重新登陆
-
-        //插入数据库tbl_user
-        UserModel model = new UserModel();
-        model.setId(UserIdGenerator.gen());
-        model.setAccountId(accountId);
-        model.setNickName("");
-        model.setCreateTime(System.currentTimeMillis());
-        model.setSex(1);
-        model.setStatus(0);
-        model.setTotalProfit("0");
-        model.setWxsOpenId("");
-
-        userService.addUser(model);
+        //检查此号码是否已经被注册过，比如换手机登陆
+        RedhatLoginResponseModel rspModel = new RedhatLoginResponseModel();
+        UserModel userModel = userService.queryUserByAccountId(accountId);
+        if (userModel != null) {
+            LOGGER.info("queryd userModel [{}]", userModel);
+            userModel.setCreateTime(System.currentTimeMillis());
+            fillRedhatLoginResponse(userModel, rspModel);
+        } else {
+            //插入数据库tbl_user
+            UserModel model = new UserModel();
+            model.setId(UserIdGenerator.gen());
+            model.setAccountId(accountId);
+            model.setNickName("");
+            model.setCreateTime(System.currentTimeMillis());
+            model.setSex(Const.SexType.SEX_UNKNOWN);
+            model.setStatus(0);
+            model.setTotalProfit("0");
+            model.setWxsOpenId("");
+            userService.addUser(model);
+            fillRedhatLoginResponse(model, rspModel);
+        }
+        rsp.setResult(rspModel);
         return successResponse(rsp);
+    }
+
+    private void fillRedhatLoginResponse(UserModel model, RedhatLoginResponseModel rspModel) {
+        rspModel.setId(model.getId());
+        rspModel.setAccountId(model.getAccountId());
+        rspModel.setNickName(rspModel.getNickName());
+        rspModel.setSex(model.getSex());
+        rspModel.setStatus(model.getStatus());
+        rspModel.setTotalProfit(model.getTotalProfit());
+        rspModel.setWxOpenId(model.getWxsOpenId());
     }
 
     /**

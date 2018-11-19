@@ -44,6 +44,7 @@ public interface Const {
         int ERROR_NO_DEVICEID = 10012;// 请求中缺少deviceId
         int ERROR_NO_DEVICE_FOUND = 10013;// 数据库中未查找到对应的设备信息
         int ERROR_SMS_SEND_TOO_OFFEN = 10014;// 注册短信发送太过于频繁
+        int ERROR_SMS_CAPTCHA = 10015;// 验证码错误
 
         interface Account {
             int OK = 0;
@@ -75,6 +76,7 @@ public interface Const {
     }
 
     interface SexType{
+        int SEX_UNKNOWN = 0;
         int SEX_MAIL = 1; //男
         String SEX_MAIL_STR = "1"; //男
         int SEX_FEMAIL = 2; //女
