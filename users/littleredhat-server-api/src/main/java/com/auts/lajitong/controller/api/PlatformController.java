@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSON;
 import com.auts.lajitong.controller.SBaseController;
 import com.auts.lajitong.service.DeviceService;
+import com.auts.lajitong.service.OrderService;
 import com.dls.sdk.util.MainBoardUtil;
 import com.dls.sdk.vo.Deliver;
 import com.dls.sdk.vo.DeliveryCard;
@@ -46,6 +47,8 @@ public class PlatformController extends SBaseController {
 
     @Autowired
     DeviceService deviceService;
+    @Autowired
+    OrderService orderService;
 
     /**
      * 心跳检测
@@ -129,9 +132,18 @@ public class PlatformController extends SBaseController {
 			Deliver deliver = new Deliver(); 
 			MbParseResult<Deliver> mbParseResult = deliver.buildResult(inputStream);
 			// 取出投递记录
-			List<DeliveryCard> list = mbParseResult.mbDataObject.getFenleiDeliveryCardList();
-			LOGGER.info("投递记录:", JSON.toJSON(list));
-			//TODO 订单入库
+			List<DeliveryCard> deliveryCardList = mbParseResult.mbDataObject.getFenleiDeliveryCardList();
+			LOGGER.info("投递记录: [{}]", JSON.toJSON(deliveryCardList));
+			if(deliveryCardList == null || deliveryCardList.size() < 1) {
+				LOGGER.warn("投递记录为空");
+			} else {
+				String result = orderService.saveOrder(deliveryCardList);
+				if(result == null) {
+					LOGGER.warn("投递记录失败");
+				} else {
+					LOGGER.warn("投递记录成功，订单编号为：  [{}]", result);
+				}
+			}
 			
 			String org_id = ORGANIZATION_ID; // 机构编号
 			String[] buckets = new String[] {"401", "402", "403", "404"};  // 内桶个数对应的垃圾类型

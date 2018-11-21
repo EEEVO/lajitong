@@ -72,7 +72,7 @@ public class OrderModel {
     }
 
     public String getWeight() {
-        return weight;
+        return this.weight;
     }
 
     public void setWeight(String weight) {
