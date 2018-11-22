@@ -397,7 +397,8 @@ public class AccountController extends SBaseController {
                 }
                 return successResponse(rsp);
             }else if(result.contains("超过频率")){
-                return errorResponse(Const.ErrorCode.COMMON_ERROR);
+                LOGGER.info("send too offen accountId [{}] ", accountId);
+                return errorResponse(Const.ErrorCode.ERROR_SMS_SEND_TOO_OFFEN);
             } else {
                 return errorResponse(Const.ErrorCode.COMMON_ERROR);
             }
