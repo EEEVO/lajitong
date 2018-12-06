@@ -1,8 +1,10 @@
 package com.auts.lajitong.service.impl;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,9 +35,8 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	private OrderModel convertOrderDTO(DeliveryCard deliveryCard) {
-
 		OrderModel dto = new OrderModel();
-		dto.setOrderId("");
+		dto.setOrderId(generateOrderNo());
 		dto.setDeviceId(deliveryCard.getMbId());
 		dto.setBinNo(deliveryCard.getBinNo() + "");
 		dto.setOrderType("");
@@ -50,4 +51,11 @@ public class OrderServiceImpl implements OrderService {
 		
 		return dto;
 	}
+	
+	private String generateOrderNo() {
+    	SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmssSSS");//设置日期格式
+    	String orderNo = String.format("%s%s", df.format(new Date()), new Random().nextInt(100));//订单编号
+    	
+    	return orderNo; 	
+    }
 }

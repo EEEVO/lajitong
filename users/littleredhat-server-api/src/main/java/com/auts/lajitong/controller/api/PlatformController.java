@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
 import com.auts.lajitong.controller.SBaseController;
@@ -68,7 +67,6 @@ public class PlatformController extends SBaseController {
 			Shake shake = new Shake();
 	        MbParseResult<Shake> mbParseResult = shake.buildResult(inputStream);
 	        LOGGER.info("心跳检测:" + JSON.toJSONString(mbParseResult));
-	        System.out.println(mbParseResult);
 	        deviceService.saveShake(mbParseResult);
 
 	        String org_id = ORGANIZATION_ID; // 机构编号

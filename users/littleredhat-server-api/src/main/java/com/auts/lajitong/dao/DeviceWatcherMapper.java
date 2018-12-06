@@ -2,6 +2,7 @@ package com.auts.lajitong.dao;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Param;
 
 import com.auts.lajitong.model.dao.device.DeviceWatcherModel;
 
@@ -18,7 +19,7 @@ public interface DeviceWatcherMapper {
             + "#{record.weight},#{record.temperatur},#{record.waterLine},#{record.createTime},#{record.updateTime})"
             )
     @Options(useGeneratedKeys = true, keyProperty = "record.id")
-    int insert(DeviceWatcherModel record);
+    int insert(@Param("record") DeviceWatcherModel record);
 
     int insertSelective(DeviceWatcherModel record);
 

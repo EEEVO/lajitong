@@ -36,6 +36,8 @@ public class DeviceServiceImpl implements DeviceService {
 			List<Points> pointList = shake.getPointsList();
 			for(Points points : pointList) {
 				DeviceBinWatcherModel dto = convertDevicePointDTO(points);
+				dto.setfId(record.getId());
+				dto.setDeviceId(record.getDeviceId());
 				deviceBinWatcherMapper.insert(dto);
 			}
 		}
@@ -71,6 +73,16 @@ public class DeviceServiceImpl implements DeviceService {
 	
 	private DeviceBinWatcherModel convertDevicePointDTO(Points points) {
 		DeviceBinWatcherModel dto = new DeviceBinWatcherModel();
+		dto.setSortNo(points.getSortNo());
+		dto.setVolumn(points.getVolume());
+		dto.setSszl(String.valueOf(points.getSszl()));
+		dto.setWd(points.getWd() + "");
+		dto.setWorkStatus(points.getZczt() + "");
+		dto.setErrorCode(points.getGzzt());
+		dto.setErrorMsg(points.getGzMsg());
+		Date nowDate = new Date();
+		dto.setCreateTime(nowDate.getTime());
+		dto.setUpdateTime(nowDate.getTime());
 		return dto;
 	}
 }

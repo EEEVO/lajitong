@@ -2,6 +2,7 @@ package com.auts.lajitong.dao;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Param;
 
 import com.auts.lajitong.model.dao.device.DeviceBinWatcherModel;
 
@@ -14,7 +15,7 @@ public interface DeviceBinWatcherMapper {
             + "#{record.errorCode},#{record.errorMsg},#{record.createTime},#{record.updateTime})"
             )
     @Options(useGeneratedKeys = true, keyProperty = "record.id")
-    int insert(DeviceBinWatcherModel record);
+    int insert(@Param("record") DeviceBinWatcherModel record);
 
     int insertSelective(DeviceBinWatcherModel record);
 
