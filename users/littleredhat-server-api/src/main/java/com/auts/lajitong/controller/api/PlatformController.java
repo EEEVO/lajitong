@@ -2,6 +2,7 @@ package com.auts.lajitong.controller.api;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +19,7 @@ import com.alibaba.fastjson.JSON;
 import com.auts.lajitong.controller.SBaseController;
 import com.auts.lajitong.service.DeviceService;
 import com.auts.lajitong.service.OrderService;
+import com.auts.lajitong.util.DateUtils;
 import com.dls.sdk.util.MainBoardUtil;
 import com.dls.sdk.vo.Deliver;
 import com.dls.sdk.vo.DeliveryCard;
@@ -60,7 +62,7 @@ public class PlatformController extends SBaseController {
      */
     @RequestMapping(value = "/fl/ws")
     public void shake(HttpServletRequest request, HttpServletResponse response) {
-
+    	LOGGER.info("心跳检测测试，时间：" + DateUtils.parseDateToStr(new Date(), "yyyy-MM-dd HH:mm:ss"));
         InputStream inputStream;
 		try {
 			inputStream = request.getInputStream();
@@ -93,7 +95,7 @@ public class PlatformController extends SBaseController {
      */
     @RequestMapping(value = "/fl/verification")
     public void verification(HttpServletRequest request, HttpServletResponse response) {
-
+    	LOGGER.info("卡号验证测试，时间：" + DateUtils.parseDateToStr(new Date(), "yyyy-MM-dd HH:mm:ss"));
         InputStream inputStream;
 		try {
 			inputStream = request.getInputStream();
@@ -124,7 +126,7 @@ public class PlatformController extends SBaseController {
      */
     @RequestMapping(value = "/fl/record")
     public void record(HttpServletRequest request, HttpServletResponse response) {
-
+    	LOGGER.info("投递记录测试，时间：" + DateUtils.parseDateToStr(new Date(), "yyyy-MM-dd HH:mm:ss"));
         InputStream inputStream;
 		try {
 			inputStream = request.getInputStream();

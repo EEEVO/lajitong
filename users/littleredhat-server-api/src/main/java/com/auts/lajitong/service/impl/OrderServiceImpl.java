@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.auts.lajitong.dao.OrderMapper;
 import com.auts.lajitong.model.dao.OrderModel;
+import com.auts.lajitong.model.enums.GarbageTypeEnum;
 import com.auts.lajitong.service.OrderService;
 import com.dls.sdk.vo.DeliveryCard;
 
@@ -39,10 +40,10 @@ public class OrderServiceImpl implements OrderService {
 		dto.setOrderId(generateOrderNo());
 		dto.setDeviceId(deliveryCard.getMbId());
 		dto.setBinNo(deliveryCard.getBinNo() + "");
-		dto.setOrderType("");
+		dto.setOrderType(deliveryCard.getBinNo() + "");
 		dto.setDeliveryTime(deliveryCard.getDeliveryDate());
 		dto.setWeight(deliveryCard.getWeight() + "");
-		dto.setPrice("1");
+		dto.setPrice(getPrice(deliveryCard.getBinNo() + ""));
 		String amount = new BigDecimal(deliveryCard.getWeight()).multiply(new BigDecimal("1")).setScale(0).toString();
 		dto.setAmount(amount);
 		Date nowDate = new Date();
@@ -50,6 +51,20 @@ public class OrderServiceImpl implements OrderService {
 		dto.setUpdateTime(nowDate.getTime());
 		
 		return dto;
+	}
+	
+	private String getPrice(String orderType) {
+		String price = "0";
+		if(GarbageTypeEnum.Book.getValue().equals(orderType)) {
+			price = "0.5";
+		} else if(GarbageTypeEnum.Metal.getValue().equals(orderType)) {
+			price = "0.8";
+		} else if(GarbageTypeEnum.Plastics.getValue().equals(orderType)) {
+			price = "0.9";
+		} else if(GarbageTypeEnum.Glass.getValue().equals(orderType)) {
+			price = "1.5";
+		}
+		return price;
 	}
 	
 	private String generateOrderNo() {
