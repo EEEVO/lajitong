@@ -15,24 +15,27 @@
                 <i-cell title="设置" is-link url="/pages/setting/main"></i-cell>
             </i-cell-group>
         </div>
-        <i-modal  title="修改昵称" :visible="isShowEditName" @ok="confirmEdit" @cancel="cancelEdit">
+        <i-modal title="修改昵称" :visible="isShowEditName" @ok="confirmEdit" @cancel="cancelEdit">
             <i-input
-                i-class="name-line"
+                :i-class="isShowEditName ? 'name-line show' : 'name-line'"
                 placeholder="请输入昵称"
-                autofocus
+                :autofocus="isShowEditName"
+                type="text"
                 @change="change"
                 :value="editName"></i-input>
         </i-modal>
+
     </div>
 </template>
 
 <script>
     import { isForbidden } from "utils/stopRequest";
+    import API from "api/apiList";
 
     export default {
         data() {
             return {
-                name: '环保达人110',
+                name: '',
                 isShowEditName: false,
                 editName: ''
             }
@@ -42,26 +45,37 @@
                 frontColor: "#000000",
                 backgroundColor: "#f5d739"
             });
+            const userInfo = wx.getStorageSync('userInfo');
+            this.name = userInfo.nickname;
+            console.log(`this.isShowEditName:${this.isShowEditName}`);
         },
         methods: {
             showEditName() {
                 this.editName = this.name;
                 this.isShowEditName = true;
             },
-            confirmEdit() {
-                this.name = this.editName;
+            async confirmEdit() {
+                const id = wx.getStorageSync('userId');
+                const res = await this.$post(API.editUserInfo, {
+                    id,
+                    nickName: this.editName
+                })
                 this.cancelEdit()
+                if (res.status !== 200) return;
+                this.name = this.editName
             },
             cancelEdit() {
                 this.isShowEditName = false;
             },
             change(e) {
+                console.log(e);
                 this.editName = e.target.detail.value;
             }
         },
         computed: {
             mobile() {
-                return '158****8888'
+                const userInfo = wx.getStorageSync('userInfo');
+                return `${userInfo.phonenumber.slice(0,3)}****${userInfo.phonenumber.slice(7)}`
             }
         }
     };
@@ -102,11 +116,24 @@
                 .name {
                     margin-top: 10px;
                     color: @fontColor3;
+                    text-align: center;
                 }
             }
         }
         .name-line {
             border-bottom: 1rpx solid @mainColor;
+            display: none;
+            &.show {
+                display: inherit;
+            }
+        }
+        .modal {
+            position: fixed;
+            width: 100vw;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
         }
     }
 </style>

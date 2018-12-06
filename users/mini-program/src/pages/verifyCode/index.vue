@@ -40,7 +40,7 @@
         },
         mounted() {
             // 获取手机号
-            this.mobile = this.$root.$mp.query.mobile || '15888888888'
+            this.mobile = this.$root.$mp.query.mobile
             this.setCountDown();
         },
         methods: {
@@ -59,11 +59,10 @@
             // 发送获取验证码
             async handleGetCode() {
                 this.autoFocus = true;
-                let res = await this.$get(API.sendVerifyCode, {
-                    mobile: this.mobile
+                let res = await this.$get(API.getCode, {
+                    accountId: this.mobile
                 });
-                if (res.code === this.$STATUS) {
-
+                if (res.status === 200) {
                     this.setCountDown();
                 }
             },
@@ -73,24 +72,18 @@
                 }
             },
             async submit(e) {
-                // console.log(e.mp.detail);
+                console.log(e.mp.detail);
                 if(e.mp.detail.length === 6) {
-                    wx.setStorageSync('isLogin', true);
-                    this.$router.go(2)
-                    // let res = await this.$get(API.login, {
-                    //     mobile: this.mobile,
-                    //     verifyCode: e.mp.detail
-                    // })
-                    // if(res.code === this.$STATUS) {
-                    //     this.$store.commit('CHANGE_TOGGLE_STATUS', false)
-                    //     wx.setStorageSync('uid', res.uid);
-                    //     wx.setStorageSync('mobile', this.mobile);
-                    //     wx.setStorageSync('depositStatus', res.depositStatus !== 0);
-                    //     wx.setStorageSync('depositMoney', res.depositMoney);
-                    //     this.$store.commit('CHANGE_MOBILE',this.mobile)
-                    //     this.$store.commit('CHANGE_DEPOSITPAY_STATUS',res.depositStatus !== 0)
-                    //     this.$router.go(2)
-                    // }
+                    let res = await this.$post(API.login, {
+                        accountId: this.mobile,
+                        smscode: e.mp.detail
+                    })
+                    if(res.status === 200) {
+                        console.log(123);
+                        wx.setStorageSync('isLogin', true);
+                        wx.setStorageSync('userId', res.result.id);
+                        this.$router.go(2)
+                    }
                 }
             }
         },
