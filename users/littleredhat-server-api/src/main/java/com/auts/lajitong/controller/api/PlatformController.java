@@ -62,13 +62,13 @@ public class PlatformController extends SBaseController {
      */
     @RequestMapping(value = "/fl/ws")
     public void shake(HttpServletRequest request, HttpServletResponse response) {
-    	LOGGER.info("心跳检测测试，时间：" + DateUtils.parseDateToStr(new Date(), "yyyy-MM-dd HH:mm:ss"));
+    	LOGGER.info("shake test, time：" + DateUtils.parseDateToStr(new Date(), "yyyy-MM-dd HH:mm:ss"));
         InputStream inputStream;
 		try {
 			inputStream = request.getInputStream();
 			Shake shake = new Shake();
 	        MbParseResult<Shake> mbParseResult = shake.buildResult(inputStream);
-	        LOGGER.info("心跳检测:" + JSON.toJSONString(mbParseResult));
+	        LOGGER.info("shake:" + JSON.toJSONString(mbParseResult));
 	        deviceService.saveShake(mbParseResult);
 
 	        String org_id = ORGANIZATION_ID; // 机构编号
@@ -95,13 +95,13 @@ public class PlatformController extends SBaseController {
      */
     @RequestMapping(value = "/fl/verification")
     public void verification(HttpServletRequest request, HttpServletResponse response) {
-    	LOGGER.info("卡号验证测试，时间：" + DateUtils.parseDateToStr(new Date(), "yyyy-MM-dd HH:mm:ss"));
+    	LOGGER.info("verification test, time：" + DateUtils.parseDateToStr(new Date(), "yyyy-MM-dd HH:mm:ss"));
         InputStream inputStream;
 		try {
 			inputStream = request.getInputStream();
 			Verification verification = new Verification();
 			MbParseResult<Verification> mbParseResult=verification.buildResult(inputStream);
-			LOGGER.info("卡号验证:卡号 [{}]", mbParseResult.mbDataObject.getCardNumber());
+			LOGGER.info("verification: cardNO: [{}]", mbParseResult.mbDataObject.getCardNumber());
 
 			String cardNumber = mbParseResult.mbDataObject.getCardNumber();  // 卡号
 			boolean result = true;  // 验证结果
@@ -126,7 +126,7 @@ public class PlatformController extends SBaseController {
      */
     @RequestMapping(value = "/fl/record")
     public void record(HttpServletRequest request, HttpServletResponse response) {
-    	LOGGER.info("投递记录测试，时间：" + DateUtils.parseDateToStr(new Date(), "yyyy-MM-dd HH:mm:ss"));
+    	LOGGER.info("record test, time：" + DateUtils.parseDateToStr(new Date(), "yyyy-MM-dd HH:mm:ss"));
         InputStream inputStream;
 		try {
 			inputStream = request.getInputStream();
@@ -134,15 +134,15 @@ public class PlatformController extends SBaseController {
 			MbParseResult<Deliver> mbParseResult = deliver.buildResult(inputStream);
 			// 取出投递记录
 			List<DeliveryCard> deliveryCardList = mbParseResult.mbDataObject.getFenleiDeliveryCardList();
-			LOGGER.info("投递记录: [{}]", JSON.toJSON(deliveryCardList));
+			LOGGER.info("record: [{}]", JSON.toJSON(deliveryCardList));
 			if(deliveryCardList == null || deliveryCardList.size() < 1) {
-				LOGGER.warn("投递记录为空");
+				LOGGER.warn("record is null");
 			} else {
 				String result = orderService.saveOrder(deliveryCardList);
 				if(result == null) {
-					LOGGER.warn("投递记录失败");
+					LOGGER.warn("record failure");
 				} else {
-					LOGGER.warn("投递记录成功，订单编号为：  [{}]", result);
+					LOGGER.warn("record success，orderNO：  [{}]", result);
 				}
 			}
 			
