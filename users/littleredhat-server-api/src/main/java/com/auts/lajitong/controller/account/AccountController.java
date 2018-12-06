@@ -31,6 +31,7 @@ import com.auts.lajitong.model.request.PropertyChangeRequestModel;
 import com.auts.lajitong.model.response.AccountBaseResponseModel;
 import com.auts.lajitong.model.response.AccountDetailResponseModel;
 import com.auts.lajitong.model.response.AuthorizationCodeResponseCode;
+import com.auts.lajitong.model.response.LitteredHatInfosResponseModel;
 import com.auts.lajitong.model.response.LoginResponseModel;
 import com.auts.lajitong.model.response.PasswordResponseModel;
 import com.auts.lajitong.model.response.PropertyChangeResponseModel;
@@ -414,6 +415,30 @@ public class AccountController extends SBaseController {
             LOGGER.error("IOException ", e);
             return errorResponse(Const.ErrorCode.COMMON_ERROR);
         }
+    }
+
+    /**
+     * 获取个人详情 - 智能垃圾桶项目.
+     */
+    @RequestMapping(value = "/users/v1/infos", method = RequestMethod.GET, produces = { "application/json" })
+    public PhiHomeBaseResponse getInfos(HttpServletRequest request,
+            @RequestParam(value = "id", required = true) String id) {
+        LOGGER.info("sendVerificationMsg accountId [{}]", id);
+        PhiHomeBaseResponse rsp = new PhiHomeBaseResponse();
+        if (StringUtil.isNullOrEmpty(id)) {
+            LOGGER.info("verificationMsg with no phonenumber");
+            return errorResponse(Const.ErrorCode.ERROR_NO_UID);
+        }
+
+        LitteredHatInfosResponseModel model = new LitteredHatInfosResponseModel();
+        model.setPhonenumber("15914097395");
+        model.setCurrent_profit("11.23");
+        model.setDeliver_count(9);
+        model.setNickname("环保达人9867");
+        model.setTotal_profit("11.90");
+        rsp.setResult(model);
+
+        return successResponse(rsp);
     }
 
     /**
