@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,7 +37,7 @@ import com.dls.sdk.vo.VerificationDispose;
  * @author lb47917
  * @date 2018年11月6日 下午4:18:07
  */
-@RestController
+@Controller
 @CrossOrigin
 public class PlatformController extends SBaseController {
     private static final Logger LOGGER = LogManager.getLogger(PlatformController.class);
