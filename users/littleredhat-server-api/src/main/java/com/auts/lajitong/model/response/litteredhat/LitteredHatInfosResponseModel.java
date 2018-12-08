@@ -1,6 +1,18 @@
 package com.auts.lajitong.model.response.litteredhat;
 
+import com.auts.lajitong.model.dao.UserModel;
+
 public class LitteredHatInfosResponseModel {
+
+    public LitteredHatInfosResponseModel(){}
+
+    public LitteredHatInfosResponseModel(UserModel userModel){
+        this.phonenumber = userModel.getAccountId();
+        this.nickname = userModel.getNickName();
+        this.current_profit = userModel.getCurrentProfit();
+        this.deliver_count = userModel.getDeliverCount();
+        this.total_profit = userModel.getTotalProfit();
+    }
 
     private String phonenumber;
 

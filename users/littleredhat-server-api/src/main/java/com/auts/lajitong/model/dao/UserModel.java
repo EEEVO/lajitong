@@ -12,6 +12,10 @@ public class UserModel {
 
     private int status;//0-启用，1-停用
 
+    private String currentProfit;
+
+    private int deliverCount;
+
     private String totalProfit;
 
     private String wxsOpenId;
@@ -80,6 +84,22 @@ public class UserModel {
 
     public void setCreateTime(long createTime) {
         this.createTime = createTime;
+    }
+
+    public String getCurrentProfit() {
+        return currentProfit;
+    }
+
+    public void setCurrentProfit(String currentProfit) {
+        this.currentProfit = currentProfit;
+    }
+
+    public int getDeliverCount() {
+        return deliverCount;
+    }
+
+    public void setDeliverCount(int deliverCount) {
+        this.deliverCount = deliverCount;
     }
 
     @Override

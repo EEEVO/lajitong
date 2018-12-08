@@ -41,4 +41,19 @@ public interface UserMapper {
         @Result(property = "createTime", column = "create_time")
     })
     UserModel queryUserByAccountId(@Param("accountId") String accountId);
+
+    @Select("select * from tbl_user where id=#{userId} and status=0 limit 1")
+    @Results({
+        @Result(property = "id", column = "id"),
+        @Result(property = "accountId", column = "account_id"),
+        @Result(property = "nickName", column = "nick_name"),
+        @Result(property = "sex", column = "sex"),
+        @Result(property = "status", column = "status"),
+        @Result(property = "totalProfit", column = "total_profit"),
+        @Result(property = "currentProfit", column = "current_profit"),
+        @Result(property = "deliverCount", column = "deliver_count"),
+        @Result(property = "wxsOpenId", column = "wxs_open_id"),
+        @Result(property = "createTime", column = "create_time")
+    })
+    UserModel queryUserByUserid(@Param("userId") String userId);
 }
