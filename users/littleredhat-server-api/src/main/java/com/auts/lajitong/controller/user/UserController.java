@@ -17,8 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.auts.lajitong.consts.Const;
 import com.auts.lajitong.controller.SBaseController;
 import com.auts.lajitong.model.common.PhiHomeBaseResponse;
-import com.auts.lajitong.model.response.LitteredHatDeliveryListResponse;
+import com.auts.lajitong.model.dao.LitteredhatDeliveryListModel;
+import com.auts.lajitong.model.response.litteredhat.LitteredHatDeliveryListResponse;
+import com.auts.lajitong.service.DeliveryService;
 import com.auts.lajitong.service.UserService;
+import com.auts.lajitong.util.MyListUtils;
 import com.auts.lajitong.util.StringUtil;
 
 /**
@@ -38,6 +41,9 @@ public class UserController extends SBaseController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private DeliveryService deliveryService;
 
     /**
      * 修改个人信息.
@@ -83,22 +89,20 @@ public class UserController extends SBaseController {
     public PhiHomeBaseResponse queryDelivers(HttpServletRequest request,
             @RequestParam(value = "id", required = true) String id) {
         PhiHomeBaseResponse rspObj = new PhiHomeBaseResponse();
-
         LitteredHatDeliveryListResponse model = new LitteredHatDeliveryListResponse();
-        LitteredHatDeliveryListResponse.DeliverModel dem = new LitteredHatDeliveryListResponse.DeliverModel();
-        dem.setOrder_id("12312321");
-        dem.setDevice_id("devid11");
-        dem.setBin_no("123");
-        dem.setAmount("1231");
-        dem.setDelivery_time("1111");
-        dem.setWeight("1231");
-        dem.setPrice("12312");
-        dem.setOrder_type("1");
 
         List<LitteredHatDeliveryListResponse.DeliverModel> data = new ArrayList<>();
-        data.add(dem);
-        model.setData(data);
+        List<LitteredhatDeliveryListModel> models = deliveryService.getListByUser(id);
+        if (!MyListUtils.isEmpty(models)) {
+            for (int i = 0; i < models.size(); i++) {
+                LitteredhatDeliveryListModel mm = models.get(i);
+                LitteredHatDeliveryListResponse.DeliverModel rspMM = new LitteredHatDeliveryListResponse.DeliverModel(mm);
 
+                data.add(rspMM);
+            }
+        }
+
+        model.setData(data);
         rspObj.setResult(model);
         return successResponse(rspObj);
     }

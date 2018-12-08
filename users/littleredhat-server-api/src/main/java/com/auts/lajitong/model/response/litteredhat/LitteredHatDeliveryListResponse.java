@@ -1,6 +1,8 @@
-package com.auts.lajitong.model.response;
+package com.auts.lajitong.model.response.litteredhat;
 
 import java.util.List;
+
+import com.auts.lajitong.model.dao.LitteredhatDeliveryListModel;
 
 public class LitteredHatDeliveryListResponse {
 
@@ -15,6 +17,18 @@ public class LitteredHatDeliveryListResponse {
     }
 
     public static class DeliverModel{
+
+        public DeliverModel(LitteredhatDeliveryListModel mm){
+            this.order_id = mm.getOrder_id();
+            this.device_id = mm.getDevice_id();
+            this.bin_no = mm.getBin_no();
+            this.order_type = mm.getOrder_type();
+            this.delivery_time = mm.getDelivery_time();
+            this.weight = mm.getWeight();
+            this.price = mm.getPrice();
+            this.amount = mm.getAmount();
+        }
+
         private String order_id;
 
         private String device_id;

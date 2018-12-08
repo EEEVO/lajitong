@@ -1,4 +1,4 @@
-package com.auts.lajitong.model.response;
+package com.auts.lajitong.model.response.litteredhat;
 
 public class LitteredHatInfosResponseModel {
 
