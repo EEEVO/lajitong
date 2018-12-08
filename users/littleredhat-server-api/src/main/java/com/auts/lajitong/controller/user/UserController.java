@@ -87,12 +87,12 @@ public class UserController extends SBaseController {
      */
     @RequestMapping(value = "/v1/delivery/lists", method = RequestMethod.GET, produces = { "application/json" })
     public PhiHomeBaseResponse queryDelivers(HttpServletRequest request,
-            @RequestParam(value = "id", required = true) String id) {
+            @RequestParam(value = "userId", required = true) String userId) {
         PhiHomeBaseResponse rspObj = new PhiHomeBaseResponse();
         LitteredHatDeliveryListResponse model = new LitteredHatDeliveryListResponse();
 
         List<LitteredHatDeliveryListResponse.DeliverModel> data = new ArrayList<>();
-        List<LitteredhatDeliveryListModel> models = deliveryService.getListByUser(id);
+        List<LitteredhatDeliveryListModel> models = deliveryService.getListByUser(userId);
         if (!MyListUtils.isEmpty(models)) {
             for (int i = 0; i < models.size(); i++) {
                 LitteredhatDeliveryListModel mm = models.get(i);
