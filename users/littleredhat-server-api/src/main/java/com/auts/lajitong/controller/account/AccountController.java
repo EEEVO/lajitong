@@ -429,15 +429,6 @@ public class AccountController extends SBaseController {
             LOGGER.info("verificationMsg with no userId");
             return errorResponse(Const.ErrorCode.ERROR_NO_UID);
         }
-
-//        LitteredHatInfosResponseModel model = new LitteredHatInfosResponseModel();
-//        model.setPhonenumber("15914097395");
-//        model.setCurrent_profit("11.23");
-//        model.setDeliver_count(9);
-//        model.setNickname("环保达人9867");
-//        model.setTotal_profit("11.90");
-//        rsp.setResult(model);
-
         UserModel userModel = userService.queryUserByUserid(userId);
         if (userModel != null) {
             LitteredHatInfosResponseModel model = new LitteredHatInfosResponseModel(userModel);
