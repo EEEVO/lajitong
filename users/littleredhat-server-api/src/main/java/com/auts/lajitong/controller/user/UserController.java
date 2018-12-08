@@ -47,41 +47,42 @@ public class UserController extends SBaseController {
 
     /**
      * 修改个人信息.
+     *
      * @param request
      * @return
      */
     @RequestMapping(value = "/users/v1/modify", method = RequestMethod.POST, produces = { "application/json" })
     public PhiHomeBaseResponse queryAllInfoCount(HttpServletRequest request,
-            @RequestParam(value = "id", required = true) String id,
+            @RequestParam(value = "userId", required = true) String userId,
             @RequestParam(value = "nickName", required = false) String nickName,
             @RequestParam(value = "sex", required = false) String sex) {
         PhiHomeBaseResponse rspObj = new PhiHomeBaseResponse();
 
         if (nickName == null && sex == null) {
-          //不用更新
+            // 不用更新
             return successResponse(rspObj);
-        }else if (nickName == null) {
-            //只更新sex
+        } else if (nickName == null) {
+            // 只更新sex
             if (Const.SexType.SEX_MAIL_STR.equals(sex) || Const.SexType.SEX_FEMAIL_STR.equals(sex)) {
                 int sexInt = Integer.parseInt(sex);
-                userService.updateUserSex(id, sexInt);
+                userService.updateUserSex(userId, sexInt);
             }
-        }else if(sex == null){
-            //只更新nickName
-            userService.updateUserNickName(id, nickName);
-        }else {
-            //更新两个
+        } else if (sex == null) {
+            // 只更新nickName
+            userService.updateUserNickName(userId, nickName);
+        } else {
+            // 更新两个
             if (Const.SexType.SEX_MAIL_STR.equals(sex) || Const.SexType.SEX_FEMAIL_STR.equals(sex)) {
                 int sexInt = Integer.parseInt(sex);
-                userService.updateUser(id, nickName, sexInt);
+                userService.updateUser(userId, nickName, sexInt);
             }
         }
         return successResponse(rspObj);
     }
 
-
     /**
      * 投递记录查询.
+     *
      * @param request
      * @return
      */
@@ -96,7 +97,8 @@ public class UserController extends SBaseController {
         if (!MyListUtils.isEmpty(models)) {
             for (int i = 0; i < models.size(); i++) {
                 LitteredhatDeliveryListModel mm = models.get(i);
-                LitteredHatDeliveryListResponse.DeliverModel rspMM = new LitteredHatDeliveryListResponse.DeliverModel(mm);
+                LitteredHatDeliveryListResponse.DeliverModel rspMM = new LitteredHatDeliveryListResponse.DeliverModel(
+                        mm);
 
                 data.add(rspMM);
             }

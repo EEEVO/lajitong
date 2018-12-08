@@ -422,11 +422,11 @@ public class AccountController extends SBaseController {
      */
     @RequestMapping(value = "/users/v1/infos", method = RequestMethod.GET, produces = { "application/json" })
     public PhiHomeBaseResponse getInfos(HttpServletRequest request,
-            @RequestParam(value = "id", required = true) String id) {
-        LOGGER.info("sendVerificationMsg accountId [{}]", id);
+            @RequestParam(value = "userId", required = true) String userId) {
+        LOGGER.info("getInfos userId [{}]", userId);
         PhiHomeBaseResponse rsp = new PhiHomeBaseResponse();
-        if (StringUtil.isNullOrEmpty(id)) {
-            LOGGER.info("verificationMsg with no phonenumber");
+        if (StringUtil.isNullOrEmpty(userId)) {
+            LOGGER.info("verificationMsg with no userId");
             return errorResponse(Const.ErrorCode.ERROR_NO_UID);
         }
 
