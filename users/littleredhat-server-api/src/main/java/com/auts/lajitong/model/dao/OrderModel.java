@@ -4,8 +4,10 @@ public class OrderModel {
     private Long id;
 
     private String orderId;
+    
+    private String userId;
 
-    private String deviceId;
+	private String deviceId;
 
     private String binNo;
 
@@ -110,4 +112,12 @@ public class OrderModel {
     public void setUpdateTime(Long updateTime) {
         this.updateTime = updateTime;
     }
+    
+    public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
 }

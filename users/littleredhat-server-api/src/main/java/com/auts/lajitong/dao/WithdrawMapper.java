@@ -15,7 +15,7 @@ public interface WithdrawMapper {
     @Select("select * from tbl_withdraw where user_id=#{userId} and status=0")
     List<WithdrawModel> getByUid(@Param("userId") String userId);
 
-    @Insert("insert into tbl_withdraw(user_id, amount, withdraw_type, status, reason, create_time) "
-            + "values (#{model.userId}, #{model.amount},#{model.withdrawType},#{model.status},#{model.reason},#{model.createTime})")
+    @Insert("insert into tbl_withdraw(user_id, amount, withdraw_type, order_no, orderstatus, reason, create_time) "
+            + "values (#{model.userId}, #{model.amount},#{model.withdrawType},#{model.orderNo},#{model.status},#{model.reason},#{model.createTime})")
     int insertWithdraw(@Param("model") WithdrawModel model);
 }
