@@ -1,5 +1,6 @@
 package com.auts.lajitong.controller.user;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,9 +19,11 @@ import com.auts.lajitong.consts.Const;
 import com.auts.lajitong.controller.SBaseController;
 import com.auts.lajitong.model.common.PhiHomeBaseResponse;
 import com.auts.lajitong.model.dao.LitteredhatDeliveryListModel;
+import com.auts.lajitong.model.enums.GarbageTypeEnum;
 import com.auts.lajitong.model.response.litteredhat.LitteredHatDeliveryListResponse;
 import com.auts.lajitong.service.DeliveryService;
 import com.auts.lajitong.service.UserService;
+import com.auts.lajitong.util.DateUtils;
 import com.auts.lajitong.util.MyListUtils;
 import com.auts.lajitong.util.StringUtil;
 
@@ -97,6 +100,7 @@ public class UserController extends SBaseController {
         if (!MyListUtils.isEmpty(models)) {
             for (int i = 0; i < models.size(); i++) {
                 LitteredhatDeliveryListModel mm = models.get(i);
+                convertDTO(mm);
                 LitteredHatDeliveryListResponse.DeliverModel rspMM = new LitteredHatDeliveryListResponse.DeliverModel(
                         mm);
 
@@ -107,5 +111,12 @@ public class UserController extends SBaseController {
         model.setData(data);
         rspObj.setResult(model);
         return successResponse(rspObj);
+    }
+    
+    private void convertDTO(LitteredhatDeliveryListModel mm) {
+    	mm.setDelivery_time(DateUtils.stampToDate(mm.getDelivery_time()));
+    	mm.setOrder_type(GarbageTypeEnum.valueToEnum(mm.getOrder_type()).getText());
+    	String newprice = new BigDecimal(mm.getPrice()).divide(new BigDecimal("1000")).toString();
+    	mm.setPrice(newprice);
     }
 }
