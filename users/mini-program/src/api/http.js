@@ -1,11 +1,11 @@
 import Vue from "vue";
+import qs from "qs";
+import apiList from "./apiList";
+import { allow } from "../utils/stopRequest.js";
 
 let self = new Vue();
 const Fly = require("flyio/dist/npm/wx");
 const fly = new Fly;
-import qs from "qs";
-import apiList from "./apiList";
-import { allow } from "../utils/stopRequest.js";
 
 const isDev = process.env.NODE_ENV === "development";
 
@@ -19,7 +19,6 @@ const ignoreUrl = [
 // 拦截请求
 fly.interceptors.request.use(
     config => {
-        console.log(config.url);
         if(ignoreUrl.includes(config.url)) {self.$showloading()}
         // 处理各种请求
         config.headers = {
@@ -38,7 +37,8 @@ fly.interceptors.response.use(
         // 处理何种响应
         self.$hideloading()
         allow();
-        return res;
+        // console.log(res);
+        return res.data;
     },
     err => {
         return Promise.reject(err);
@@ -62,6 +62,10 @@ function errorState(err, reject) {
  * @resolve resolve promise返回函数
  */
 function successState(res, resolve) {
+    if(res.status !== 200) {
+        console.log(res.message);
+        self.$toast(res.message);
+    }
     resolve(res);
 }
 
@@ -82,14 +86,11 @@ export default {
             return new Promise((resolve, reject) => {
                 fly.post(url, isForm ? qs.stringify(commonParams) : commonParams)
                     .then(res => {
-                        successState(res.data, resolve);
+                        successState(res, resolve);
                     })
                     .catch(error => {
                         errorState(error, reject);
                     })
-                    .finally(() => {
-                        console.log("finally");
-                    });
             });
         };
         /**
@@ -105,14 +106,11 @@ export default {
             return new Promise((resolve, reject) => {
                 fly.get(url, commonParams)
                     .then(res => {
-                        successState(res.data, resolve);
+                        successState(res, resolve);
                     })
                     .catch(err => {
                         errorState(err, reject);
                     })
-                    .finally(() => {
-                        console.log("finally");
-                    });
             });
         };
     }

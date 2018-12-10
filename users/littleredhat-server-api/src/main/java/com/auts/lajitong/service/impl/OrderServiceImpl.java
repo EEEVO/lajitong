@@ -11,7 +11,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.auts.lajitong.dao.OrderMapper;
+import com.auts.lajitong.dao.UserMapper;
+import com.auts.lajitong.dao.WithdrawMapper;
 import com.auts.lajitong.model.dao.OrderModel;
+import com.auts.lajitong.model.dao.UserModel;
+import com.auts.lajitong.model.dao.WithdrawModel;
 import com.auts.lajitong.model.enums.GarbageTypeEnum;
 import com.auts.lajitong.service.OrderService;
 import com.dls.sdk.vo.DeliveryCard;
@@ -21,23 +25,49 @@ public class OrderServiceImpl implements OrderService {
 
 	@Autowired
 	OrderMapper orderMapper;
-	
+	@Autowired
+	WithdrawMapper withdrawMapper;
+	@Autowired
+    UserMapper userMapper;
 	@Transactional
 	@Override
 	public String saveOrder(List<DeliveryCard> deliveryCardList) {
+		//1、订单表
 		DeliveryCard deliveryCard = deliveryCardList.get(0);
 		OrderModel record = convertOrderDTO(deliveryCard);
 		int result = orderMapper.insert(record);
 		if(result > 0) {
+			// 2、金额明细表
+			WithdrawModel model = generateWithdraw(record);
+			withdrawMapper.insertWithdraw(model);
+			// 3、用户表，更新累计金额
+			UserModel userModel = userMapper.queryUserByUserid(record.getUserId());
+			BigDecimal  newTotalProfit = new BigDecimal(userModel.getTotalProfit()).add(new BigDecimal(record.getAmount()));
+			userMapper.updateTotalProfit(userModel.getId(), newTotalProfit.toString());
 			return record.getOrderId();
 		} else {
 			return null;
 		}
 	}
+	
+	private WithdrawModel generateWithdraw(OrderModel record) {
+		WithdrawModel model = new  WithdrawModel();
+		model.setUserId(record.getUserId());
+		model.setAmount(record.getAmount());
+		model.setWithdrawType(2);
+		model.setOrderNo(record.getOrderId());
+		model.setStatus(2);
+		model.setReason("");
+		Date nowDate = new Date();
+		model.setCreateTime(nowDate.getTime());
+		return model;
+	}
+	
 
 	private OrderModel convertOrderDTO(DeliveryCard deliveryCard) {
 		OrderModel dto = new OrderModel();
 		dto.setOrderId(generateOrderNo());
+		dto.setUserId(deliveryCard.getCardNo());
 		dto.setDeviceId(deliveryCard.getMbId());
 		dto.setBinNo(deliveryCard.getBinNo() + "");
 		dto.setOrderType(deliveryCard.getBinNo() + "");

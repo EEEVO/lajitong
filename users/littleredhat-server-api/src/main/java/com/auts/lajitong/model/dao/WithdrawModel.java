@@ -10,8 +10,10 @@ public class WithdrawModel {
     private String amount;
 
     private int withdrawType;
+    
+    private String orderNo;
 
-    private int status;
+	private int status;
 
     private String reason;
 
@@ -49,6 +51,14 @@ public class WithdrawModel {
         this.withdrawType = withdrawType;
     }
 
+    public String getOrderNo() {
+		return orderNo;
+	}
+
+	public void setOrderNo(String orderNo) {
+		this.orderNo = orderNo;
+	}
+	
     public int getStatus() {
         return status;
     }

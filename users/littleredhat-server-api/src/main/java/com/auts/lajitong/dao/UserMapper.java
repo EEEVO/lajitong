@@ -24,6 +24,9 @@ public interface UserMapper {
 
     @Update("update tbl_user set sex=#{sex} where id=#{id}")
     int updateUserSex(@Param("id") String id, @Param("sex") int sex);
+    
+    @Update("update tbl_user set total_profit = #{totalProfit} where id=#{id}")
+    int updateTotalProfit(@Param("id") String id, @Param("totalProfit") String totalProfit);
 
     @Insert("insert into tbl_user (id, account_id, nick_name, sex, status, total_profit, wxs_open_id, create_time) "
             + "values (#{model.id}, #{model.accountId},#{model.nickName},#{model.sex},#{model.status},#{model.totalProfit},#{model.wxsOpenId},#{model.createTime})")
@@ -41,4 +44,19 @@ public interface UserMapper {
         @Result(property = "createTime", column = "create_time")
     })
     UserModel queryUserByAccountId(@Param("accountId") String accountId);
+
+    @Select("select * from tbl_user where id=#{userId} and status=0 limit 1")
+    @Results({
+        @Result(property = "id", column = "id"),
+        @Result(property = "accountId", column = "account_id"),
+        @Result(property = "nickName", column = "nick_name"),
+        @Result(property = "sex", column = "sex"),
+        @Result(property = "status", column = "status"),
+        @Result(property = "totalProfit", column = "total_profit"),
+        @Result(property = "currentProfit", column = "current_profit"),
+        @Result(property = "deliverCount", column = "deliver_count"),
+        @Result(property = "wxsOpenId", column = "wxs_open_id"),
+        @Result(property = "createTime", column = "create_time")
+    })
+    UserModel queryUserByUserid(@Param("userId") String userId);
 }

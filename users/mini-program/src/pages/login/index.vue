@@ -46,28 +46,17 @@
                 if (this.btnIsDisabled) return;
                 if (isForbidden()) return;
                 this.loading = true;
+                let res = await this.$get(API.getCode, {
+                    accountId: this.mobile
+                });
+                this.loading = false;
+                if(res.status !== 200) return
                 this.$router.push({
                     path: "/pages/verifyCode/main",
                     query: {
                         mobile: this.mobile
                     }
                 });
-                this.loading = false;
-                // let res = await this.$get(API.sendVerifyCode, {
-                //     mobile: this.mobile
-                // });
-                // if(res) this.loading = false;
-                // console.log(res);
-                // if (res.code === this.$STATUS) {
-                //     this.loading = false;
-                //     this.$router.push({
-                //         path: "/pages/verifyCode/main",
-                //         query: {
-                //             mobile: this.mobile
-                //         }
-                //     });
-                //     Object.assign(this.$data, this.$options.data())
-                // }
 
             },
             // 输入手机号码

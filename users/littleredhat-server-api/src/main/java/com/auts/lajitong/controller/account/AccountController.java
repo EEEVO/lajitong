@@ -36,6 +36,7 @@ import com.auts.lajitong.model.response.PasswordResponseModel;
 import com.auts.lajitong.model.response.PropertyChangeResponseModel;
 import com.auts.lajitong.model.response.RedhatLoginResponseModel;
 import com.auts.lajitong.model.response.RegistResponseModel;
+import com.auts.lajitong.model.response.litteredhat.LitteredHatInfosResponseModel;
 import com.auts.lajitong.service.AccountService;
 import com.auts.lajitong.service.CaptchaService;
 import com.auts.lajitong.service.UserService;
@@ -414,6 +415,27 @@ public class AccountController extends SBaseController {
             LOGGER.error("IOException ", e);
             return errorResponse(Const.ErrorCode.COMMON_ERROR);
         }
+    }
+
+    /**
+     * 获取个人详情 - 智能垃圾桶项目.
+     */
+    @RequestMapping(value = "/users/v1/infos", method = RequestMethod.GET, produces = { "application/json" })
+    public PhiHomeBaseResponse getInfos(HttpServletRequest request,
+            @RequestParam(value = "userId", required = true) String userId) {
+        LOGGER.info("getInfos userId [{}]", userId);
+        PhiHomeBaseResponse rsp = new PhiHomeBaseResponse();
+        if (StringUtil.isNullOrEmpty(userId)) {
+            LOGGER.info("verificationMsg with no userId");
+            return errorResponse(Const.ErrorCode.ERROR_NO_UID);
+        }
+        UserModel userModel = userService.queryUserByUserid(userId);
+        if (userModel != null) {
+            LitteredHatInfosResponseModel model = new LitteredHatInfosResponseModel(userModel);
+            rsp.setResult(model);
+        }
+
+        return successResponse(rsp);
     }
 
     /**
