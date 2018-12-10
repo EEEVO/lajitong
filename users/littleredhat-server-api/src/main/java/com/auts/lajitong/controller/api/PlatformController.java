@@ -62,7 +62,7 @@ public class PlatformController extends SBaseController {
      */
     @RequestMapping(value = "/fl/ws")
     public void shake(HttpServletRequest request, HttpServletResponse response) {
-    	LOGGER.info("shake test, time：" + DateUtils.parseDateToStr(new Date(), "yyyy-MM-dd HH:mm:ss"));
+    	LOGGER.info("shake test, time:" + DateUtils.parseDateToStr(new Date(), "yyyy-MM-dd HH:mm:ss")); 
         InputStream inputStream;
 		try {
 			inputStream = request.getInputStream();
@@ -95,13 +95,13 @@ public class PlatformController extends SBaseController {
      */
     @RequestMapping(value = "/fl/verification")
     public void verification(HttpServletRequest request, HttpServletResponse response) {
-    	LOGGER.info("verification test, time：" + DateUtils.parseDateToStr(new Date(), "yyyy-MM-dd HH:mm:ss"));
+    	LOGGER.info("verification test, time:" + DateUtils.parseDateToStr(new Date(), "yyyy-MM-dd HH:mm:ss"));
         InputStream inputStream;
 		try {
 			inputStream = request.getInputStream();
 			Verification verification = new Verification();
 			MbParseResult<Verification> mbParseResult=verification.buildResult(inputStream);
-			LOGGER.info("verification: cardNO: [{}]", mbParseResult.mbDataObject.getCardNumber());
+			LOGGER.info("verification: cardNO:[{}]", mbParseResult.mbDataObject.getCardNumber());
 
 			String cardNumber = mbParseResult.mbDataObject.getCardNumber();  // 卡号
 			boolean result = true;  // 验证结果
@@ -126,7 +126,7 @@ public class PlatformController extends SBaseController {
      */
     @RequestMapping(value = "/fl/record")
     public void record(HttpServletRequest request, HttpServletResponse response) {
-    	LOGGER.info("record test, time：" + DateUtils.parseDateToStr(new Date(), "yyyy-MM-dd HH:mm:ss"));
+    	LOGGER.info("record test, time:" + DateUtils.parseDateToStr(new Date(), "yyyy-MM-dd HH:mm:ss"));
         InputStream inputStream;
 		try {
 			inputStream = request.getInputStream();
