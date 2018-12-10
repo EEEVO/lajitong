@@ -43,7 +43,8 @@ public class OrderServiceImpl implements OrderService {
 			// 3、用户表，更新累计金额
 			UserModel userModel = userMapper.queryUserByUserid(record.getUserId());
 			BigDecimal  newTotalProfit = new BigDecimal(userModel.getTotalProfit()).add(new BigDecimal(record.getAmount()));
-			userMapper.updateTotalProfit(userModel.getId(), newTotalProfit.toString());
+			BigDecimal  newCurrentProfit = new BigDecimal(userModel.getCurrentProfit()).add(new BigDecimal(record.getAmount()));
+			userMapper.updateTotalProfit(userModel.getId(), newTotalProfit.toString(), newCurrentProfit.toString());
 			return record.getOrderId();
 		} else {
 			return null;
@@ -57,13 +58,12 @@ public class OrderServiceImpl implements OrderService {
 		model.setWithdrawType(2);
 		model.setOrderNo(record.getOrderId());
 		model.setStatus(2);
-		model.setReason("");
+		model.setReason("投递收益");
 		Date nowDate = new Date();
 		model.setCreateTime(nowDate.getTime());
 		return model;
 	}
 	
-
 	private OrderModel convertOrderDTO(DeliveryCard deliveryCard) {
 		OrderModel dto = new OrderModel();
 		dto.setOrderId(generateOrderNo());
@@ -86,13 +86,13 @@ public class OrderServiceImpl implements OrderService {
 	private String getPrice(String orderType) {
 		String price = "0";
 		if(GarbageTypeEnum.Book.getValue().equals(orderType)) {
-			price = "0.5";
+			price = "0.9";
 		} else if(GarbageTypeEnum.Metal.getValue().equals(orderType)) {
 			price = "0.8";
 		} else if(GarbageTypeEnum.Plastics.getValue().equals(orderType)) {
 			price = "0.9";
-		} else if(GarbageTypeEnum.Glass.getValue().equals(orderType)) {
-			price = "1.5";
+		} else if(GarbageTypeEnum.Fabric.getValue().equals(orderType)) {
+			price = "0.4";
 		}
 		return price;
 	}

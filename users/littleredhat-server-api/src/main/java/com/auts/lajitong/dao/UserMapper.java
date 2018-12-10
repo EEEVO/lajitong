@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Update;
 
 import com.auts.lajitong.model.dao.UserModel;
 
+
 /**
  * 用户属性入口.
  * @author huangrongwei
@@ -25,8 +26,8 @@ public interface UserMapper {
     @Update("update tbl_user set sex=#{sex} where id=#{id}")
     int updateUserSex(@Param("id") String id, @Param("sex") int sex);
     
-    @Update("update tbl_user set total_profit = #{totalProfit} where id=#{id}")
-    int updateTotalProfit(@Param("id") String id, @Param("totalProfit") String totalProfit);
+    @Update("update tbl_user set total_profit = #{totalProfit}, current_profit = #{currentProfit} where id=#{id}")
+    int updateTotalProfit(@Param("id") String id, @Param("totalProfit") String totalProfit, @Param("currentProfit") String currentProfit);
 
     @Insert("insert into tbl_user (id, account_id, nick_name, sex, status, total_profit, wxs_open_id, create_time) "
             + "values (#{model.id}, #{model.accountId},#{model.nickName},#{model.sex},#{model.status},#{model.totalProfit},#{model.wxsOpenId},#{model.createTime})")

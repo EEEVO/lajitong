@@ -8,7 +8,7 @@
 6. 找到后台服务的进程号  
 7. kill -9 进程号 
 8. 后台启动服务 nohup java -jar littleredhat-server-api-0.1-SNAPSHOT.jar > /dev/null 2>1& 
-或者nohup java -jar littleredhat-server-api-0.1-SNAPSHOT.jar > 2>1
+或者nohup java -jar littleredhat-server-api-0.1-SNAPSHOT.jar 2>1&
 9. 查看日志 tail -f logs/lajitong-server-backend.log
 
 
