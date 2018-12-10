@@ -46,7 +46,7 @@ public class DeviceServiceImpl implements DeviceService {
 	
 	private DeviceWatcherModel convertDeviceDTO(Shake shake) {
 		DeviceWatcherModel dto = new DeviceWatcherModel();
-		dto.setDeviceId(shake.getDeviceId());
+		dto.setDeviceId(shake.getMbId());
 		dto.setGpsLat(shake.getDEVICE_GPS_Lat() + "");
 		dto.setGpsLng(shake.getDEVICE_GPS_LNG() + "");
 		dto.setSignalIntensit(shake.getSIGNAL_INTENSITY());
