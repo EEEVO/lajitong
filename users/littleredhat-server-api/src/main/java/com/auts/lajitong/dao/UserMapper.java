@@ -29,8 +29,8 @@ public interface UserMapper {
     @Update("update tbl_user set total_profit = #{totalProfit}, current_profit = #{currentProfit} where id=#{id}")
     int updateTotalProfit(@Param("id") String id, @Param("totalProfit") String totalProfit, @Param("currentProfit") String currentProfit);
 
-    @Insert("insert into tbl_user (id, account_id, nick_name, sex, status, total_profit, wxs_open_id, create_time) "
-            + "values (#{model.id}, #{model.accountId},#{model.nickName},#{model.sex},#{model.status},#{model.totalProfit},#{model.wxsOpenId},#{model.createTime})")
+    @Insert("insert into tbl_user (id, account_id, nick_name, sex, status, total_profit, currentProfit, wxs_open_id, create_time) "
+            + "values (#{model.id}, #{model.accountId},#{model.nickName},#{model.sex},#{model.status},#{model.totalProfit},#{model.currentProfit},#{model.wxsOpenId},#{model.createTime})")
     int addUser(@Param("model") UserModel model);
 
     @Select("select * from tbl_user where account_id=#{accountId} and status=0 limit 1")
@@ -41,6 +41,7 @@ public interface UserMapper {
         @Result(property = "sex", column = "sex"),
         @Result(property = "status", column = "status"),
         @Result(property = "totalProfit", column = "total_profit"),
+        @Result(property = "currentProfit", column = "current_profit"),
         @Result(property = "wxsOpenId", column = "wxs_open_id"),
         @Result(property = "createTime", column = "create_time")
     })

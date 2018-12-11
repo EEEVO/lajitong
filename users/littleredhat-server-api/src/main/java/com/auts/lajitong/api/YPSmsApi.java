@@ -62,15 +62,16 @@ public class YPSmsApi {
 
         /**************** 查账户信息调用示例 *****************/
 //        System.out.println(YPSmsApi.getUserInfo(API_KEY));
-        for(int i = 0 ; i < 100 ; i++)
-        System.out.println(getRandCaptchaCode());
+//        for(int i = 0 ; i < 100 ; i++)
+        String captchaCode = getRandCaptchaCode();
+        System.out.println(captchaCode);
 
         /**************** 使用智能匹配模版接口发短信(推荐) *****************/
         //设置您要发送的内容(内容必须和某个模板匹配。以下例子匹配的是系统提供的1号模板）
 //        String text = "【云片网】您的验证码是1234";
-//        String text1 = "【理财师】您的验证码是1234。如非本人操作，请忽略本短信";
-//        //发短信调用示例
-//        System.out.println(YPSmsApi.sendSms(API_KEY, text1, "15250065067"));
+        String text1 = "【理财师】您的验证码是1234。如非本人操作，请忽略本短信";
+        //发短信调用示例
+        System.out.println(YPSmsApi.sendSms(YPSmsApi.API_KEY, String.format(YPSmsApi.CAPTCHA_TEXT, captchaCode), "15250065067"));
 
         /**************** 使用指定模板接口发短信(不推荐，建议使用智能匹配模版接口) *****************/
 //        //设置模板ID，如使用1号模板:【#company#】您的验证码是#code#

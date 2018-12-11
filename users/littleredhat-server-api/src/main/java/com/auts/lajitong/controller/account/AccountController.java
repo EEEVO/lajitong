@@ -354,6 +354,7 @@ public class AccountController extends SBaseController {
             model.setSex(Const.SexType.SEX_UNKNOWN);
             model.setStatus(0);
             model.setTotalProfit("0");
+            model.setCurrentProfit("0");
             model.setWxsOpenId("");
             userService.addUser(model);
             fillRedhatLoginResponse(model, rspModel);
