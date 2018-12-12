@@ -2,9 +2,6 @@ package com.auts.lajitong;
 
 import java.util.Properties;
 
-import com.alibaba.fastjson.parser.ParserConfig;
-//import com.github.pagehelper.PageHelper;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.mybatis.spring.annotation.MapperScan;
@@ -20,12 +17,17 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
 
+import com.alibaba.fastjson.parser.ParserConfig;
+//import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageHelper;
+
 //import org.springframework.web.client.RestTemplate;
 
 /**
- * 理财师端入口.
- * 
- * @author rongwei.huang
+ * 小红帽管理后台入口
+ *
+ * @author lb47917
+ * @date 2018年12月12日 上午11:12:49
  */
 @SpringBootApplication(scanBasePackages = { "com.auts.lajitong.**" })
 @PropertySources({ @PropertySource(value = "classpath:application.properties", ignoreResourceNotFound = true) })
@@ -52,17 +54,17 @@ public class LajitongServerMain {
 	// }
 
 	// 配置mybatis的分页插件pageHelper
-//	@Bean
-//	public PageHelper pageHelper() {
-//		PageHelper pageHelper = new PageHelper();
-//		Properties properties = new Properties();
-//		properties.setProperty("offsetAsPageNum", "true");
-//		properties.setProperty("rowBoundsWithCount", "true");
-//		properties.setProperty("reasonable", "true");
-//		properties.setProperty("dialect", "mysql"); // 配置mysql数据库的方言
-//		pageHelper.setProperties(properties);
-//		return pageHelper;
-//	}
+	@Bean
+	public PageHelper pageHelper() {
+		PageHelper pageHelper = new PageHelper();
+		Properties properties = new Properties();
+		properties.setProperty("offsetAsPageNum", "true");
+		properties.setProperty("rowBoundsWithCount", "true");
+		properties.setProperty("reasonable", "true");
+		properties.setProperty("dialect", "mysql"); // 配置mysql数据库的方言
+		pageHelper.setProperties(properties);
+		return pageHelper;
+	}
 
 	/**
 	 * 项目启动方法入口.
