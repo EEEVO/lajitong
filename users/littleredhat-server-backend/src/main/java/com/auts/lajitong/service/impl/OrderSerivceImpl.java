@@ -1,7 +1,11 @@
 package com.auts.lajitong.service.impl;
 
+import java.lang.reflect.InvocationTargetException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,7 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.auts.lajitong.dao.OrderMapper;
 import com.auts.lajitong.model.common.PageInfo;
 import com.auts.lajitong.model.dao.order.OrderModel;
+import com.auts.lajitong.model.enums.GarbageTypeEnum;
+import com.auts.lajitong.model.vo.OrderVO;
 import com.auts.lajitong.service.OrderService;
+import com.auts.lajitong.util.DateUtils;
 import com.github.pagehelper.PageHelper;
 
 @Service
@@ -18,18 +25,38 @@ public class OrderSerivceImpl implements OrderService {
 	OrderMapper orderMapper;
 
 	@Override
-	public PageInfo queryOrders(String status, String startDate, String endDate, int pageNumber, int pageSize) {
+	public PageInfo queryOrders(String orderType, String startDate, String endDate, int pageNumber, int pageSize) {
 		PageHelper.startPage(pageNumber, pageSize);
-		List<OrderModel> list = orderMapper.queryOrders(status, startDate, endDate);
-		int total = orderMapper.queryOrdersCnt(status, startDate, endDate);
+		List<OrderModel> list = orderMapper.queryOrders(orderType, startDate, endDate);
+		int total = orderMapper.queryOrdersCnt(orderType, startDate, endDate);
+		List<OrderVO> resultList = new ArrayList<>();
+		if(list != null && list.size() > 0) {
+			for(OrderModel orderModel : list) {
+				OrderVO orderVO = new OrderVO();
+				try {
+					BeanUtils.copyProperties(orderVO, orderModel);
+				} catch (IllegalAccessException | InvocationTargetException e) {
+					e.printStackTrace();
+				}
+				convertVO(orderVO);
+				resultList.add(orderVO);
+			}
+		}
 		PageInfo pageInfo = new PageInfo();
 		pageInfo.setPageNumber(pageNumber);
 		pageInfo.setPageSize(pageSize);
-		pageInfo.setDataList(list);
+		pageInfo.setDataList(resultList);
 		pageInfo.setTotal(total);
 		return pageInfo;
 	}
 
+	private void convertVO(OrderVO orderVO) {
+		orderVO.setDeliveryTime(DateUtils.stampToDate(orderVO.getDeliveryTime()));
+		orderVO.setOrderType(GarbageTypeEnum.valueToEnum(orderVO.getOrderType()).getText());
+    	String newprice = new BigDecimal(orderVO.getPrice()).multiply(new BigDecimal("1000")).setScale(2,BigDecimal.ROUND_HALF_UP).toString();
+    	orderVO.setPrice(newprice);
+	}
+	
 	@Override
 	@Transactional
 	public void orderSettle(String uid) {

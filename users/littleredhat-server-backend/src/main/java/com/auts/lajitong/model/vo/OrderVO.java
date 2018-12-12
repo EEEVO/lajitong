@@ -1,12 +1,10 @@
-package com.auts.lajitong.model.dao.order;
-
-
+package com.auts.lajitong.model.vo;
 
 import com.auts.lajitong.model.common.BaseDaoModel;
 
-public class OrderModel extends BaseDaoModel {
+public class OrderVO extends BaseDaoModel {
 
-private String orderId;
+	private String orderId;
     
     private String userId;
 
@@ -15,8 +13,10 @@ private String orderId;
     private String binNo;
 
     private String orderType;
+    
+    private String orderTypeName;
 
-    private String deliveryTime;
+	private String deliveryTime;
 
     private String weight;
 
@@ -122,5 +122,13 @@ private String orderId;
 
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+	
+    public String getOrderTypeName() {
+		return orderTypeName;
+	}
+
+	public void setOrderTypeName(String orderTypeName) {
+		this.orderTypeName = orderTypeName;
 	}
 }

@@ -5,7 +5,7 @@ import com.auts.lajitong.model.dao.order.OrderModel;
 
 public interface OrderService {
 
-	PageInfo queryOrders(String status, String startDate, String endDate, int pageNumber, int pageSize);
+	PageInfo queryOrders(String orderType, String startDate, String endDate, int pageNumber, int pageSize);
 
 	/**
      * 完成打款
