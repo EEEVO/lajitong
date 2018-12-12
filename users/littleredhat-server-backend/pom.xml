@@ -14,12 +14,12 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.auts.lajitong.server</groupId>
-    <artifactId>littleredhat-server-backend</artifactId>
+    <groupId>com.auts.lajitong.manager</groupId>
+    <artifactId>littleredhat-server-manager</artifactId>
     <version>0.1-SNAPSHOT</version>
 
-    <name>littleredhat-server-backend</name>
-    <description>littleredhat-server-backend</description>
+    <name>littleredhat-server-manager</name>
+    <description>littleredhat-server-manager</description>
 
     <repositories>
         
