@@ -31,7 +31,7 @@ import com.github.pagehelper.PageHelper;
  */
 @SpringBootApplication(scanBasePackages = { "com.auts.ljtmanager.**" })
 @PropertySources({ @PropertySource(value = "classpath:application.properties", ignoreResourceNotFound = true) })
-@MapperScan("com.auts.lajitong.dao.**")
+@MapperScan("com.auts.ljtmanager.dao.**")
 // @EnableCircuitBreaker
 // @EnableDiscoveryClient
 // @EnableEurekaClient
