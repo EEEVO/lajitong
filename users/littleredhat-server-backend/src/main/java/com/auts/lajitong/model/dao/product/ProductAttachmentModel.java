@@ -11,7 +11,7 @@ public class ProductAttachmentModel extends BaseDaoModel {
     private String paFilePath; ///upload/productFile/20180126/productFile_1516936754979.pdf
     private String paFileType; //application/pdf
     private Date paFileUploadTime; //2018-01-26 11:19:38
-
+    
 	public String getPaProductCode() {
 		return paProductCode;
 	}
@@ -42,5 +42,5 @@ public class ProductAttachmentModel extends BaseDaoModel {
 	public void setPaFileUploadTime(Date paFileUploadTime) {
 		this.paFileUploadTime = paFileUploadTime;
 	}
-
+    
 }

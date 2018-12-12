@@ -11,11 +11,11 @@ public class Data<T> {
 	@JSONField(name = "list")
     @JsonProperty("list")
 	private List<T> list; //数据集
-
+	
 	@JSONField(name = "pager")
     @JsonProperty("pager")
 	private Pager pager; //分页
-
+	
 	public List<T> getList() {
 		return list;
 	}
@@ -28,6 +28,6 @@ public class Data<T> {
 	public void setPager(Pager pager) {
 		this.pager = pager;
 	}
-
-
+	
+	
 }

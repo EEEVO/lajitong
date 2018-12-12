@@ -195,6 +195,6 @@ public abstract class SBaseController {
             return "";
         }
 
-        return financerService.queryFinancerIDByUID(userID);
+        return "";
     }
 }

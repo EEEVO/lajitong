@@ -1,30 +1,33 @@
 package com.auts.lajitong.service;
 
-import java.util.List;
-
+import com.auts.lajitong.model.common.PageInfo;
 import com.auts.lajitong.model.dao.order.OrderModel;
 
 public interface OrderService {
 
-    List<OrderModel> queryOrders(int pageNo, int pageSize, String type, String uid);
+	PageInfo queryOrders(String status, String startDate, String endDate, int pageNumber, int pageSize);
 
-    List<OrderModel> queryOrdersByCustomerId(int pageNo, int pageSize, String customerId, String status);
+	/**
+     * 完成打款
+     */
+	void orderSettle(String uid);
 
-    List<OrderModel> queryOrdersByFinancerId(int pageNo, int pageSize, String financerId);
+	void orderFailure(String uid);
 
-    public String queryCommissinByFinancerId(String financerId, List<String> statusList);
+	/**
+	 * 完成合同
+	 */
+	void orderContract(String uid);
 
-    OrderModel queryOrderByOrderNo(String orderNo);
+	/**
+	 * 完成结佣
+	 */
+	void orderSettled(String uid);
 
-    int saveOrder(OrderModel om);
+	/**
+	 * 完成打款
+	 */
+	void orderPay(String uid);
 
-    int updateVoucher(OrderModel om);
-
-    int cancelOrder(String orderNo);
-
-    int queryOrderCountByStatus(String status, String uid);
-
-    int queryOrderCountByCustomerId(String customerId);
-
-    int queryOrderCountByFinancerId(String financerId);
+	OrderModel queryOrder(String uid);
 }

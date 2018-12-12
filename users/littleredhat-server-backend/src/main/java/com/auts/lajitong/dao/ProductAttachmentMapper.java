@@ -14,18 +14,18 @@ public interface ProductAttachmentMapper {
 
     @Select("select * from ProductAttachment where pa_product_code=#{pCode}")
     @Results({
-    	@Result(property = "id", column = "pa_id"),
-    	@Result(property = "paProductCode", column = "pa_product_code"),
+    	@Result(property = "id", column = "pa_id"), 
+    	@Result(property = "paProductCode", column = "pa_product_code"), 
     	@Result(property = "paFileName", column = "pa_file_name"),
     	@Result(property = "paFilePath", column = "pa_file_path"),
-    	@Result(property = "paFileType", column = "pa_file_type"),
+    	@Result(property = "paFileType", column = "pa_file_type"), 
     	@Result(property = "paFileUploadTime", column = "pa_file_upload_time")
     })
     List<ProductAttachmentModel> queryProductAttachmentByPCode(@Param("pCode") String pCode);
-
+    
     @Insert("insert into ProductAttachment (pa_id, pa_product_code, pa_file_name,"
     		+ "pa_file_path, pa_file_type, pa_file_upload_time) "
             + "values (#{pa.id}, #{pa.paProductCode},#{pa.paFileName}, "
             + "#{pa.paFilePath}, #{pa.paFileType},#{pa.paFileUploadTime})")
-    int savaProductAttachment(ProductAttachmentModel pa);
+    int savaProductAttachment(ProductAttachmentModel pa); 
 }

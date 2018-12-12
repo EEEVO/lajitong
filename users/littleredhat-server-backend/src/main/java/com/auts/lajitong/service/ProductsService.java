@@ -2,32 +2,26 @@ package com.auts.lajitong.service;
 
 import java.util.List;
 
+import com.auts.lajitong.model.common.PageInfo;
 import com.auts.lajitong.model.dao.product.ProductAttachmentModel;
 import com.auts.lajitong.model.dao.product.ProductModel;
 import com.auts.lajitong.model.dao.product.ProfitRebateModel;
 
 public interface ProductsService {
-
-	int saveProducts(ProductModel productModel, List<ProfitRebateModel> profitRebates, List<ProductAttachmentModel> productAttachments);
-
+	
+	int addProduct(ProductModel productModel);
+	
 	int updateProducts(ProductModel productModel);
 
-    List<ProductModel> queryProducts(int pageNo, int pageSize, String type,
-    		String pInvestType, String pPaymentInterestType, String pSizeRatioType,
-    		String minimumAmount, String dueTime, String annualRevenue, String saleStatus, String pRabateProfitParameter,
-    		String pAnnualRevenueExpectParameter, String pCommission);
-
-    int queryProductCountByPType(String type,String pInvestType, String pPaymentInterestType, String pSizeRatioType,
-    		String minimumAmount, String dueTime, String annualRevenue, String saleStatus, String pRabateProfitParameter,
-    		String pAnnualRevenueExpectParameter, String pCommission);
-
+	PageInfo queryProductList(int pageNo, int pageSize, String pType);
+    
+    int queryProductCountByPType(String type);
+    
     ProductModel queryProductDetail(String pCode);
-
-    ProductModel queryProductByPid(String pid);
-
+    
     List<ProductModel> queryRecommendProducts(String recommendype);
-
+    
     List<ProfitRebateModel> queryProfitRebateByPCode(String pCode);
-
+    
     List<ProductAttachmentModel> queryProductAttachmentByPCode(String pCode);
 }

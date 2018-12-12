@@ -1,10 +1,13 @@
 package com.auts.lajitong.service;
 
+import java.util.List;
+import java.util.Map;
+
+import com.auts.lajitong.model.common.PageInfo;
 import com.auts.lajitong.model.dao.FinancerModel;
 
 public interface FinancerService {
-
-	FinancerModel queryFinancerByUID(String uid);
+	PageInfo queryFinancerList(String nameSearch, int pageNumber, int pageSize);
 
 	void addFinancer(FinancerModel financer);
 
@@ -12,7 +15,9 @@ public interface FinancerService {
 
 	void btrvFinancer(String uids);
 
-	int editFinancer(FinancerModel financer);
+	void editFinancer(FinancerModel financer);
 
-	String queryFinancerIDByUID(String userID);
+	List<Map<String, Object>> queryFinaAsync();
+
+	void handleSwitch(String uid);
 }

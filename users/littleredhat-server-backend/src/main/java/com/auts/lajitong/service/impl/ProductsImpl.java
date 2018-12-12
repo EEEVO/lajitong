@@ -1,19 +1,23 @@
 package com.auts.lajitong.service.impl;
 
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 import com.auts.lajitong.dao.ProductAttachmentMapper;
 import com.auts.lajitong.dao.ProductsMapper;
 import com.auts.lajitong.dao.ProfitRebateMapper;
+import com.auts.lajitong.model.common.PageInfo;
 import com.auts.lajitong.model.dao.product.ProductAttachmentModel;
 import com.auts.lajitong.model.dao.product.ProductModel;
 import com.auts.lajitong.model.dao.product.ProfitRebateModel;
 import com.auts.lajitong.service.ProductsService;
+import com.github.pagehelper.PageHelper;
 
 @Service
 @Transactional
@@ -26,23 +30,38 @@ public class ProductsImpl implements ProductsService {
     ProductAttachmentMapper productAttachmentMapper;
 
     @Override
-    public List<ProductModel> queryProducts(int pageNo, int pageSize, String type,
-    		String pInvestType, String pPaymentInterestType, String pSizeRatioType,
-    		String minimumAmount, String dueTime, String annualRevenue, String saleStatus,
-    		String pRabateProfitParameter, String pAnnualRevenueExpectParameter, String pCommission) {
-        try {
-        	int startIndex = (pageNo - 1) * pageSize;
-        	if(StringUtils.isEmpty(type)) {
-        		return productsMapper.queryAllProducts(startIndex, pageSize);
-        	}
-
-            return productsMapper.queryProductsByType(startIndex, pageSize, type, pInvestType, pPaymentInterestType,
-            		pSizeRatioType, minimumAmount, dueTime, annualRevenue, saleStatus, pRabateProfitParameter,
-            		pAnnualRevenueExpectParameter, pCommission);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+    public PageInfo queryProductList(int pageNumber, int pageSize, String pType) {
+		PageHelper.startPage(pageNumber, pageSize);
+		
+		int totalCount = queryProductCountByPType(pType);
+		List<ProductModel> products = productsMapper.queryProductList(pType);
+        if(products!=null && !products.isEmpty()) {
+        	for(ProductModel productModel : products) {
+            	List<ProfitRebateModel> profitRebates =  queryProfitRebateByPCode(productModel.getpCode());
+            	if(profitRebates!= null && profitRebates.size()>0) {
+            		BigDecimal rate = new BigDecimal(10000);
+            		for(ProfitRebateModel profitRebateModel: profitRebates) {
+            			profitRebateModel.setPrStartAmount(profitRebateModel.getPrStartAmount().divide(rate));
+            			profitRebateModel.setPrEndAmount(profitRebateModel.getPrEndAmount().divide(rate));
+            			if(!profitRebateModel.getPrExpectAnnualRevenue().contains("浮动")) {
+            				profitRebateModel.setPrExpectAnnualRevenue(profitRebateModel.getPrExpectAnnualRevenue().replace("%", ""));
+            			}
+            			profitRebateModel.setPrCommission(profitRebateModel.getPrCommission().replace("%", ""));
+            		}
+            	}
+            	List<ProductAttachmentModel> productAttachments = queryProductAttachmentByPCode(productModel.getpCode());
+            	productModel.setProfitRebates(profitRebates);
+            	productModel.setProductAttachments(productAttachments);
+            }
+        
         }
+        
+		PageInfo pageInfo = new PageInfo();
+		pageInfo.setPageNumber(pageNumber);
+		pageInfo.setPageSize(pageSize);
+		pageInfo.setDataList(products);
+		pageInfo.setTotal(totalCount);
+		return pageInfo;
     }
 
 	@Override
@@ -66,53 +85,137 @@ public class ProductsImpl implements ProductsService {
 	}
 
 	@Override
-	public int queryProductCountByPType(String type,String pInvestType, String pPaymentInterestType, String pSizeRatioType,
-    		String minimumAmount, String dueTime, String annualRevenue, String saleStatus,
-    		String pRabateProfitParameter, String pAnnualRevenueExpectParameter, String pCommission) {
-		if(StringUtils.isEmpty(type)) {
-			return productsMapper.queryAllCount();
-		}
-		return productsMapper.queryCountByPType(type, pInvestType, pPaymentInterestType,
-        		pSizeRatioType, minimumAmount, dueTime, annualRevenue, saleStatus, pRabateProfitParameter,
-        		pAnnualRevenueExpectParameter, pCommission);
+	public int queryProductCountByPType(String type) {
+		return productsMapper.queryCountByPType(type);
 	}
 
 	@Override
-	public int saveProducts(ProductModel productModel, List<ProfitRebateModel> profitRebates, List<ProductAttachmentModel> productAttachments) {
+	public int addProduct(ProductModel productModel) {
+		Date nowDate = new Date();
+		productModel.setCreateTime(nowDate);
+		productModel.setUpdateTime(nowDate);
+		productModel.setpCode(UUID.randomUUID().toString().replaceAll("-", ""));
+		productModel.setpAllSubscriptionAmount("0");
+    	//设置最高预计收益率
+		//私募浮动的话，存浮动
+    	List<ProfitRebateModel> profitRebates = productModel.getProfitRebates();
+    	if(profitRebates != null && profitRebates.size() > 0) {
+    		boolean prExpectAnnualRevenueFlag = profitRebates.get(0).getPrExpectAnnualRevenue().contains("浮动");
+    		double maxAnnualRevenue = 0;
+    		double maxCommission = 0;
+			for(ProfitRebateModel prm : profitRebates) {
+				if(!prExpectAnnualRevenueFlag) {
+					String annualRevenue = prm.getPrExpectAnnualRevenue();
+	    			double annualRevenueTmp =  Double.parseDouble(annualRevenue.replaceAll("%", ""));
+	    			if(annualRevenueTmp > maxAnnualRevenue) {
+	    				maxAnnualRevenue = annualRevenueTmp;
+	    			}
+				}
+				
+    			String prCommission = prm.getPrCommission();
+    			double prCommissionTmp =  Double.parseDouble(prCommission.replaceAll("%", ""));
+    			if(prCommissionTmp > maxCommission) {
+    				maxCommission = prCommissionTmp;
+    			}
+    		}
+			if(prExpectAnnualRevenueFlag) {
+				productModel.setpExpectAnnualRevenue(profitRebates.get(0).getPrExpectAnnualRevenue());
+			} else {
+				productModel.setpExpectAnnualRevenue(maxAnnualRevenue+"");
+			}	
+    		productModel.setpCommission(maxCommission+"");
+    	}
+    	
 		int result = productsMapper.savaProduct(productModel);
 		if(result > 0) {
-			if(profitRebates!= null && !profitRebates.isEmpty()) {
-				saveProfitRebate(profitRebates);
+			if(productModel.getProfitRebates() != null && productModel.getProfitRebates().size() > 0) {
+				saveProfitRebate(productModel);
 			}
-			if(productAttachments!= null && !productAttachments.isEmpty()) {
-				saveProductAttachment(productAttachments);
+			
+			if(productModel.getProductAttachments() != null && productModel.getProductAttachments().size() > 0) {
+				saveProductAttachment(productModel);
 			}
-
-			return result;
 		}
-		return 0;
+		return result;
 	}
-
-	private void saveProfitRebate(List<ProfitRebateModel> profitRebates) {
-		for(ProfitRebateModel pr : profitRebates) {
+	
+	private void saveProfitRebate(ProductModel productModel) {
+		for(ProfitRebateModel pr : productModel.getProfitRebates()) {
+			Date nowDate = new Date();
+			pr.setPrCreateTime(nowDate);
+			pr.setPrUpdateTime(nowDate);
+			pr.setPrProductCode(productModel.getpCode());
+			if(!pr.getPrExpectAnnualRevenue().contains("浮动")) {
+				pr.setPrExpectAnnualRevenue(pr.getPrExpectAnnualRevenue() +"%");
+			}
+			pr.setPrCommission(pr.getPrCommission()+"%");
+			BigDecimal rate = new BigDecimal(10000);
+			if(pr.getPrEndAmount() == null || pr.getPrEndAmount().compareTo(BigDecimal.ZERO) == 0) {
+				String prAmountDisplay = pr.getPrStartAmount() + "万以上";
+				pr.setPrAmountDisplay(prAmountDisplay);
+				pr.setPrStartAmount(pr.getPrStartAmount().multiply(rate));
+				pr.setPrEndAmount(BigDecimal.ZERO);
+			} else {
+				String prAmountDisplay = pr.getPrStartAmount() + "-" + pr.getPrEndAmount() + "万";
+				pr.setPrAmountDisplay(prAmountDisplay);
+				pr.setPrStartAmount(pr.getPrStartAmount().multiply(rate));
+				pr.setPrEndAmount(pr.getPrEndAmount().multiply(rate));
+			}
 			profitRebateMapper.savaProfitRebate(pr);
 		}
 	}
 
-	private void saveProductAttachment(List<ProductAttachmentModel> productAttachments){
-		for(ProductAttachmentModel pa : productAttachments) {
+	private void saveProductAttachment(ProductModel productModel){
+		for(ProductAttachmentModel pa : productModel.getProductAttachments()) {
+			pa.setPaProductCode(productModel.getpCode());
 			productAttachmentMapper.savaProductAttachment(pa);
-		}
+		}	
 	}
-
+	
 	@Override
 	public int updateProducts(ProductModel productModel) {
-		// TODO Auto-generated method stub
+		Date nowDate = new Date();
+		productModel.setUpdateTime(nowDate);
+    	//设置最高预计收益率
+    	List<ProfitRebateModel> profitRebates = productModel.getProfitRebates();
+    	if(profitRebates != null && profitRebates.size() > 0) {
+    		boolean prExpectAnnualRevenueFlag = profitRebates.get(0).getPrExpectAnnualRevenue().contains("浮动");
+    		double maxAnnualRevenue = 0;
+    		double maxCommission = 0;
+			for(ProfitRebateModel prm : profitRebates) {
+				if(!prExpectAnnualRevenueFlag) {
+					String annualRevenue = prm.getPrExpectAnnualRevenue();
+	    			double annualRevenueTmp =  Double.parseDouble(annualRevenue.replaceAll("%", ""));
+	    			if(annualRevenueTmp > maxAnnualRevenue) {
+	    				maxAnnualRevenue = annualRevenueTmp;
+	    			}
+				}
+				
+    			String prCommission = prm.getPrCommission();
+    			double prCommissionTmp =  Double.parseDouble(prCommission.replaceAll("%", ""));
+    			if(prCommissionTmp > maxCommission) {
+    				maxCommission = prCommissionTmp;
+    			}
+    		}
+			if(prExpectAnnualRevenueFlag) {
+				productModel.setpExpectAnnualRevenue(profitRebates.get(0).getPrExpectAnnualRevenue());
+			} else {
+				productModel.setpExpectAnnualRevenue(maxAnnualRevenue+"");
+			}	
+    		productModel.setpCommission(maxCommission+"");
+    	}
+		int result = productsMapper.updateProduct(productModel);
+		if(result > 0) {
+			if(productModel.getProfitRebates() != null && productModel.getProfitRebates().size() > 0) {
+				//先删除，后增加
+				profitRebateMapper.delProfitRebateByPCode(productModel.getpCode());
+				saveProfitRebate(productModel);
+			}
+			
+			if(productModel.getProductAttachments() != null && productModel.getProductAttachments().size() > 0) {
+				saveProductAttachment(productModel);
+			}
+		}
 		return 0;
-	}
-
-	@Override
-	public ProductModel queryProductByPid(String pid) {
-		return productsMapper.queryProductByPid(pid);
 	}
 }

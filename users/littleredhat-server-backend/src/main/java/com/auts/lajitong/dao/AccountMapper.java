@@ -1,5 +1,6 @@
 package com.auts.lajitong.dao;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
@@ -9,37 +10,23 @@ import org.apache.ibatis.annotations.Update;
 import com.auts.lajitong.model.dao.AccountModel;
 
 /**
- * 产品表方法入口.
- * @author huangrongwei
- *
+ * 账号mapper
  */
 public interface AccountMapper {
-//    /**
-//     * 查询所有的生效的device
-//     * @return 查询结果
-//     */
-//    @Select("select * from ph_device where status=0")
-//    @Results({ @Result(property = "id", column = "id"), @Result(property = "uid", column = "uid"),
-//            @Result(property = "fid", column = "fid"), @Result(property = "ridDeviceidId", column = "rid_deviceid_id"),
-//            @Result(property = "rid", column = "rid"), @Result(property = "model", column = "model"),
-//            @Result(property = "hardwareVersion", column = "hardware_version"),
-//            @Result(property = "romVersion", column = "rom_version"),
-//            @Result(property = "deviceId", column = "device_id"), @Result(property = "name", column = "name"),
-//            @Result(property = "pic", column = "pic"), @Result(property = "position", column = "position"),
-//            @Result(property = "createTime", column = "create_time"),
-//            @Result(property = "updateTime", column = "update_time"), @Result(property = "status", column = "status"),
-//            @Result(property = "deviceType", column = "device_type") })
-//    public List<DeviceDaoModel> queryDevices();
 
     @Select("select * from tbl_user where user_name=#{userName} and passwd=#{pwd} and status=0 limit 1")
     AccountModel login(@Param("userName") String userName, @Param("pwd") String pwd);
+    
+    @Insert("insert into tbl_user (user_name, real_name, phone, passwd, role, status, create_time, update_time) "
+            + "values (#{ac.user_name},#{ac.real_name},#{ac.phone},#{ac.passwd},#{ac.role},#{ac.status},#{ac.create_time},#{ac.update_time})")
+    @Options(useGeneratedKeys = true, keyProperty = "ac.uid")
+    void addAccount(@Param("ac") AccountModel ac);
 
     @Select("select * from tbl_user where phone=#{phone} and passwd=#{pwd} and status=0 limit 1")
     AccountModel loginPhone(@Param("phone") String phone, @Param("pwd") String pwd);
 
-    @Insert("insert into tbl_user (user_name, real_name, phone, passwd, email, sex, remark, role, status, create_time, update_time) "
-            + "values (#{ac.user_name},#{ac.real_name},#{ac.phone},#{ac.passwd},#{ac.email},#{ac.sex},#{ac.remark},#{ac.role},#{ac.status},#{ac.create_time},#{ac.update_time})")
-    @Options(useGeneratedKeys = true, keyProperty = "ac.uid")
+    @Insert("insert into tbl_user (uid, user_name, real_name, phone, passwd, email, sex, remark, role, status, create_time, update_time) "
+            + "values (#{ac.uid}, #{ac.user_name},#{ac.real_name},#{ac.phone},#{ac.passwd},#{ac.email},#{ac.sex},#{ac.remark},#{ac.role},#{ac.status},#{ac.create_time},#{ac.update_time})")
     int register(@Param("ac") AccountModel ac);
 
     @Select("select * from tbl_user where status=0 order by uid desc limit 1")
@@ -53,4 +40,23 @@ public interface AccountMapper {
 
     @Update("update tbl_user set user_name = #{model.user_name}, real_name=#{model.real_name}, phone=#{model.phone}, passwd=#{model.passwd}, email=#{model.email}, sex=#{model.sex}, remark=#{model.remark}, role=#{model.role}, status=#{model.status}, create_time=#{model.create_time}, update_time=#{model.update_time}, workstudio=#{model.workstudio}, avtr=#{model.avtr} where uid=#{model.uid}")
     int updateAccount(@Param("model") AccountModel model);
+    
+    @Update("update tbl_user set user_name = #{phone}, real_name=#{realName} where uid=#{uid}")
+    int updateAccountByFinancer(@Param("phone") String phone, @Param("realName") String realName, @Param("uid") int uid);
+    
+    @Delete("delete from tbl_user where uid = #{uid}")
+    void deleteAccount(@Param("uid") int uid);
+
+    @Update("update tbl_user set user_name = #{phone}, real_name=#{realName} where uid=#{uid}")
+	void updateAccountByCustomer(@Param("phone") String phone, @Param("realName") String name, @Param("uid") int uid);
+
+    @Update("update tbl_user set status = -1 where uid=#{userId}")
+	void handelCancel(@Param("userId") int userId);
+
+    @Update("update tbl_user set status = 0 where uid=#{userId}")
+	void handleNormal(@Param("userId") int userId);
+    
+    @Select("select * from tbl_user where uid=#{uid}")
+    AccountModel queryModelByUid(@Param("uid") int uid);
+    
 }

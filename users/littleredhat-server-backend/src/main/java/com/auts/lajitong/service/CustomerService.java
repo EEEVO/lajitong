@@ -1,22 +1,24 @@
 package com.auts.lajitong.service;
 
-import java.util.List;
-
+import com.auts.lajitong.model.common.PageInfo;
 import com.auts.lajitong.model.dao.CustomerModel;
 
 public interface CustomerService {
 
-	int queryCustomerCountByFuid(String financerId);
-
-	List<CustomerModel> queryCustomerByFUID(int pageNo, int pageSize, String financerId);
-
-	List<CustomerModel> queryCustomerForOrder(String financerId);
-
 	void addCustomer(CustomerModel customer);
+
+	PageInfo queryCustomerList(String nameSearch, int pageNumber, int pageSize);
+
+	void editCustomer(CustomerModel financer);
 
 	void delCustomer(String uid);
 
-	void editCustomer(CustomerModel customer);
+	void btrvCustomer(String uids);
 
-	CustomerModel queryCustomerByUid(String uid);
+	void handleCancel(String uid);
+
+	void handleNormal(String uid);
+
+	void handleSwitch(String uid);
+
 }

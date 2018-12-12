@@ -1,8 +1,12 @@
 package com.auts.lajitong.model.dao.product;
 
 import java.math.BigDecimal;
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.auts.lajitong.model.common.BaseDaoModel;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class ProfitRebateModel extends BaseDaoModel {
 
@@ -11,15 +15,26 @@ public class ProfitRebateModel extends BaseDaoModel {
     private BigDecimal prEndAmount; //起购最大金额
     private String prAmountDisplay; //描述
     private String prExpectAnnualRevenue; //预计年化收益
-    private String prCommission; //佣金比例
-
-    public String getPrExpectAnnualRevenue() {
-		return prExpectAnnualRevenue;
+	private String prCommission; //佣金比例
+	@JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date prCreateTime;
+	@JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date prUpdateTime;
+    
+	public Date getPrCreateTime() {
+		return prCreateTime;
 	}
-	public void setPrExpectAnnualRevenue(String prExpectAnnualRevenue) {
-		this.prExpectAnnualRevenue = prExpectAnnualRevenue;
+	public void setPrCreateTime(Date prCreateTime) {
+		this.prCreateTime = prCreateTime;
 	}
-
+	public Date getPrUpdateTime() {
+		return prUpdateTime;
+	}
+	public void setPrUpdateTime(Date prUpdateTime) {
+		this.prUpdateTime = prUpdateTime;
+	}
 	public String getPrProductCode() {
 		return prProductCode;
 	}
@@ -50,5 +65,10 @@ public class ProfitRebateModel extends BaseDaoModel {
 	public void setPrCommission(String prCommission) {
 		this.prCommission = prCommission;
 	}
-
+    public String getPrExpectAnnualRevenue() {
+		return prExpectAnnualRevenue;
+	}
+	public void setPrExpectAnnualRevenue(String prExpectAnnualRevenue) {
+		this.prExpectAnnualRevenue = prExpectAnnualRevenue;
+	}
 }

@@ -2,7 +2,6 @@ package com.auts.lajitong.dao;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
@@ -12,121 +11,78 @@ import org.apache.ibatis.annotations.Update;
 import com.auts.lajitong.model.dao.order.OrderModel;
 
 public interface OrderMapper {
-
-	//create_time, update_time, create_user, update_user
-	@Insert("insert into tbl_order (order_no, amount, order_date, latest_pay_date, financer_uid, customer_uid, customer_card_no,"
-			+ "product_id, commission_ratio, commission,profit_ratio,profit, "
-			+ "status, voucher_status,voucher_path,contract_status, issuing_bank,card_no,create_time, update_time) "
-            + "values (#{or.orderNo},#{or.amount},#{or.orderDate},#{or.latestPayDate},#{or.financerUid},#{or.customerUid}, #{or.customerCardNo},"
-            + "#{or.productId},#{or.comRatio},#{or.commission}, #{or.proRatio},#{or.profit},"
-            + "#{or.status}, #{or.voucherStatus},#{or.voucherPath},#{or.contractStatus},#{or.issueBank},#{or.cardNo}, sysdate(), sysdate())")
-	int saveOrder(@Param("or") OrderModel or);
-
-	@Update("update tbl_order set voucher_path = #{or.voucherPath}, voucher_status=#{or.voucherStatus} where order_no=#{or.orderNo}")
-	int updateVoucher(@Param("or") OrderModel or);
-
-	@Update("update tbl_order set status = 99, update_time= NOW() where order_no=#{orderNo}")
-	int cancelOrder(@Param("orderNo") String orderNo);
+	
+    @Select("<script>"
+    	+ "SELECT "
+    		+ "a.*,"
+    		+ "c.name financer,"
+    		+ "c.phone financer_tel,"
+    		+ "d.name customer,"
+    		+ "d.phone customer_tel,"
+    		+ "e.p_short_name pro_short_nam,"
+    		+ "e.p_full_name product,"
+    		+ "e.p_invest_owner_id inst,"
+    		+ "e.p_sale_date_start pSaleStartTime"
+    	+ " FROM "
+    		+ "tbl_order a "
+    		+ "LEFT JOIN tbl_financer c ON c.uid = a.financer_uid "
+    		+ "LEFT JOIN tbl_customer d ON d.uid = a.customer_uid "
+    		+ "LEFT JOIN Product e ON e.p_id = a.product_id "
+    	+ "WHERE a.status = #{status} "
+    	+ "<if test='startDate != \"\"'>"
+		+ 	" and #{startDate} &lt;= a.order_date "
+		+ "</if>"
+		+ "<if test='endDate != \"\"'>"
+		+ 	" and #{endDate} &gt;= a.order_date "
+		+ "</if>"
+		+ " order by order_date desc "
+    	+ "</script>")
+    @Results({
+    	@Result(property = "uid", column = "uid"),@Result(property = "orderNo", column = "order_no"),
+    	@Result(property = "amount", column = "amount"),@Result(property = "orderDate", column = "order_date"),
+    	@Result(property = "latestPayDate", column = "latest_pay_date"),@Result(property = "financerUid", column = "financer_uid"),
+    	@Result(property = "customerUid", column = "customer_uid"), @Result(property = "customerCardNo", column = "customer_card_no"), @Result(property = "productId", column = "product_id"),
+    	@Result(property = "comRatio", column = "commission_ratio"),@Result(property = "commission", column = "commission"),
+    	@Result(property = "proRatio", column = "profit_ratio"),@Result(property = "profit", column = "profit"),
+    	@Result(property = "status", column = "status"),@Result(property = "payStatus", column = "pay_status"),@Result(property = "voucherStatus", column = "voucher_status"),
+    	@Result(property = "voucherPath", column = "voucher_path"),@Result(property = "contractStatus", column = "contract_status"),
+    	@Result(property = "issuingBank", column = "issuing_bank"),@Result(property = "cardNo", column = "card_no"),
+    	@Result(property = "createtime", column = "create_time"),@Result(property = "updatetime", column = "update_time"),
+    	@Result(property = "financer", column = "financer"),@Result(property = "financerTel", column = "financer_tel"),
+    	@Result(property = "customer", column = "customer"),@Result(property = "customerTel", column = "customer_tel"),
+    	@Result(property = "proShortNam", column = "pro_short_nam"),@Result(property = "product", column = "product"),
+    	@Result(property = "inst", column = "inst"), @Result(property = "pSaleStartTime", column = "pSaleStartTime")
+    })
+	List<OrderModel> queryOrders(@Param("status") String status, @Param("startDate") String startDate, @Param("endDate") String endDate);
 
     @Select("<script>"
-    		+ "select count(*) num from tbl_order "
-    		+ "<where>"
-    		+ "<if test='status !=null '>"
-    		+ "  and status = #{status} "
-    		+ "</if> "
-    		+ " and financer_uid=#{financerID} "
-    		+ "</where></script>")
-//	@Select("select count(*) num from tbl_order where status= #{status} limit 1")
-    int queryOrderCountByStatus(@Param("status") String status, @Param("financerID") String financerID);
+        	+ "SELECT count(*) FROM tbl_order a "
+        	+ "WHERE a.status = #{status} "
+        	+ "<if test='startDate != \"\"'>"
+    		+ 	" and #{startDate} &lt;= a.order_date "
+    		+ "</if>"
+    		+ "<if test='endDate != \"\"'>"
+    		+ 	" and #{endDate} &gt;= a.order_date "
+    		+ "</if>"
+        	+ "</script>")
+	int queryOrdersCnt(@Param("status") String status, @Param("startDate") String startDate, @Param("endDate") String endDate);
 
+    @Update("update tbl_order set status = '02', update_time= NOW() where uid=#{uid}")
+	void orderSettle(@Param("uid") String uid);
 
-	@Select("select count(*) num from tbl_order where customer_uid= #{customerId} limit 1")
-    int queryOrderCountByCustomerId(@Param("customerId") String customerId);
+    @Update("update tbl_order set status = '99', update_time= NOW() where uid=#{uid}")
+	void orderFailure(@Param("uid") String uid);
 
-	//理财师只有待结佣和已结佣的交易才能有佣金
-	@Select("select count(*) num from tbl_order where financer_uid= #{financerId}  and status in ('02','03') limit 1")
-    int queryOrderCountByFinancerId(@Param("financerId") String financerId);
+    @Update("update tbl_order set contract_status = '1', update_time= NOW() where uid=#{uid}")
+	void orderContract(@Param("uid") String uid);
 
-    @Select("select * from tbl_order where order_no=#{orderNo} limit 1")
-    @Results({
-    	@Result(property = "id", column = "uid"), @Result(property = "orderNo", column = "order_no"),
-    	@Result(property = "amount", column = "amount"), @Result(property = "orderDate", column = "order_date"),
-    	@Result(property = "latestPayDate", column = "latest_pay_date"), @Result(property = "financerUid", column = "financer_uid"),
-    	@Result(property = "customerUid", column = "customer_uid"), @Result(property = "customerCardNo", column = "customer_card_no"), @Result(property = "productId", column = "product_id"),
-    	@Result(property = "comRatio", column = "commission_ratio"), @Result(property = "commission", column = "commission"),
-    	@Result(property = "proRatio", column = "profit_ratio"), @Result(property = "profit", column = "profit"),
-    	@Result(property = "status", column = "status"), @Result(property = "voucherStatus", column = "voucher_status"),
-    	@Result(property = "voucherPath", column = "voucher_path"), @Result(property = "contractStatus", column = "contract_status"),
-    	@Result(property = "issueBank", column = "issuing_bank"), @Result(property = "cardNo", column = "card_no"),
-    	@Result(property = "createTime", column = "create_time"), @Result(property = "updateTime", column = "update_time")
-    })
-    OrderModel queryOrderByOrderNo(@Param("orderNo") String orderNo);
+    @Update("update tbl_order set status = '03', update_time= NOW() where uid=#{uid}")
+	void orderSettled(@Param("uid") String uid);
 
-    @Select("<script>"
-    		+ "select * from tbl_order "
-    		+ " where financer_uid =#{financerID} "
-			+ "<if test='status !=null '>"
-			+ " and status = #{status} "
-			+ "</if> "
-			+ "order by order_date desc"
-			+ " limit #{startIndex}, #{pageSize}"
-			+ "</script>")
-//    @Select("select * from tbl_order")
-    @Results({
-    	@Result(property = "id", column = "uid"), @Result(property = "orderNo", column = "order_no"),
-    	@Result(property = "amount", column = "amount"), @Result(property = "orderDate", column = "order_date"),
-    	@Result(property = "latestPayDate", column = "latest_pay_date"), @Result(property = "financerUid", column = "financer_uid"),
-    	@Result(property = "customerUid", column = "customer_uid"), @Result(property = "customerCardNo", column = "customer_card_no"), @Result(property = "productId", column = "product_id"),
-    	@Result(property = "comRatio", column = "commission_ratio"), @Result(property = "commission", column = "commission"),
-    	@Result(property = "proRatio", column = "profit_ratio"), @Result(property = "profit", column = "profit"),
-    	@Result(property = "status", column = "status"), @Result(property = "voucherStatus", column = "voucher_status"),
-    	@Result(property = "voucherPath", column = "voucher_path"), @Result(property = "contractStatus", column = "contract_status"),
-    	@Result(property = "issueBank", column = "issuing_bank"), @Result(property = "cardNo", column = "card_no"),
-    	@Result(property = "createTime", column = "create_time"), @Result(property = "updateTime", column = "update_time")
-    })
-    List<OrderModel> queryOrders(@Param("startIndex") int startIndex, @Param("pageSize") int pageSize, @Param("status") String status, @Param("financerID") String financerID);
+    @Update("update tbl_order set pay_status = '1', update_time= NOW() where uid=#{uid}")
+	void orderPay(@Param("uid") String uid);
 
-    @Select("<script>"
-    		+ "select * from tbl_order where customer_uid= #{customerId} "
-    		+ "<if test='status !=null '>"
-			+ " 	and status = #{status} "
-			+ "</if> "
-			+ "order by order_date desc"
-    		+ "</script>")
-    @Results({
-    	@Result(property = "id", column = "uid"), @Result(property = "orderNo", column = "order_no"),
-    	@Result(property = "amount", column = "amount"), @Result(property = "orderDate", column = "order_date"),
-    	@Result(property = "latestPayDate", column = "latest_pay_date"), @Result(property = "financerUid", column = "financer_uid"),
-    	@Result(property = "customerUid", column = "customer_uid"), @Result(property = "customerCardNo", column = "customer_card_no"), @Result(property = "productId", column = "product_id"),
-    	@Result(property = "comRatio", column = "commission_ratio"), @Result(property = "commission", column = "commission"),
-    	@Result(property = "proRatio", column = "profit_ratio"), @Result(property = "profit", column = "profit"),
-    	@Result(property = "status", column = "status"), @Result(property = "voucherStatus", column = "voucher_status"),
-    	@Result(property = "voucherPath", column = "voucher_path"), @Result(property = "contractStatus", column = "contract_status"),
-    	@Result(property = "issueBank", column = "issuing_bank"), @Result(property = "cardNo", column = "card_no"),
-    	@Result(property = "createTime", column = "create_time"), @Result(property = "updateTime", column = "update_time")
-    })
-    List<OrderModel> queryOrdersByCustomerId(@Param("startIndex") int startIndex, @Param("pageSize") int pageSize, @Param("customerId") String customerId, @Param("status") String status);
-
-    @Select("select * from tbl_order where financer_uid= #{financerId}  and status in ('02','03') order by order_date desc")
-    @Results({
-    	@Result(property = "id", column = "uid"), @Result(property = "orderNo", column = "order_no"),
-    	@Result(property = "amount", column = "amount"), @Result(property = "orderDate", column = "order_date"),
-    	@Result(property = "latestPayDate", column = "latest_pay_date"), @Result(property = "financerUid", column = "financer_uid"),
-    	@Result(property = "customerUid", column = "customer_uid"), @Result(property = "customerCardNo", column = "customer_card_no"), @Result(property = "productId", column = "product_id"),
-    	@Result(property = "comRatio", column = "commission_ratio"), @Result(property = "commission", column = "commission"),
-    	@Result(property = "proRatio", column = "profit_ratio"), @Result(property = "profit", column = "profit"),
-    	@Result(property = "status", column = "status"), @Result(property = "voucherStatus", column = "voucher_status"),
-    	@Result(property = "voucherPath", column = "voucher_path"), @Result(property = "contractStatus", column = "contract_status"),
-    	@Result(property = "issueBank", column = "issuing_bank"), @Result(property = "cardNo", column = "card_no"),
-    	@Result(property = "createTime", column = "create_time"), @Result(property = "updateTime", column = "update_time")
-    })
-    List<OrderModel> queryOrdersByFinancerId(@Param("startIndex") int startIndex, @Param("pageSize") int pageSize, @Param("financerId") String financerId);
-
-    //计算
-	@Select("<script>"
-			+ "select sum(commission) commisson from tbl_order where financer_uid= #{financerId} and status in "
-			+ "<foreach item='item' index='index' collection='statusList' open='(' separator=',' close=')'>" + "#{item}"
-			+ "</foreach>" + "</script>")
-    String queryCommissinByFinancerId(@Param("financerId") String financerId, @Param("statusList") List<String> statusList);
-
+    @Select("select * from tbl_order where uid = #{uid}")
+	OrderModel queryOrder(@Param("uid") String uid);
+   
 }

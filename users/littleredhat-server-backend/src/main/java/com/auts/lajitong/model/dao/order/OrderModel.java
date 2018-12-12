@@ -1,5 +1,7 @@
 package com.auts.lajitong.model.dao.order;
 
+
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -10,35 +12,56 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class OrderModel extends BaseDaoModel {
 
+	private int uid;
     private String orderNo;
     private BigDecimal amount;
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date orderDate;
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date latestPayDate;
+    private String orderDate;
+    private String latestPayDate;
     private String financerUid;
+    private String financer;
+    private String financerTel;
     private String customerUid;
     private String customerCardNo;//身份证号
-	private String productId;
+    private String customer;
+    private String customerTel;
+    private String productId;
+    private String product;//产品全称
+	@JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date pSaleStartTime; //产品成立日期
+	private String proShortNam;//产品简称
+    private String inst;//发行机构
     private String comRatio;//佣金比率
     private BigDecimal commission;//佣金
     private String proRatio;//收益比率
     private BigDecimal profit;//收益
     private String status;//状态
+    private String payStatus;//支付状态
     private String contractStatus;//合同状态
     private String voucherStatus;//凭证状态
     private String voucherPath;//凭证路径
-    private String issueBank;//发卡行
+    private String issuingBank;//发卡银行
     private String cardNo;//银行卡号
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private Date createtime;
 	@JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date createTime;
-	@JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date updateTime;
-
+	private Date updatetime;
+	
+    public Date getpSaleStartTime() {
+		return pSaleStartTime;
+	}
+	public void setpSaleStartTime(Date pSaleStartTime) {
+		this.pSaleStartTime = pSaleStartTime;
+	}
+	
+	public int getUid() {
+		return uid;
+	}
+	public void setUid(int uid) {
+		this.uid = uid;
+	}
 	public String getOrderNo() {
 		return orderNo;
 	}
@@ -51,17 +74,53 @@ public class OrderModel extends BaseDaoModel {
 	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
 	}
-	public Date getOrderDate() {
+	public String getOrderDate() {
 		return orderDate;
 	}
-	public void setOrderDate(Date orderDate) {
+	public void setOrderDate(String orderDate) {
 		this.orderDate = orderDate;
 	}
-	public Date getLatestPayDate() {
-		return latestPayDate;
+	public String getFinancer() {
+		return financer;
 	}
-	public void setLatestPayDate(Date latestPayDate) {
-		this.latestPayDate = latestPayDate;
+	public void setFinancer(String financer) {
+		this.financer = financer;
+	}
+	public String getFinancerTel() {
+		return financerTel;
+	}
+	public void setFinancerTel(String financerTel) {
+		this.financerTel = financerTel;
+	}
+	public String getCustomer() {
+		return customer;
+	}
+	public void setCustomer(String customer) {
+		this.customer = customer;
+	}
+	public String getCustomerTel() {
+		return customerTel;
+	}
+	public void setCustomerTel(String customerTel) {
+		this.customerTel = customerTel;
+	}
+	public String getProduct() {
+		return product;
+	}
+	public void setProduct(String product) {
+		this.product = product;
+	}
+	public String getProShortNam() {
+		return proShortNam;
+	}
+	public void setProShortNam(String proShortNam) {
+		this.proShortNam = proShortNam;
+	}
+	public String getInst() {
+		return inst;
+	}
+	public void setInst(String inst) {
+		this.inst = inst;
 	}
 	public String getComRatio() {
 		return comRatio;
@@ -111,17 +170,17 @@ public class OrderModel extends BaseDaoModel {
 	public void setVoucherPath(String voucherPath) {
 		this.voucherPath = voucherPath;
 	}
-	public Date getCreateTime() {
-		return createTime;
+	public Date getCreatetime() {
+		return createtime;
 	}
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
+	public void setCreatetime(Date createtime) {
+		this.createtime = createtime;
 	}
-	public Date getUpdateTime() {
-		return updateTime;
+	public Date getUpdatetime() {
+		return updatetime;
 	}
-	public void setUpdateTime(Date updateTime) {
-		this.updateTime = updateTime;
+	public void setUpdatetime(Date updatetime) {
+		this.updatetime = updatetime;
 	}
 	public String getFinancerUid() {
 		return financerUid;
@@ -141,17 +200,29 @@ public class OrderModel extends BaseDaoModel {
 	public void setProductId(String productId) {
 		this.productId = productId;
 	}
-    public String getIssueBank() {
-		return issueBank;
+	public String getIssuingBank() {
+		return issuingBank;
 	}
-	public void setIssueBank(String issueBank) {
-		this.issueBank = issueBank;
+	public void setIssuingBank(String issuingBank) {
+		this.issuingBank = issuingBank;
 	}
 	public String getCardNo() {
 		return cardNo;
 	}
 	public void setCardNo(String cardNo) {
 		this.cardNo = cardNo;
+	}
+	public String getLatestPayDate() {
+		return latestPayDate;
+	}
+	public void setLatestPayDate(String latestPayDate) {
+		this.latestPayDate = latestPayDate;
+	}
+	public String getPayStatus() {
+		return payStatus;
+	}
+	public void setPayStatus(String payStatus) {
+		this.payStatus = payStatus;
 	}
     public String getCustomerCardNo() {
 		return customerCardNo;

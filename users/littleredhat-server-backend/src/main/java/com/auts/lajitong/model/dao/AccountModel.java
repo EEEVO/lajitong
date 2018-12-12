@@ -7,6 +7,7 @@ package com.auts.lajitong.model.dao;
  */
 public class AccountModel {
 
+
     private String uid;
 
     private String user_name;

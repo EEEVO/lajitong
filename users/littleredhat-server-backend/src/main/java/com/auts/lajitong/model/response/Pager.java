@@ -14,19 +14,19 @@ public class Pager {
 	private boolean hasNaxtPage;
 	private boolean hasPrePage;
 	private int startIndex;
-
-    public Pager() {
-        super();
-    }
-
-    public Pager(int pageNo, int pageSize, int pageCount, int totalCount) {
-        super();
+	
+    public Pager() {  
+        super();  
+    }  
+  
+    public Pager(int pageNo, int pageSize, int pageCount, int totalCount) {  
+        super();  
         this.pageNo = pageNo;
         this.pageSize = pageSize;
         this.pageCount = pageCount;
         this.totalCount = totalCount;
-    }
-
+    } 
+    
 	public int getPageNo() {
 		return pageNo;
 	}
@@ -81,6 +81,6 @@ public class Pager {
 	public void setStartIndex(int startIndex) {
 		this.startIndex = startIndex;
 	}
-
-
+	
+	
 }

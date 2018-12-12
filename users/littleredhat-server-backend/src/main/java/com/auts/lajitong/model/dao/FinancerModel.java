@@ -25,28 +25,8 @@ public class FinancerModel {
 	@JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date updatetime;
-	private String workshopName;
-	private String workshopUrl;
-	private String workshopIntro;
+	private int status;
 
-	public String getWorkshopName() {
-		return workshopName;
-	}
-	public void setWorkshopName(String workshopName) {
-		this.workshopName = workshopName;
-	}
-	public String getWorkshopUrl() {
-		return workshopUrl;
-	}
-	public void setWorkshopUrl(String workshopUrl) {
-		this.workshopUrl = workshopUrl;
-	}
-	public String getWorkshopIntro() {
-		return workshopIntro;
-	}
-	public void setWorkshopIntro(String workshopIntro) {
-		this.workshopIntro = workshopIntro;
-	}
 	public String getName() {
 		return name;
 	}
@@ -107,4 +87,11 @@ public class FinancerModel {
 	public void setUserId(int userId) {
 		this.userId = userId;
 	}
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
+	}
+	
 }
