@@ -101,6 +101,7 @@ public class PlatformController extends SBaseController {
 			inputStream = request.getInputStream();
 			Verification verification = new Verification();
 			MbParseResult<Verification> mbParseResult=verification.buildResult(inputStream);
+			LOGGER.info("verification:", JSON.toJSONString(mbParseResult));
 			LOGGER.info("verification: cardNO:[{}]", mbParseResult.mbDataObject.getCardNumber());
 
 			String cardNumber = mbParseResult.mbDataObject.getCardNumber();  // 卡号
@@ -134,7 +135,7 @@ public class PlatformController extends SBaseController {
 			MbParseResult<Deliver> mbParseResult = deliver.buildResult(inputStream);
 			// 取出投递记录
 			List<DeliveryCard> deliveryCardList = mbParseResult.mbDataObject.getFenleiDeliveryCardList();
-			LOGGER.info("record: [{}]", JSON.toJSON(deliveryCardList));
+			LOGGER.info("record:", JSON.toJSON(deliveryCardList));
 			if(deliveryCardList == null || deliveryCardList.size() < 1) {
 				LOGGER.warn("record is null");
 			} else {
