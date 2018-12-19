@@ -73,7 +73,7 @@ public class PlatformController extends SBaseController {
 	        deviceService.saveShake(mbParseResult);
 
 	        String org_id = ORGANIZATION_ID; // 机构编号
-	        String[] buckets = new String[] {"01", "02", "03", "04"};  
+	        String[] buckets = new String[] {"401", "402", "403", "404"};  
 	        // 内桶个数对应的垃圾类型
 	        int[] res = ResultDispose.returnResints(org_id, buckets);
 	        byte[] resData = MainBoardUtil.toByteArray(res);
@@ -150,7 +150,7 @@ public class PlatformController extends SBaseController {
 			}
 			
 			String org_id = ORGANIZATION_ID; // 机构编号
-			String[] buckets = new String[] {"01", "02", "03", "04"};  // 内桶个数对应的垃圾类型
+			String[] buckets = new String[] {"401", "402", "403", "404"};  // 内桶个数对应的垃圾类型
 			int[] resBytes = ResultDispose.returnResints(org_id, buckets);
 			        
 			byte[] resData = MainBoardUtil.toByteArray(resBytes);
