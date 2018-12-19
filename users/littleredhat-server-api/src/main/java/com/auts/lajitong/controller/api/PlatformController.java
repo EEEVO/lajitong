@@ -102,7 +102,7 @@ public class PlatformController extends SBaseController {
 			inputStream = request.getInputStream();
 			Verification verification = new Verification();
 			MbParseResult<Verification> mbParseResult=verification.buildResult(inputStream);
-			LOGGER.info("verification:", JSON.toJSONString(mbParseResult));
+			LOGGER.info("verification:" + JSON.toJSONString(mbParseResult));
 			LOGGER.info("verification: cardNO:[{}]", mbParseResult.mbDataObject.getCardNumber());
 
 			String cardNumber = mbParseResult.mbDataObject.getCardNumber();  // 卡号
@@ -132,28 +132,28 @@ public class PlatformController extends SBaseController {
         InputStream inputStream;
 		try {
 			inputStream = request.getInputStream();
-			byte[] shakeHandsBytes = IOUtils.toByteArray(inputStream);
-			StringBuffer sb=new StringBuffer();
-	        for (int i = 0; i < shakeHandsBytes.length; i++) {
-	            sb.append(shakeHandsBytes[i]+",");
-	        }
-			LOGGER.info("record request:" + sb);
-//			Deliver deliver = new Deliver(); 
-//			MbParseResult<Deliver> mbParseResult = deliver.buildResult(inputStream);
-//			LOGGER.info("record1:", JSON.toJSON(mbParseResult));
-//			// 取出投递记录
-//			List<DeliveryCard> deliveryCardList = mbParseResult.mbDataObject.getFenleiDeliveryCardList();
-//			LOGGER.info("record2:", JSON.toJSON(deliveryCardList));
-//			if(deliveryCardList == null || deliveryCardList.size() < 1) {
-//				LOGGER.warn("record is null");
-//			} else {
-//				String result = orderService.saveOrder(deliveryCardList);
-//				if(result == null) {
-//					LOGGER.warn("record failure");
-//				} else {
-//					LOGGER.warn("record success，orderNO：  [{}]", result);
-//				}
-//			}
+//			byte[] shakeHandsBytes = IOUtils.toByteArray(inputStream);
+//			StringBuffer sb=new StringBuffer();
+//	        for (int i = 0; i < shakeHandsBytes.length; i++) {
+//	            sb.append(shakeHandsBytes[i]+",");
+//	        }
+//			LOGGER.info("record request:" + sb);
+			Deliver deliver = new Deliver(); 
+			MbParseResult<Deliver> mbParseResult = deliver.buildResult(inputStream);
+			LOGGER.info("record1:" + JSON.toJSON(mbParseResult));
+			// 取出投递记录
+			List<DeliveryCard> deliveryCardList = mbParseResult.mbDataObject.getFenleiDeliveryCardList();
+			LOGGER.info("record2:" + JSON.toJSON(deliveryCardList));
+			if(deliveryCardList == null || deliveryCardList.size() < 1) {
+				LOGGER.warn("record is null");
+			} else {
+				String result = orderService.saveOrder(deliveryCardList);
+				if(result == null) {
+					LOGGER.warn("record failure");
+				} else {
+					LOGGER.warn("record success，orderNO：  [{}]", result);
+				}
+			}
 			
 			String org_id = ORGANIZATION_ID; // 机构编号
 			String[] buckets = new String[] {"401", "402", "403", "404"};  // 内桶个数对应的垃圾类型
