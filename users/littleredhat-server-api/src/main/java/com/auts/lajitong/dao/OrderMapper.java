@@ -10,7 +10,7 @@ public interface OrderMapper {
     int deleteByPrimaryKey(Long id);
 
     @Insert("insert into tbl_order (order_id, device_id, bin_no, order_type, delivery_time, weight, price, amount, create_time, update_time) "
-            + "values (#{record.orderId},#{record.deviceId},#{record.binNo},#{record.orderType},#{record.deliveryTime},#{record.weight},#{record.price},#{record.amount},,#{record.createTime},#{record.updateTime})")
+            + "values (#{record.orderId},#{record.deviceId},#{record.binNo},#{record.orderType},#{record.deliveryTime},#{record.weight},#{record.price},#{record.amount},#{record.createTime},#{record.updateTime})")
     @Options(useGeneratedKeys = true, keyProperty = "record.id")
     int insert(@Param("record") OrderModel record);
 
