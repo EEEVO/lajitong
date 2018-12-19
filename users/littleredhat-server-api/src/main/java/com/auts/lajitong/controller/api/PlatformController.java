@@ -73,7 +73,7 @@ public class PlatformController extends SBaseController {
 	        deviceService.saveShake(mbParseResult);
 
 	        String org_id = ORGANIZATION_ID; // 机构编号
-	        String[] buckets = new String[] {"401", "402", "403", "404"};  
+	        String[] buckets = new String[] {"01", "02", "03", "04"};  
 	        // 内桶个数对应的垃圾类型
 	        int[] res = ResultDispose.returnResints(org_id, buckets);
 	        byte[] resData = MainBoardUtil.toByteArray(res);
@@ -132,12 +132,6 @@ public class PlatformController extends SBaseController {
         InputStream inputStream;
 		try {
 			inputStream = request.getInputStream();
-//			byte[] shakeHandsBytes = IOUtils.toByteArray(inputStream);
-//			StringBuffer sb=new StringBuffer();
-//	        for (int i = 0; i < shakeHandsBytes.length; i++) {
-//	            sb.append(shakeHandsBytes[i]+",");
-//	        }
-//			LOGGER.info("record request:" + sb);
 			Deliver deliver = new Deliver(); 
 			MbParseResult<Deliver> mbParseResult = deliver.buildResult(inputStream);
 			LOGGER.info("record1:" + JSON.toJSON(mbParseResult));
@@ -156,7 +150,7 @@ public class PlatformController extends SBaseController {
 			}
 			
 			String org_id = ORGANIZATION_ID; // 机构编号
-			String[] buckets = new String[] {"401", "402", "403", "404"};  // 内桶个数对应的垃圾类型
+			String[] buckets = new String[] {"01", "02", "03", "04"};  // 内桶个数对应的垃圾类型
 			int[] resBytes = ResultDispose.returnResints(org_id, buckets);
 			        
 			byte[] resData = MainBoardUtil.toByteArray(resBytes);
