@@ -8,6 +8,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,7 +83,7 @@ public class PlatformController extends SBaseController {
 	        out.flush();
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.warn("shake Exception:" + e.getMessage());
 		}
         
     }
@@ -114,7 +115,7 @@ public class PlatformController extends SBaseController {
 
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.warn("verification Exception:" + e.getMessage());
 		}
         
     }
@@ -131,22 +132,24 @@ public class PlatformController extends SBaseController {
         InputStream inputStream;
 		try {
 			inputStream = request.getInputStream();
-			Deliver deliver = new Deliver(); 
-			MbParseResult<Deliver> mbParseResult = deliver.buildResult(inputStream);
-			LOGGER.info("record1:", JSON.toJSON(mbParseResult));
-			// 取出投递记录
-			List<DeliveryCard> deliveryCardList = mbParseResult.mbDataObject.getFenleiDeliveryCardList();
-			LOGGER.info("record2:", JSON.toJSON(deliveryCardList));
-			if(deliveryCardList == null || deliveryCardList.size() < 1) {
-				LOGGER.warn("record is null");
-			} else {
-				String result = orderService.saveOrder(deliveryCardList);
-				if(result == null) {
-					LOGGER.warn("record failure");
-				} else {
-					LOGGER.warn("record success，orderNO：  [{}]", result);
-				}
-			}
+			byte[] shakeHandsBytes = IOUtils.toByteArray(inputStream);
+			LOGGER.info("record request:", new String(shakeHandsBytes));
+//			Deliver deliver = new Deliver(); 
+//			MbParseResult<Deliver> mbParseResult = deliver.buildResult(inputStream);
+//			LOGGER.info("record1:", JSON.toJSON(mbParseResult));
+//			// 取出投递记录
+//			List<DeliveryCard> deliveryCardList = mbParseResult.mbDataObject.getFenleiDeliveryCardList();
+//			LOGGER.info("record2:", JSON.toJSON(deliveryCardList));
+//			if(deliveryCardList == null || deliveryCardList.size() < 1) {
+//				LOGGER.warn("record is null");
+//			} else {
+//				String result = orderService.saveOrder(deliveryCardList);
+//				if(result == null) {
+//					LOGGER.warn("record failure");
+//				} else {
+//					LOGGER.warn("record success，orderNO：  [{}]", result);
+//				}
+//			}
 			
 			String org_id = ORGANIZATION_ID; // 机构编号
 			String[] buckets = new String[] {"401", "402", "403", "404"};  // 内桶个数对应的垃圾类型
@@ -156,9 +159,10 @@ public class PlatformController extends SBaseController {
 			OutputStream out = response.getOutputStream();
 			out.write(resData);
 			out.flush();
-
+			
+			LOGGER.info("record response:", new String(resData));
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.warn("record Exception:" + e.getMessage());
 		}
         
     }
