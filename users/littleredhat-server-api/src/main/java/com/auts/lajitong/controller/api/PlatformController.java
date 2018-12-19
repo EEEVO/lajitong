@@ -133,7 +133,11 @@ public class PlatformController extends SBaseController {
 		try {
 			inputStream = request.getInputStream();
 			byte[] shakeHandsBytes = IOUtils.toByteArray(inputStream);
-			LOGGER.info("record request:", new String(shakeHandsBytes));
+			StringBuffer sb=new StringBuffer();
+	        for (int i = 0; i < shakeHandsBytes.length; i++) {
+	            sb.append(shakeHandsBytes[i]+",");
+	        }
+			LOGGER.info("record request:" + sb);
 //			Deliver deliver = new Deliver(); 
 //			MbParseResult<Deliver> mbParseResult = deliver.buildResult(inputStream);
 //			LOGGER.info("record1:", JSON.toJSON(mbParseResult));
@@ -160,7 +164,7 @@ public class PlatformController extends SBaseController {
 			out.write(resData);
 			out.flush();
 			
-			LOGGER.info("record response:", new String(resData));
+			LOGGER.info("record response:" + new String(resData));
 		} catch (Exception e) {
 			LOGGER.warn("record Exception:" + e.getMessage());
 		}
