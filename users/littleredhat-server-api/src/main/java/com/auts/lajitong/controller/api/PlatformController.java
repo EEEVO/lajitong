@@ -8,7 +8,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -158,7 +157,6 @@ public class PlatformController extends SBaseController {
 			out.write(resData);
 			out.flush();
 			
-			LOGGER.info("record response:" + new String(resData));
 		} catch (Exception e) {
 			LOGGER.warn("record Exception:" + e.getMessage());
 		}
