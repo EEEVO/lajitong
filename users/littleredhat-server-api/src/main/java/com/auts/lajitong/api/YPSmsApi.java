@@ -35,7 +35,7 @@ public class YPSmsApi {
 
 	//修改为您的apikey.apikey可在官网（http://www.yuanpian.com)登录后获取
 	public static final String API_KEY = "11925f4b90680e82d9d3d4aa9c02f0f7";
-	public static String CAPTCHA_TEXT = "【小红帽回收】您的验证码是#code#，有效期20分钟。";
+	public static String CAPTCHA_TEXT = "【小红帽回收】您的验证码是%s，有效期20分钟。";
 
     //查账户信息的http地址
     private static String URI_GET_USER_INFO = "https://sms.yunpian.com/v2/user/get.json";
@@ -71,6 +71,8 @@ public class YPSmsApi {
 //        String text = "【云片网】您的验证码是1234";
         String text1 = "【理财师】您的验证码是1234。如非本人操作，请忽略本短信";
         //发短信调用示例
+        
+//        System.out.println(YPSmsApi.sendSms(YPSmsApi.API_KEY, String.format("【理财师】您的验证码是%s。如非本人操作，请忽略本短信", captchaCode), "15250065067"));
         System.out.println(YPSmsApi.sendSms(YPSmsApi.API_KEY, String.format(YPSmsApi.CAPTCHA_TEXT, captchaCode), "15250065067"));
 
         /**************** 使用指定模板接口发短信(不推荐，建议使用智能匹配模版接口) *****************/
