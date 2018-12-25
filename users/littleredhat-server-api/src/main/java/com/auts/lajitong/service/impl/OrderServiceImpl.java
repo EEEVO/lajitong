@@ -40,7 +40,7 @@ public class OrderServiceImpl implements OrderService {
 			// 2、金额明细表
 			WithdrawModel model = generateWithdraw(record);
 			withdrawMapper.insertWithdraw(model);
-			// 3、用户表，更新累计金额
+			// 3、用户表，更新累计金额 投递次数加1
 			UserModel userModel = userMapper.queryUserByUserid(record.getUserId());
 			BigDecimal  newTotalProfit = new BigDecimal(userModel.getTotalProfit()).add(new BigDecimal(record.getAmount()));
 			BigDecimal  newCurrentProfit = new BigDecimal(userModel.getCurrentProfit()).add(new BigDecimal(record.getAmount()));
@@ -55,9 +55,9 @@ public class OrderServiceImpl implements OrderService {
 		WithdrawModel model = new  WithdrawModel();
 		model.setUserId(record.getUserId());
 		model.setAmount(record.getAmount());
-		model.setWithdrawType(2);
+		model.setWithdrawType(2); //投递收益
 		model.setOrderNo(record.getOrderId());
-		model.setStatus(2);
+		model.setStatus(0); // 初始状态
 		model.setReason("投递收益");
 		Date nowDate = new Date();
 		model.setCreateTime(nowDate.getTime());

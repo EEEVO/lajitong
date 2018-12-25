@@ -114,7 +114,7 @@ public class UserController extends SBaseController {
     }
     
     private void convertDTO(LitteredhatDeliveryListModel mm) {
-    	mm.setDelivery_time(DateUtils.stampToDate(mm.getDelivery_time()));
+    	mm.setDelivery_time(mm.getDelivery_time());
     	mm.setOrder_type(GarbageTypeEnum.valueToEnum(mm.getOrder_type()).getText());
     	String newprice = new BigDecimal(mm.getPrice()).multiply(new BigDecimal("1000")).setScale(2,BigDecimal.ROUND_HALF_UP).toString();
     	mm.setPrice(newprice);
