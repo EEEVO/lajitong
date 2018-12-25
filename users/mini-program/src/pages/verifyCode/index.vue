@@ -82,6 +82,7 @@
                         console.log(123);
                         wx.setStorageSync('isLogin', true);
                         wx.setStorageSync('userId', res.result.id);
+                        clearInterval(this.timer)
                         this.$router.go(2)
                     }
                 }

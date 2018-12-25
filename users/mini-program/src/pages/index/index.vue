@@ -1,6 +1,6 @@
 <template>
     <div class="page-index">
-        <swiper class="swiper-content">
+        <swiper autoplay class="swiper-content">
             <swiper-item :key="index" v-for="(item, index) in bannerList" class="swiper-slide">
                 <div class="swiper-slide-img-wrapper">
                     <image mode="aspectFit" class="slide-image" :src="item.url"></image>
@@ -43,16 +43,14 @@
             </div>
             <div class="txt">生成二维码投递</div>
         </div>
-        <div @click="this.closeQcode" class="q-code" :class="qcodeShowFlag? 'qcode-show':'qcode-hide'">
-            <canvas class='canvas' canvas-id='canvas' bindlongtap='save'></canvas>
-        </div>
+
     </div>
 </template>
 
 <script>
     import { isForbidden } from "utils/stopRequest";
     import API from "api/apiList";
-    import QRCode from "utils/weapp-qrcode.js";
+
 
     export default {
         data() {
@@ -70,8 +68,6 @@
                 greenGold: "0.00",
                 count: 0,
                 bannerList: [],
-                qcodeShowFlag: false,
-                qrcode: null
             };
         },
         async onLoad() {
@@ -79,15 +75,19 @@
 
         },
         onShow() {
-            if(!wx.getStorageSync("isLogin")) return
+            if(!wx.getStorageSync("isLogin")) {
+                this.greenGold = "0.00";
+                this.count = 0;
+                return
+            }
             this.getUserInfo()
         },
         methods: {
             // 获取个人信息
             async getUserInfo() {
                 if (this.checkLogin()) return;
-                let id = wx.getStorageSync('userId');
-                const res = await this.$get(API.getUserInfo,{id})
+                let userId = wx.getStorageSync('userId');
+                const res = await this.$get(API.getUserInfo,{userId})
                 if (res.status !== 200) return;
                 wx.setStorageSync('userInfo', res.result);
                 this.greenGold= res.result.total_profit
@@ -102,20 +102,8 @@
             },
             code() {
                 if (this.checkLogin()) return;
-                this.qcodeShowFlag = true;
-                if (this.qrcode) {
-                    console.log(this.qrcode);
-                    this.qrcode.makeCode('https://github.com/tomfriwel/weapp-qrcode')
-                    return
-                }
-                this.qrcode = new QRCode("canvas", {
-                    // usingIn: this,
-                    text: "https://github.com/tomfriwel/weapp-qrcode",
-                    width: 150,
-                    height: 150,
-                    colorDark: "#000000",
-                    colorLight: "#ffffff",
-                    correctLevel: QRCode.CorrectLevel.H
+                this.$router.push({
+                    path: "/pages/qrcode/main"
                 });
 
             },
@@ -169,29 +157,7 @@
 
     .page-index {
         padding-top: 10px;
-        .q-code {
-            position: fixed;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(0, 0, 0, .7);
-            z-index: 100;
-            canvas {
-                height: 150px!important;
-                width: 150px!important;
-                z-index: 101;
-            }
-            &.qcode-show {
-                display: flex;
-            }
-            &.qcode-hide {
-                display: none;
-            }
-        }
+
         .swiper-content {
             height: 150px;
             .swiper-slide {

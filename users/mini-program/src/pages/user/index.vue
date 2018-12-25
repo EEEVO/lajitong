@@ -3,7 +3,7 @@
         <div class="avatar-wrapper">
             <div class="bg"></div>
             <div class="avatar">
-                <div class="img"></div>
+                <div class="img"><open-data type="userAvatarUrl"></open-data></div>
                 <div class="name">{{name}}</div>
             </div>
         </div>
@@ -55,9 +55,9 @@
                 this.isShowEditName = true;
             },
             async confirmEdit() {
-                const id = wx.getStorageSync('userId');
+                const userId = wx.getStorageSync('userId');
                 const res = await this.$post(API.editUserInfo, {
-                    id,
+                    userId,
                     nickName: this.editName
                 })
                 this.cancelEdit()
@@ -109,9 +109,8 @@
                 .img {
                     width: 90px;
                     height: 90px;
-                    background: #fff;
                     border-radius: 50%;
-                    box-shadow: 0 0 5px 2px rgba(0, 0, 0, .1);
+                    overflow: hidden;
                 }
                 .name {
                     margin-top: 10px;

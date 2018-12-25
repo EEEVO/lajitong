@@ -3,7 +3,7 @@
         <div class="icon"></div>
         <div class="title">可提现余额</div>
         <div class="money">{{money}}<span>元</span></div>
-        <!--<div @click="goWalletDetail" class="btn-walletDetail">查看明细</div>-->
+        <div @click="goWalletDetail" class="btn-walletDetail">查看明细</div>
     </div>
 </template>
 
@@ -16,7 +16,7 @@
                 money: '0.00'
             }
         },
-        created() {
+        onLoad() {
             this.money = wx.getStorageSync('userInfo').current_profit;
         },
         methods: {

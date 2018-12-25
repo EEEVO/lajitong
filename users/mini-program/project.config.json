@@ -1,7 +1,7 @@
 {
 	"description": "项目配置文件。",
 	"setting": {
-		"urlCheck": false,
+		"urlCheck": true,
 		"es6": true,
 		"postcss": true,
 		"minified": true,
@@ -33,14 +33,14 @@
 			"list": [
 				{
 					"id": 0,
-					"name": "current",
-					"pathName": "pages/delivery/main",
+					"name": "yue",
+					"pathName": "pages/walletDetail/main",
 					"query": ""
 				},
 				{
 					"id": 1,
 					"name": "current2",
-					"pathName": "pages/user/main",
+					"pathName": "pages/delivery/main",
 					"query": ""
 				}
 			]

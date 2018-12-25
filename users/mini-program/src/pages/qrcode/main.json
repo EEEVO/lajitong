@@ -1,0 +1,7 @@
+{
+    "usingComponents": {
+        "i-button": "../../../static/iview/button/index"
+
+    },
+    "navigationBarTitleText": "投递二维码"
+}
