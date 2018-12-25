@@ -38,8 +38,8 @@ public interface OrderMapper {
     	@Result(property = "weight", column = "weight"),
     	@Result(property = "price", column = "price"),
     	@Result(property = "amount", column = "amount"),
-    	@Result(property = "createtime", column = "create_time"),
-    	@Result(property = "updatetime", column = "update_time")
+    	@Result(property = "createTime", column = "create_time"),
+    	@Result(property = "updateTime", column = "update_time")
     })
 	List<OrderModel> queryOrders(@Param("orderType") String orderType, @Param("startDate") String startDate, @Param("endDate") String endDate);
 
