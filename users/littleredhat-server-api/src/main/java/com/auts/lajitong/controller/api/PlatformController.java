@@ -8,6 +8,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -133,6 +134,51 @@ public class PlatformController extends SBaseController {
 			inputStream = request.getInputStream();
 			Deliver deliver = new Deliver(); 
 			MbParseResult<Deliver> mbParseResult = deliver.buildResult(inputStream);
+			LOGGER.info("record:" + JSON.toJSON(mbParseResult));
+			// 取出投递记录
+			List<DeliveryCard> deliveryCardList = mbParseResult.mbDataObject.getFenleiDeliveryCardList();
+			if(deliveryCardList == null || deliveryCardList.size() < 1) {
+				LOGGER.warn("record is null");
+			} else {
+				String result = orderService.saveOrder(deliveryCardList);
+				if(result == null) {
+					LOGGER.warn("record failure");
+				} else {
+					LOGGER.warn("record success，orderNO：  [{}]", result);
+				}
+			}
+			
+			String org_id = ORGANIZATION_ID; // 机构编号
+			String[] buckets = new String[] {"401", "402", "403", "404"};  // 内桶个数对应的垃圾类型
+			int[] resBytes = ResultDispose.returnResints(org_id, buckets);
+			        
+			byte[] resData = MainBoardUtil.toByteArray(resBytes);
+			OutputStream out = response.getOutputStream();
+			out.write(resData);
+			out.flush();
+			
+		} catch (Exception e) {
+			LOGGER.warn("record Exception:" + e.getMessage());
+		}
+        
+    }
+    
+    /**
+     * 投递记录
+     * 
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/fl/testrecord")
+    public void testRecord(HttpServletRequest request, HttpServletResponse response) {
+    	LOGGER.info("test record test, time:" + DateUtils.parseDateToStr(new Date(), "yyyy-MM-dd HH:mm:ss"));
+        InputStream inputStream;
+		try {
+			inputStream = request.getInputStream();
+			String requestData = IOUtils.toString(inputStream);
+			MbParseResult<Deliver> mbParseResult = JSON.parseObject(requestData, MbParseResult.class);
+//			Deliver deliver = new Deliver(); 
+//			MbParseResult<Deliver> mbParseResult = deliver.buildResult(inputStream);
 			LOGGER.info("record:" + JSON.toJSON(mbParseResult));
 			// 取出投递记录
 			List<DeliveryCard> deliveryCardList = mbParseResult.mbDataObject.getFenleiDeliveryCardList();
