@@ -28,7 +28,9 @@ public interface OrderMapper {
 //    	+ "</script>")
 	@Select("SELECT * FROM tbl_order")
     @Results({
+    	@Result(property = "id", column = "id"),
     	@Result(property = "orderId", column = "order_id"),
+    	@Result(property = "userId", column = "user_id"),
     	@Result(property = "deviceId", column = "device_id"),
     	@Result(property = "binNo", column = "bin_no"),
     	@Result(property = "orderType", column = "order_type"),
