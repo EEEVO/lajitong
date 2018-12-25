@@ -64,6 +64,7 @@ public class WithDrawController extends SBaseController {
                 BalanceData rspBalanceModel = new BalanceData();
                 rspBalanceModel.setAmount(withdrawModel.getAmount());
                 rspBalanceModel.setType(withdrawModel.getWithdrawType());
+                rspBalanceModel.setMsg(getWithdrawTypeMSG(withdrawModel.getWithdrawType()));
                 rspBalanceModel.setOperate_time(transTime(withdrawModel.getCreateTime()));
                 lists.add(rspBalanceModel);
             }
@@ -76,6 +77,17 @@ public class WithDrawController extends SBaseController {
         return successResponse(rspObj);
     }
 
+    private String getWithdrawTypeMSG(int withdrawType) {
+    	String msg = "";
+    	if(withdrawType == 0) {
+    		msg = "微信体现";
+    	} else if(withdrawType == 1) {
+    		msg = "支付宝体现";
+    	} else if(withdrawType == 2) {
+    		msg = "投递收益";
+    	}
+    	return msg;
+    }
     private String transTime(long time){
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return format.format(new Date(time));

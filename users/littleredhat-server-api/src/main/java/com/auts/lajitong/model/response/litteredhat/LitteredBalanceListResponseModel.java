@@ -18,8 +18,10 @@ public class LitteredBalanceListResponseModel {
         private String amount;
 
         private int type;
+        
+        private String msg;
 
-        private String operate_time;
+		private String operate_time;
 
         public String getAmount() {
             return amount;
@@ -44,5 +46,12 @@ public class LitteredBalanceListResponseModel {
         public void setOperate_time(String operate_time) {
             this.operate_time = operate_time;
         }
+        public String getMsg() {
+			return msg;
+		}
+
+		public void setMsg(String msg) {
+			this.msg = msg;
+		}
     }
 }
