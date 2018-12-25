@@ -347,7 +347,7 @@ public class AccountController extends SBaseController {
         } else {
             //插入数据库tbl_user
             UserModel model = new UserModel();
-            model.setId(UserIdGenerator.gen());
+//            model.setId(UserIdGenerator.gen());
             model.setAccountId(accountId);
             model.setNickName("");
             model.setCreateTime(System.currentTimeMillis());
