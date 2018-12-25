@@ -1,0 +1,43 @@
+{
+  "orderlist": {
+    "status": 200,
+    "message": "成功",
+    "result": {
+      "pageNumber": 1,
+      "pageSize": 10,
+      "total": 0,
+      "dataList": [
+        {
+          "id": 39,
+          "orderId": "2018122514430503556",
+          "userId": "100000001004",
+          "deviceId": "5117570836344D5205DBFF38",
+          "binNo": "402",
+          "orderType": "402",
+          "orderTypeName": "纸张",
+          "deliveryTime": "2018-12-25 14:40:16",
+          "weight": 300,
+          "price": 0.8,
+          "amount": 0.2,
+          "createtime": "2018-12-25 14:40:16",
+          "updatetime": "2018-12-25 14:40:16"
+        },
+        {
+          "id": 39,
+          "orderId": "2018122514430503556",
+          "userId": "100000001004",
+          "deviceId": "5117570836344D5205DBFF38",
+          "binNo": "402",
+          "orderType": "402",
+          "orderTypeName": "纸张",
+          "deliveryTime": "2018-12-25 14:40:16",
+          "weight": 300,
+          "price": 0.8,
+          "amount": 0.2,
+          "createtime": "2018-12-25 14:40:16",
+          "updatetime": "2018-12-25 14:40:16"
+        }
+      ]
+    }
+  }
+}

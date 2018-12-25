@@ -7,7 +7,7 @@
       </el-aside>
       <!--右侧菜单栏 -->
       <el-container>
-        <el-header>
+        <el-header class="top-header">
           <Header/>
         </el-header>
         <el-main>
@@ -43,7 +43,7 @@ export default {
 
 <style lang="less">
 @import './assets/less/common.less';
-.el-header {
+.top-header {
   background-color: teal;
   color: #fff;
   text-align: center;

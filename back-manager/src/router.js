@@ -10,6 +10,9 @@ import store from './store';
 Vue.use(Router);
 
 const Rules = () => import('./views/monitor/Rules.vue');
+const order = () => import('./views/order.vue');
+const optionConf = () => import('./views/optionConf.vue');
+const check = () => import('./views/check.vue');
 
 const router = new Router({
   mode: 'history',
@@ -18,10 +21,37 @@ const router = new Router({
     // 首页
     {
       path: '/',
-      name: 'home',
+      name: '设备管理',
       component: Home,
       meta: {
-        title: '首页',
+        title: '设备管理',
+        icon: 'el-icon-menu',
+      },
+    },
+    {
+      path: '/order',
+      name: '订单管理',
+      component: order,
+      meta: {
+        title: '订单管理',
+        icon: 'el-icon-menu',
+      },
+    },
+    {
+      path: '/optionConf',
+      name: '参数配置',
+      component: optionConf,
+      meta: {
+        title: '参数配置',
+        icon: 'el-icon-menu',
+      },
+    },
+    {
+      path: '/check',
+      name: '监控',
+      component: check,
+      meta: {
+        title: '监控',
         icon: 'el-icon-menu',
       },
     },

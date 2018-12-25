@@ -69,7 +69,17 @@ module.exports = {
 
     hotOnly: false, // See https://github.com/vuejs/vue-cli/blob/dev/docs/cli-service.md#configuring-proxy
 
-    proxy: null, // string | Object
+    proxy: {
+      '/api': {
+        target: 'http://www.xiaoredcap.com/xhmadmin',
+        changeOrigin: true,
+        ws: true,
+        pathRewrite: {
+          '^/api': '',
+        },
+      },
+    },
+    // proxy: null,
 
     // before: app => {},
   }, // 第三方插件配置

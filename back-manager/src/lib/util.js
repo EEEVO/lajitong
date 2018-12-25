@@ -38,6 +38,6 @@ export function exportExcel(path, data) {
  * @param {String} title
  */
 export function setTitle(title) {
-  const _title = title ? `Admin-${title}` : 'Admin';
+  const _title = title ? `环保桶后台-${title}` : 'Admin';
   window.document.title = _title;
 }
