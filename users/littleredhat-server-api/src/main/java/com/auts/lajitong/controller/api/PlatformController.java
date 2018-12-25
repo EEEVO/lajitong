@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alibaba.fastjson.JSON;
 import com.auts.lajitong.controller.SBaseController;
+import com.auts.lajitong.model.response.RecordResponse;
 import com.auts.lajitong.service.DeviceService;
 import com.auts.lajitong.service.OrderService;
 import com.auts.lajitong.util.DateUtils;
@@ -176,7 +177,7 @@ public class PlatformController extends SBaseController {
 		try {
 			inputStream = request.getInputStream();
 			String requestData = IOUtils.toString(inputStream);
-			MbParseResult<Deliver> mbParseResult = JSON.parseObject(requestData, MbParseResult.class);
+			RecordResponse mbParseResult = JSON.parseObject(requestData, RecordResponse.class);
 //			Deliver deliver = new Deliver(); 
 //			MbParseResult<Deliver> mbParseResult = deliver.buildResult(inputStream);
 			LOGGER.info("record:" + JSON.toJSON(mbParseResult));
