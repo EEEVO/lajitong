@@ -6,5 +6,5 @@ import com.dls.sdk.vo.DeliveryCard;
 
 public interface OrderService {
 	
-	String saveOrder(List<DeliveryCard> deliveryCardList);
+	String saveOrder(List<DeliveryCard> deliveryCardList) throws Exception;
 }

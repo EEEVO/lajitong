@@ -133,10 +133,9 @@ public class PlatformController extends SBaseController {
 			inputStream = request.getInputStream();
 			Deliver deliver = new Deliver(); 
 			MbParseResult<Deliver> mbParseResult = deliver.buildResult(inputStream);
-			LOGGER.info("record1:" + JSON.toJSON(mbParseResult));
+			LOGGER.info("record:" + JSON.toJSON(mbParseResult));
 			// 取出投递记录
 			List<DeliveryCard> deliveryCardList = mbParseResult.mbDataObject.getFenleiDeliveryCardList();
-			LOGGER.info("record2:" + JSON.toJSON(deliveryCardList));
 			if(deliveryCardList == null || deliveryCardList.size() < 1) {
 				LOGGER.warn("record is null");
 			} else {

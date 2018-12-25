@@ -31,7 +31,7 @@ public class OrderServiceImpl implements OrderService {
     UserMapper userMapper;
 	@Transactional
 	@Override
-	public String saveOrder(List<DeliveryCard> deliveryCardList) {
+	public String saveOrder(List<DeliveryCard> deliveryCardList) throws Exception {
 		//1、订单表
 		DeliveryCard deliveryCard = deliveryCardList.get(0);
 		OrderModel record = convertOrderDTO(deliveryCard);
@@ -72,9 +72,11 @@ public class OrderServiceImpl implements OrderService {
 		dto.setBinNo(deliveryCard.getBinNo() + "");
 		dto.setOrderType(deliveryCard.getBinNo() + "");
 		dto.setDeliveryTime(deliveryCard.getDeliveryDate());
-		dto.setWeight(deliveryCard.getWeight() + "");
-		dto.setPrice(getPrice(deliveryCard.getBinNo() + ""));
-		String amount = new BigDecimal(deliveryCard.getWeight()).multiply(new BigDecimal("1")).setScale(0).toString();
+		dto.setWeight(deliveryCard.getWeight() * 10 + "");
+		String price = getPrice(deliveryCard.getBinNo() + "");
+		dto.setPrice(price);
+		//amout = wt * 10g(单位) * price (KG)
+		String amount = new BigDecimal(deliveryCard.getWeight()).multiply(new BigDecimal(10)).multiply(new BigDecimal(price)).divide(new BigDecimal(1000)).setScale(1, BigDecimal.ROUND_HALF_UP).toString();
 		dto.setAmount(amount);
 		Date nowDate = new Date();
 		dto.setCreateTime(nowDate.getTime());
