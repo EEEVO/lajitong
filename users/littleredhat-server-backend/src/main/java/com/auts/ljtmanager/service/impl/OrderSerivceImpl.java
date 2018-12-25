@@ -16,7 +16,6 @@ import com.auts.ljtmanager.model.dao.order.OrderModel;
 import com.auts.ljtmanager.model.enums.GarbageTypeEnum;
 import com.auts.ljtmanager.model.vo.OrderVO;
 import com.auts.ljtmanager.service.OrderService;
-import com.auts.ljtmanager.util.DateUtils;
 import com.github.pagehelper.PageHelper;
 
 @Service
@@ -51,7 +50,7 @@ public class OrderSerivceImpl implements OrderService {
 	}
 
 	private void convertVO(OrderVO orderVO) {
-		orderVO.setDeliveryTime(DateUtils.stampToDate(orderVO.getDeliveryTime()));
+		orderVO.setDeliveryTime(orderVO.getDeliveryTime());
 		orderVO.setOrderType(GarbageTypeEnum.valueToEnum(orderVO.getOrderType()).getText());
     	String newprice = new BigDecimal(orderVO.getPrice()).multiply(new BigDecimal("1000")).setScale(2,BigDecimal.ROUND_HALF_UP).toString();
     	orderVO.setPrice(newprice);
