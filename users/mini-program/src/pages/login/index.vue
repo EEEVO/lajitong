@@ -57,6 +57,7 @@
                         mobile: this.mobile
                     }
                 });
+                Object.assign(this.$data, this.$options.data())
 
             },
             // 输入手机号码

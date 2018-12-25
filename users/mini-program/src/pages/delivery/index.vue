@@ -4,13 +4,13 @@
             <div :key="index" class="delivery-item"
                  v-for="(item, index) in deliveryList">
                 <div class="delivery_item_info delivery-order_id">订单编号：{{item.order_id}}</div>
-                <div class="delivery_item_info delivery-device_id">设备编号：{{item.device_id}}</div>
-                <div class="delivery_item_info delivery-bin_no">内桶编号：{{item.bin_no}}</div>
-                <div class="delivery_item_info delivery-order_type">订单类型：{{item.order_type}}</div>
-                <div class="delivery_item_info delivery-delivery_time">分发时间：{{item.delivery_time}}</div>
-                <div class="delivery_item_info delivery-weight">重量：{{item.weight}}</div>
-                <div class="delivery_item_info delivery-price">价格：{{item.price}}</div>
-                <div class="delivery_item_info delivery-amount">金额：{{item.amount}}</div>
+                <!--<div class="delivery_item_info delivery-device_id">设备编号：{{item.device_id}}</div>-->
+                <!--<div class="delivery_item_info delivery-bin_no">内桶编号：{{item.bin_no}}</div>-->
+                <div class="delivery_item_info delivery-order_type">投递类型：{{item.order_type}}</div>
+                <div class="delivery_item_info delivery-delivery_time">投递时间：{{item.delivery_time}}</div>
+                <div class="delivery_item_info delivery-weight">重量（g）：{{item.weight}}</div>
+                <div class="delivery_item_info delivery-price">价格（kg）：{{item.price}}</div>
+                <div class="delivery_item_info delivery-amount">收益：{{item.amount}}</div>
             </div>
         </div>
         <div v-else class="empty">
@@ -34,11 +34,11 @@
         },
         methods: {
             async getDeliveryList() {
-                let id = wx.getStorageSync("userId");
-                const res = await this.$get(API.deliveryList, { id });
+                let userId = wx.getStorageSync("userId");
+                const res = await this.$get(API.deliveryList, { userId });
                 console.log(res);
                 if (res.status !== 200) return;
-                this.deliveryList = [...this.deliveryList, ...res.result.data];
+                this.deliveryList = [...res.result.data];
             }
         }
     };

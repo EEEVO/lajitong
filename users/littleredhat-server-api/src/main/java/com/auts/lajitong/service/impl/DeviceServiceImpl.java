@@ -27,7 +27,7 @@ public class DeviceServiceImpl implements DeviceService {
 	
 	@Transactional
 	@Override
-	public int saveShake(MbParseResult<Shake> mbParseResult) {
+	public int saveShake(MbParseResult<Shake> mbParseResult) throws Exception{
 		
 		Shake shake = (Shake)mbParseResult.mbDataObject;
 		DeviceWatcherModel record = convertDeviceDTO(shake);
@@ -74,8 +74,8 @@ public class DeviceServiceImpl implements DeviceService {
 	private DeviceBinWatcherModel convertDevicePointDTO(Points points) {
 		DeviceBinWatcherModel dto = new DeviceBinWatcherModel();
 		dto.setSortNo(points.getSortNo());
-		dto.setVolumn(points.getVolume());
-		dto.setSszl(String.valueOf(points.getSszl()));
+		dto.setVolumn(points.getVolume() * 10); //单位是10g
+		dto.setSszl(String.valueOf(points.getSszl() * 10));//单位是10g
 		dto.setWd(points.getWd() + "");
 		dto.setWorkStatus(points.getZczt() + "");
 		dto.setErrorCode(points.getGzzt());

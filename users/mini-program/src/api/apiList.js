@@ -1,7 +1,7 @@
 export default {
-    baseUrlForDev: 'http://47.100.163.14/', // 测试环境
+    baseUrlForDev: 'https://xiaoredcap.com/', // 测试环境
 
-    baseUrlForProd: '', // 生产环境
+    baseUrlForProd: 'https://xiaoredcap.com/', // 生产环境
 
     // banner
     banner: 'littleredhat//v1/get_banners',
@@ -17,6 +17,9 @@ export default {
 
     // 投递记录
     deliveryList: 'littleredhat//v1/delivery/lists',
+
+    // 余额明细
+    walletDetailList: 'littleredhat/v1/balance/lists',
 
     // 帮助中心
     helpCenterList: 'littleredhat/users/v1/queryAllHelpCenter',

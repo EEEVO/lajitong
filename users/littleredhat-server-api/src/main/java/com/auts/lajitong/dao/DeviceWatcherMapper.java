@@ -19,7 +19,7 @@ public interface DeviceWatcherMapper {
             + "#{record.weight},#{record.temperatur},#{record.waterLine},#{record.createTime},#{record.updateTime})"
             )
     @Options(useGeneratedKeys = true, keyProperty = "record.id")
-    int insert(@Param("record") DeviceWatcherModel record);
+    int insert(@Param("record") DeviceWatcherModel record) throws Exception;
 
     int insertSelective(DeviceWatcherModel record);
 

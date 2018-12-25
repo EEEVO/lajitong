@@ -12,22 +12,25 @@ import com.auts.ljtmanager.model.dao.order.OrderModel;
 
 public interface OrderMapper {
 
-    @Select("<script>"
-    	+ "SELECT * FROM tbl_order a"
-    	+ "WHERE 1=1"
-    	+ "<if test='orderType != \"\"'>"
-		+ 	" and #{orderType} = a.order_type "
-		+ "</if>"
-    	+ "<if test='startDate != \"\"'>"
-		+ 	" and #{startDate} &lt;= a.create_time "
-		+ "</if>"
-		+ "<if test='endDate != \"\"'>"
-		+ 	" and #{endDate} &gt;= a.create_time "
-		+ "</if>"
-		+ " order by create_time desc "
-    	+ "</script>")
+//    @Select("<script>"
+//    	+ "SELECT * FROM tbl_order a"
+//    	+ "WHERE 1=1"
+//    	+ "<if test='orderType != \"\"'>"
+//		+ 	" and #{orderType} = a.order_type "
+//		+ "</if>"
+//    	+ "<if test='startDate != \"\"'>"
+//		+ 	" and #{startDate} &lt;= a.create_time "
+//		+ "</if>"
+//		+ "<if test='endDate != \"\"'>"
+//		+ 	" and #{endDate} &gt;= a.create_time "
+//		+ "</if>"
+//		+ " order by create_time desc "
+//    	+ "</script>")
+	@Select("SELECT * FROM tbl_order")
     @Results({
+    	@Result(property = "id", column = "id"),
     	@Result(property = "orderId", column = "order_id"),
+    	@Result(property = "userId", column = "user_id"),
     	@Result(property = "deviceId", column = "device_id"),
     	@Result(property = "binNo", column = "bin_no"),
     	@Result(property = "orderType", column = "order_type"),
@@ -35,21 +38,22 @@ public interface OrderMapper {
     	@Result(property = "weight", column = "weight"),
     	@Result(property = "price", column = "price"),
     	@Result(property = "amount", column = "amount"),
-    	@Result(property = "createtime", column = "create_time"),
-    	@Result(property = "updatetime", column = "update_time")
+    	@Result(property = "createTime", column = "create_time"),
+    	@Result(property = "updateTime", column = "update_time")
     })
 	List<OrderModel> queryOrders(@Param("orderType") String orderType, @Param("startDate") String startDate, @Param("endDate") String endDate);
 
-    @Select("<script>"
-        	+ "SELECT count(*) FROM tbl_order a "
-        	+ "WHERE a.order_type = #{orderType} "
-        	+ "<if test='startDate != \"\"'>"
-    		+ 	" and #{startDate} &lt;= a.order_date "
-    		+ "</if>"
-    		+ "<if test='endDate != \"\"'>"
-    		+ 	" and #{endDate} &gt;= a.order_date "
-    		+ "</if>"
-        	+ "</script>")
+//    @Select("<script>"
+//        	+ "SELECT count(*) FROM tbl_order a "
+//        	+ "WHERE a.order_type = #{orderType} "
+//        	+ "<if test='startDate != \"\"'>"
+//    		+ 	" and #{startDate} &lt;= a.order_date "
+//    		+ "</if>"
+//    		+ "<if test='endDate != \"\"'>"
+//    		+ 	" and #{endDate} &gt;= a.order_date "
+//    		+ "</if>"
+//        	+ "</script>")
+    @Select("SELECT count(*) FROM tbl_order")
 	int queryOrdersCnt(@Param("status") String status, @Param("startDate") String startDate, @Param("endDate") String endDate);
 
     @Update("update tbl_order set status = '02', update_time= NOW() where uid=#{uid}")

@@ -8,6 +8,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alibaba.fastjson.JSON;
 import com.auts.lajitong.controller.SBaseController;
+import com.auts.lajitong.model.response.RecordResponse;
 import com.auts.lajitong.service.DeviceService;
 import com.auts.lajitong.service.OrderService;
 import com.auts.lajitong.util.DateUtils;
@@ -82,7 +84,7 @@ public class PlatformController extends SBaseController {
 	        out.flush();
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.warn("shake Exception:" + e.getMessage());
 		}
         
     }
@@ -101,6 +103,7 @@ public class PlatformController extends SBaseController {
 			inputStream = request.getInputStream();
 			Verification verification = new Verification();
 			MbParseResult<Verification> mbParseResult=verification.buildResult(inputStream);
+			LOGGER.info("verification:" + JSON.toJSONString(mbParseResult));
 			LOGGER.info("verification: cardNO:[{}]", mbParseResult.mbDataObject.getCardNumber());
 
 			String cardNumber = mbParseResult.mbDataObject.getCardNumber();  // 卡号
@@ -113,7 +116,7 @@ public class PlatformController extends SBaseController {
 
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.warn("verification Exception:" + e.getMessage());
 		}
         
     }
@@ -132,9 +135,9 @@ public class PlatformController extends SBaseController {
 			inputStream = request.getInputStream();
 			Deliver deliver = new Deliver(); 
 			MbParseResult<Deliver> mbParseResult = deliver.buildResult(inputStream);
+			LOGGER.info("record:" + JSON.toJSON(mbParseResult));
 			// 取出投递记录
 			List<DeliveryCard> deliveryCardList = mbParseResult.mbDataObject.getFenleiDeliveryCardList();
-			LOGGER.info("record: [{}]", JSON.toJSON(deliveryCardList));
 			if(deliveryCardList == null || deliveryCardList.size() < 1) {
 				LOGGER.warn("record is null");
 			} else {
@@ -154,9 +157,54 @@ public class PlatformController extends SBaseController {
 			OutputStream out = response.getOutputStream();
 			out.write(resData);
 			out.flush();
-
+			
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.warn("record Exception:" + e.getMessage());
+		}
+        
+    }
+    
+    /**
+     * 投递记录
+     * 
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/fl/testrecord")
+    public void testRecord(HttpServletRequest request, HttpServletResponse response) {
+    	LOGGER.info("test record test, time:" + DateUtils.parseDateToStr(new Date(), "yyyy-MM-dd HH:mm:ss"));
+        InputStream inputStream;
+		try {
+			inputStream = request.getInputStream();
+			String requestData = IOUtils.toString(inputStream);
+			RecordResponse mbParseResult = JSON.parseObject(requestData, RecordResponse.class);
+//			Deliver deliver = new Deliver(); 
+//			MbParseResult<Deliver> mbParseResult = deliver.buildResult(inputStream);
+			LOGGER.info("record:" + JSON.toJSON(mbParseResult));
+			// 取出投递记录
+			List<DeliveryCard> deliveryCardList = mbParseResult.mbDataObject.getFenleiDeliveryCardList();
+			if(deliveryCardList == null || deliveryCardList.size() < 1) {
+				LOGGER.warn("record is null");
+			} else {
+				String result = orderService.saveOrder(deliveryCardList);
+				if(result == null) {
+					LOGGER.warn("record failure");
+				} else {
+					LOGGER.warn("record success，orderNO：  [{}]", result);
+				}
+			}
+			
+			String org_id = ORGANIZATION_ID; // 机构编号
+			String[] buckets = new String[] {"401", "402", "403", "404"};  // 内桶个数对应的垃圾类型
+			int[] resBytes = ResultDispose.returnResints(org_id, buckets);
+			        
+			byte[] resData = MainBoardUtil.toByteArray(resBytes);
+			OutputStream out = response.getOutputStream();
+			out.write(resData);
+			out.flush();
+			
+		} catch (Exception e) {
+			LOGGER.warn("record Exception:" + e.getMessage());
 		}
         
     }

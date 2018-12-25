@@ -26,7 +26,7 @@ public interface UserMapper {
     @Update("update tbl_user set sex=#{sex} where id=#{id}")
     int updateUserSex(@Param("id") String id, @Param("sex") int sex);
     
-    @Update("update tbl_user set total_profit = #{totalProfit}, current_profit = #{currentProfit} where id=#{id}")
+    @Update("update tbl_user set total_profit = #{totalProfit}, current_profit = #{currentProfit} , deliver_count = deliver_count + 1 where id=#{id}")
     int updateTotalProfit(@Param("id") String id, @Param("totalProfit") String totalProfit, @Param("currentProfit") String currentProfit);
 
     @Insert("insert into tbl_user (id, account_id, nick_name, sex, status, total_profit, current_profit, wxs_open_id, create_time) "
