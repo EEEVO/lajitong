@@ -34,7 +34,7 @@
                   type="info"
                   icon="el-icon-search"
                   size="medium"
-                  @click="queryOrderList"
+                  @click="()=> this.queryOrderList(this.OrderListParams)"
                 >查询</el-button>
               </div>
             </el-col>
@@ -109,14 +109,8 @@ export default {
      * @param orderType
      * @returns {Promise<void>}
      */
-    async queryOrderList(pageNumber, pageSize, startDate, endDate, orderType) {
-      let res = await queryOrderList(
-        pageNumber,
-        pageSize,
-        startDate,
-        endDate,
-        orderType,
-      );
+    async queryOrderList(queryParams) {
+      let res = await queryOrderList(queryParams);
       this.tableList = res.result.dataList;
       this.pageNumber = res.result.pageNumber;
       this.pageSize = res.result.pageSize;
