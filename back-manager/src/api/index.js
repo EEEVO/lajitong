@@ -10,14 +10,19 @@ const self = new Vue();
  * @param orderType
  * @returns {Promise<any>}
  */
-const queryOrderList = (pageNumber, pageSize, startDate, endDate, orderType) => self.$get('xhmadmin/order/orderlist', {
+const queryOrderList = ({
   pageNumber,
   pageSize,
   startDate,
   endDate,
   orderType,
-});
+}) =>
+  self.$get('xhmadmin/order/orderlist', {
+    pageNumber,
+    pageSize,
+    startDate,
+    endDate,
+    orderType,
+  });
 
-export {
-  queryOrderList
-};
+export { queryOrderList };

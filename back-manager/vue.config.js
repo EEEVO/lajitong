@@ -11,10 +11,10 @@ module.exports = {
    * process.env.NODE_ENV==='development' (开发环境)
    * baseUrl: process.env.NODE_ENV==='production'?"https://cdn.didabisai.com/front/":'front/',
    */
-  baseUrl:
-    process.env.NODE_ENV === 'production'
-      ? 'https://cdn.didabisai.com/front/'
-      : '/',
+  baseUrl: '/',
+  // process.env.NODE_ENV === 'production'
+  //   ? 'https://cdn.didabisai.com/front/'
+  //   : '/',
 
   // 当运行 vue-cli-service build 时生成的生产环境构建文件的目录。注意目标目录在构建之前会被清除 (构建时传入 --no-clean 可关闭该行为)。
   outputDir: 'dist',
@@ -36,8 +36,7 @@ module.exports = {
       .set('public', resolve('public'));
   },
 
-  configureWebpack: () => {
-  }, // CSS 相关选项
+  configureWebpack: () => {}, // CSS 相关选项
 
   css: {
     // 是否使用css分离插件 ExtractTextPlugin
@@ -74,7 +73,7 @@ module.exports = {
       '/': {
         target: 'http://www.xiaoredcap.com/',
         changeOrigin: true,
-        ws: true,
+        ws: false,
         pathRewrite: {
           '^/': '/',
         },
