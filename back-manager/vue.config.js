@@ -36,7 +36,8 @@ module.exports = {
       .set('public', resolve('public'));
   },
 
-  configureWebpack: () => {}, // CSS 相关选项
+  configureWebpack: () => {
+  }, // CSS 相关选项
 
   css: {
     // 是否使用css分离插件 ExtractTextPlugin
@@ -70,12 +71,12 @@ module.exports = {
     hotOnly: false, // See https://github.com/vuejs/vue-cli/blob/dev/docs/cli-service.md#configuring-proxy
 
     proxy: {
-      '/api': {
-        target: 'http://www.xiaoredcap.com/xhmadmin',
+      '/': {
+        target: 'http://www.xiaoredcap.com/',
         changeOrigin: true,
         ws: true,
         pathRewrite: {
-          '^/api': '',
+          '^/': '/',
         },
       },
     },

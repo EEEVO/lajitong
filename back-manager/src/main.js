@@ -5,13 +5,15 @@ import store from './store/index';
 import './plugins/element';
 import './assets/less/formatter.less';
 
-import ajax from './config/config'; // 引入封装的ajax
-import getUrl from './config/getUrl'; // 引入getUrl
+// import ajax from './config/config'; // 引入封装的ajax
+// import getUrl from './config/getUrl'; // 引入getUrl
 import common from './lib/common';
 
 Vue.config.productionTip = false;
-Vue.prototype.ajaxs = ajax;
-Vue.prototype.getUrl = getUrl;
+// Vue.prototype.ajaxs = ajax;
+// Vue.prototype.getUrl = getUrl;
+import ajax from './api/http' // 封装ajax
+Vue.use(ajax)
 
 Vue.use(common);
 
