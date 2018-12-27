@@ -16,16 +16,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.auts.lajitong.consts.Const;
 import com.auts.lajitong.controller.SBaseController;
-import com.auts.lajitong.controller.user.UserController;
 import com.auts.lajitong.model.common.PhiHomeBaseResponse;
 import com.auts.lajitong.model.dao.WithdrawModel;
 import com.auts.lajitong.model.response.litteredhat.LitteredBalanceListResponseModel;
 import com.auts.lajitong.model.response.litteredhat.LitteredBalanceListResponseModel.BalanceData;
 import com.auts.lajitong.service.WithdrawService;
 import com.auts.lajitong.util.MyListUtils;
-import com.auts.lajitong.util.StringUtil;
 
 /**
  * 提现的接口,比如微信提现.
@@ -50,19 +47,15 @@ public class WithDrawController extends SBaseController {
     @RequestMapping(value = "/v1/balance/lists", method = RequestMethod.GET, produces = { "application/json" })
     public PhiHomeBaseResponse getBalanceList(HttpServletRequest request,
             @RequestParam(value = "userId", required = true) String userId) {
-//        String userId = request.getHeader(Const.AUTHORIZATION);
-//        if (StringUtil.isNullOrEmpty(userId)) {
-//            return errorResponse(Const.ErrorCode.REQUEST_NO_PARAS);
-//        }
+    	
         LOGGER.info("getBalanceList userId: [{}]", userId);
 
         List<BalanceData> lists = new ArrayList<>();
-
         List<WithdrawModel> models = withdrawService.getByUserId(userId);
         if (!MyListUtils.isEmpty(models)) {
             for (WithdrawModel withdrawModel : models) {
                 BalanceData rspBalanceModel = new BalanceData();
-                rspBalanceModel.setAmount(withdrawModel.getAmount());
+                rspBalanceModel.setAmount(getAmnountByWithdrawType(withdrawModel.getWithdrawType(), withdrawModel.getAmount()));
                 rspBalanceModel.setType(withdrawModel.getWithdrawType());
                 rspBalanceModel.setMsg(getWithdrawTypeMSG(withdrawModel.getWithdrawType()));
                 rspBalanceModel.setOperate_time(transTime(withdrawModel.getCreateTime()));
@@ -88,6 +81,19 @@ public class WithDrawController extends SBaseController {
     	}
     	return msg;
     }
+    
+    private String getAmnountByWithdrawType(int withdrawType, String amount) {
+    	String amountMsg = "";
+    	if(withdrawType == 0) {
+    		amountMsg = "-" + amount;
+    	} else if(withdrawType == 1) {
+    		amountMsg = "-" + amount;
+    	} else if(withdrawType == 2) {
+    		amountMsg = "+" + amount;
+    	}
+    	return amountMsg;
+    }
+    
     private String transTime(long time){
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return format.format(new Date(time));
