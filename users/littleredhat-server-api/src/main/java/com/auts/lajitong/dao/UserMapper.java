@@ -42,6 +42,7 @@ public interface UserMapper {
         @Result(property = "status", column = "status"),
         @Result(property = "totalProfit", column = "total_profit"),
         @Result(property = "currentProfit", column = "current_profit"),
+        @Result(property = "deliverCount", column = "deliver_count"),
         @Result(property = "wxsOpenId", column = "wxs_open_id"),
         @Result(property = "createTime", column = "create_time")
     })

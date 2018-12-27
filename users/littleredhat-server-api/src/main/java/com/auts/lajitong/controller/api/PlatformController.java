@@ -18,9 +18,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alibaba.fastjson.JSON;
 import com.auts.lajitong.controller.SBaseController;
+import com.auts.lajitong.model.dao.UserModel;
 import com.auts.lajitong.model.response.RecordResponse;
+import com.auts.lajitong.model.response.VerificationResponse;
 import com.auts.lajitong.service.DeviceService;
 import com.auts.lajitong.service.OrderService;
+import com.auts.lajitong.service.UserService;
 import com.auts.lajitong.util.DateUtils;
 import com.dls.sdk.util.MainBoardUtil;
 import com.dls.sdk.vo.Deliver;
@@ -53,6 +56,8 @@ public class PlatformController extends SBaseController {
     DeviceService deviceService;
     @Autowired
     OrderService orderService;
+    @Autowired
+    UserService userService;
 
     /**
      * 心跳检测
@@ -108,6 +113,10 @@ public class PlatformController extends SBaseController {
 
 			String cardNumber = mbParseResult.mbDataObject.getCardNumber();  // 卡号
 			boolean result = true;  // 验证结果
+			UserModel userModel = userService.queryUserByUserid(cardNumber);
+			if(userModel == null) {
+				result =false;
+			}
 			byte[] bytes = VerificationDispose.replyDelivery(cardNumber, result);
 			        
 			OutputStream out = response.getOutputStream();
@@ -117,8 +126,7 @@ public class PlatformController extends SBaseController {
 
 		} catch (Exception e) {
 			LOGGER.warn("verification Exception:" + e.getMessage());
-		}
-        
+		} 
     }
 
     /**
@@ -162,6 +170,40 @@ public class PlatformController extends SBaseController {
 			LOGGER.warn("record Exception:" + e.getMessage());
 		}
         
+    }
+    
+    /**
+     * 卡号验证
+     * 
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/fl/testverification")
+    public void testverification(HttpServletRequest request, HttpServletResponse response) {
+    	LOGGER.info("verification test, time:" + DateUtils.parseDateToStr(new Date(), "yyyy-MM-dd HH:mm:ss"));
+        InputStream inputStream;
+		try {
+			inputStream = request.getInputStream();
+			String requestData = IOUtils.toString(inputStream);
+			VerificationResponse mbParseResult = JSON.parseObject(requestData, VerificationResponse.class);
+			LOGGER.info("verification:" + JSON.toJSONString(mbParseResult));
+			LOGGER.info("verification: cardNO:[{}]", mbParseResult.mbDataObject.getCardNumber());
+
+			String cardNumber = mbParseResult.mbDataObject.getCardNumber();  // 卡号
+			boolean result = true;  // 验证结果
+			UserModel userModel = userService.queryUserByUserid(cardNumber);
+			if(userModel == null) {
+				result =false;
+			}
+			LOGGER.info("verification result:" + result);
+			byte[] bytes = VerificationDispose.replyDelivery(cardNumber, result);
+			        
+			OutputStream out = response.getOutputStream();
+			out.write(bytes);
+			out.flush();
+		} catch (Exception e) {
+			LOGGER.warn("verification Exception:" + e.getMessage());
+		} 
     }
     
     /**
