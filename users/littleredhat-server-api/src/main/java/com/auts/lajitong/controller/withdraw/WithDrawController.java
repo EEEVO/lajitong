@@ -47,7 +47,7 @@ public class WithDrawController extends SBaseController {
     @RequestMapping(value = "/v1/balance/lists", method = RequestMethod.GET, produces = { "application/json" })
     public PhiHomeBaseResponse getBalanceList(HttpServletRequest request,
             @RequestParam(value = "userId", required = true) String userId) {
-    	
+
         LOGGER.info("getBalanceList userId: [{}]", userId);
 
         List<BalanceData> lists = new ArrayList<>();
@@ -81,9 +81,9 @@ public class WithDrawController extends SBaseController {
     	}
     	return msg;
     }
-    
+
     private String getAmnountByWithdrawType(int withdrawType, String amount) {
-    	String amountMsg = "";
+    	String amountMsg = amount;
     	if(withdrawType == 0) {
     		amountMsg = "-" + amount;
     	} else if(withdrawType == 1) {
@@ -93,7 +93,7 @@ public class WithDrawController extends SBaseController {
     	}
     	return amountMsg;
     }
-    
+
     private String transTime(long time){
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return format.format(new Date(time));
