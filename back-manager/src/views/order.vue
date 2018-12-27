@@ -34,7 +34,7 @@
                   type="info"
                   icon="el-icon-search"
                   size="medium"
-                  @click="queryOrderList"
+                  @click="()=> this.queryOrderList(this.OrderListParams)"
                 >查询</el-button>
               </div>
             </el-col>
@@ -64,7 +64,9 @@
 </template>
 
 <script type="es6">
-import { pickerOptions2, orderTypes } from '@/lib/obj.js';
+import { orderTypes, pickerOptions2 } from '@/lib/obj.js';
+import { queryOrderList } from '@/api';
+
 export default {
   data() {
     return {
@@ -80,32 +82,39 @@ export default {
     };
   },
   created() {
-    this.queryOrderList();
+    this.queryOrderList(this.OrderListParams);
   },
-  methods: {
-    handleCurrentChange(val) {
-      this.pageNumber = val;
-      this.queryOrderList();
-    },
-    queryOrderList() {
-      let params = {
+  computed: {
+    OrderListParams() {
+      return {
         orderType: this.orderType,
         startDate: this.date && this.date[0],
         endDate: this.date && this.date[1],
         pageNumber: this.pageNumber,
         pageSize: this.pageSize,
       };
-      const url = `/api/order/orderlist?orderType=${
-        this.orderType
-      }&&startDate=${this.date[0]}&&endDate=${this.date[1]}&&pageNumber=${
-        this.pageNumber
-      }&&pageSize=${this.pageSize}`;
-      this.ajaxs({ url, method: 'GET' }).then(res => {
-        this.tableList = res.result.dataList;
-        this.pageNumber = res.result.pageNumber;
-        this.pageSize = res.result.pageSize;
-        this.total = res.result.total;
-      });
+    },
+  },
+  methods: {
+    handleCurrentChange(val) {
+      this.pageNumber = val;
+      this.queryOrderList(this.OrderListParams);
+    },
+    /**
+     * 获取订单列表
+     * @param pageNumber
+     * @param pageSize
+     * @param startDate
+     * @param endDate
+     * @param orderType
+     * @returns {Promise<void>}
+     */
+    async queryOrderList(queryParams) {
+      let res = await queryOrderList(queryParams);
+      this.tableList = res.result.dataList;
+      this.pageNumber = res.result.pageNumber;
+      this.pageSize = res.result.pageSize;
+      this.total = res.result.total;
     },
   },
 };
@@ -113,5 +122,3 @@ export default {
 
 <style lang="less">
 </style>
-
-
