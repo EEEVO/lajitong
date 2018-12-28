@@ -79,8 +79,17 @@ public class PlatformController extends SBaseController {
 	        deviceService.saveShake(mbParseResult);
 
 	        String org_id = ORGANIZATION_ID; // 机构编号
-	        String[] buckets = new String[] {"401", "402", "403", "404"};  
+	        String[] bucket1 = new String[] {"401", "402"};  
+	        String[] bucket2 = new String[] {"403", "404"}; 
 	        // 内桶个数对应的垃圾类型
+	        String[] buckets = null;
+	        if("511560163239595305DCFF35".equals(mbParseResult.mbDataObject.getMbId())) {
+	        	buckets = bucket1;
+	        } else if("511560273239595305D6FF35".equals(mbParseResult.mbDataObject.getMbId())) {
+	        	buckets = bucket2;
+	        } else {
+	        	buckets = bucket1;
+	        }
 	        int[] res = ResultDispose.returnResints(org_id, buckets);
 	        byte[] resData = MainBoardUtil.toByteArray(res);
 	        //响应主板
@@ -158,7 +167,17 @@ public class PlatformController extends SBaseController {
 			}
 			
 			String org_id = ORGANIZATION_ID; // 机构编号
-			String[] buckets = new String[] {"401", "402", "403", "404"};  // 内桶个数对应的垃圾类型
+	        String[] bucket1 = new String[] {"401", "402"};  
+	        String[] bucket2 = new String[] {"403", "404"}; 
+	        // 内桶个数对应的垃圾类型
+	        String[] buckets = null;
+	        if("511560163239595305DCFF35".equals(mbParseResult.mbDataObject.getMbId())) {
+	        	buckets = bucket1;
+	        } else if("511560273239595305D6FF35".equals(mbParseResult.mbDataObject.getMbId())) {
+	        	buckets = bucket2;
+	        } else {
+	        	buckets = bucket1;
+	        }
 			int[] resBytes = ResultDispose.returnResints(org_id, buckets);
 			        
 			byte[] resData = MainBoardUtil.toByteArray(resBytes);

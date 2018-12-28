@@ -5,10 +5,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum GarbageTypeEnum {
-	Book("401", "纸张"),
-	Metal("402", "金属"),
-	Plastics("403", "塑料"),
-	Fabric("404", "纺织物");
+	Plastics("401", "塑料"),
+	Book("402", "纸张"),
+	Metal("403", "金属"),
+	Fabric("404", "玻璃");
 
 	private static Map<String, GarbageTypeEnum> valueToEnumMap=new HashMap<String, GarbageTypeEnum>();
 	static
