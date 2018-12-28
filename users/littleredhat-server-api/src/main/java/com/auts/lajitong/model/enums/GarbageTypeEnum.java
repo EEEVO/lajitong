@@ -8,7 +8,7 @@ public enum GarbageTypeEnum {
 	Plastics("401", "塑料"),
 	Book("402", "纸张"),
 	Metal("403", "金属"),
-	Fabric("404", "玻璃");
+	Fabric("404", "织物");
 
 	private static Map<String, GarbageTypeEnum> valueToEnumMap=new HashMap<String, GarbageTypeEnum>();
 	static
