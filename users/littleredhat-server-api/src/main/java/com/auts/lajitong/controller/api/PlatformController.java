@@ -90,6 +90,7 @@ public class PlatformController extends SBaseController {
 	        } else {
 	        	buckets = bucket1;
 	        }
+	        LOGGER.info("shake response：" + mbParseResult.mbDataObject.getMbId() + "==" + JSON.toJSONString(buckets));
 	        int[] res = ResultDispose.returnResints(org_id, buckets);
 	        byte[] resData = MainBoardUtil.toByteArray(res);
 	        //响应主板
@@ -178,6 +179,7 @@ public class PlatformController extends SBaseController {
 	        } else {
 	        	buckets = bucket1;
 	        }
+	        LOGGER.info("record response：" + mbParseResult.mbDataObject.getMbId() + "==" + JSON.toJSONString(buckets));
 			int[] resBytes = ResultDispose.returnResints(org_id, buckets);
 			        
 			byte[] resData = MainBoardUtil.toByteArray(resBytes);
