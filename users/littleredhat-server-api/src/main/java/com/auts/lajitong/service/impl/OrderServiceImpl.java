@@ -67,7 +67,7 @@ public class OrderServiceImpl implements OrderService {
 	private OrderModel convertOrderDTO(DeliveryCard deliveryCard) {
 		OrderModel dto = new OrderModel();
 		dto.setOrderId(generateOrderNo());
-		dto.setUserId(deliveryCard.getCardNo());
+		dto.setUserId(deliveryCard.getCardNo().trim());
 		dto.setDeviceId(deliveryCard.getMbId());
 		dto.setBinNo(deliveryCard.getBinNo() + "");
 		dto.setOrderType(deliveryCard.getBinNo() + "");

@@ -126,7 +126,7 @@ public class PlatformController extends SBaseController {
 
 			String cardNumber = mbParseResult.mbDataObject.getCardNumber();  // 卡号
 			boolean result = true;  // 验证结果
-			UserModel userModel = userService.queryUserByUserid(cardNumber);
+			UserModel userModel = userService.queryUserByUserid(cardNumber.trim());
 			if(userModel == null) {
 				result =false;
 			}
