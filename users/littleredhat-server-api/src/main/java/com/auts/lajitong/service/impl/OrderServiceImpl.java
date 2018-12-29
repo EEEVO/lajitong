@@ -72,11 +72,11 @@ public class OrderServiceImpl implements OrderService {
 		dto.setBinNo(deliveryCard.getBinNo() + "");
 		dto.setOrderType(deliveryCard.getBinNo() + "");
 		dto.setDeliveryTime(deliveryCard.getDeliveryDate());
-		dto.setWeight(deliveryCard.getWeight() * 10 + "");
+		dto.setWeight(deliveryCard.getWeight() + "");
 		String price = getPrice(deliveryCard.getBinNo() + "");
 		dto.setPrice(price);
 		//amout = wt * 10g(单位) * price (KG)
-		String amount = new BigDecimal(deliveryCard.getWeight()).multiply(new BigDecimal(10)).multiply(new BigDecimal(price)).divide(new BigDecimal(1000)).setScale(1, BigDecimal.ROUND_HALF_UP).toString();
+		String amount = new BigDecimal(deliveryCard.getWeight()).multiply(new BigDecimal(price)).divide(new BigDecimal(1000)).setScale(1, BigDecimal.ROUND_HALF_UP).toString();
 		dto.setAmount(amount);
 		Date nowDate = new Date();
 		dto.setCreateTime(nowDate.getTime());
@@ -99,10 +99,17 @@ public class OrderServiceImpl implements OrderService {
 		return price;
 	}
 	
-	private String generateOrderNo() {
+	private static String generateOrderNo() {
     	SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmssSSS");//设置日期格式
-    	String orderNo = String.format("%s%s", df.format(new Date()), new Random().nextInt(100));//订单编号
+    	int i = (int)(Math.random()*900 + 100);
+    	String threeRandomStr = Integer.toString(i);
+    	String orderNo = String.format("%s%s", df.format(new Date()), threeRandomStr);//订单编号
     	
     	return orderNo; 	
     }
+	
+	public static void main(String[] args) {
+		for(int i = 0; i< 100; i++)
+			System.out.println(generateOrderNo());
+	}
 }

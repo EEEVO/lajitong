@@ -79,8 +79,10 @@ public class PlatformController extends SBaseController {
 	        deviceService.saveShake(mbParseResult);
 
 	        String org_id = ORGANIZATION_ID; // 机构编号
-	        String[] bucket1 = new String[] {"401", "402"};  
-	        String[] bucket2 = new String[] {"403", "404"}; 
+			//Book("401", "纸张"),Metal("402", "金属"),Plastics("403", "塑料"),Fabric("404", "织物");
+			//511560163239595305DCFF35 对应塑料和纸张 511560273239595305D6FF35对应金属和玻璃（织物）
+	        String[] bucket1 = new String[] {"403", "401"};  
+	        String[] bucket2 = new String[] {"402", "404"}; 
 	        // 内桶个数对应的垃圾类型
 	        String[] buckets = null;
 	        if("511560163239595305DCFF35".equals(mbParseResult.mbDataObject.getMbId())) {
@@ -168,8 +170,10 @@ public class PlatformController extends SBaseController {
 			}
 			
 			String org_id = ORGANIZATION_ID; // 机构编号
-	        String[] bucket1 = new String[] {"401", "402"};  
-	        String[] bucket2 = new String[] {"403", "404"}; 
+			//Book("401", "纸张"),Metal("402", "金属"),Plastics("403", "塑料"),Fabric("404", "织物");
+			//511560163239595305DCFF35 对应塑料和纸张 511560273239595305D6FF35对应金属和玻璃（织物）
+	        String[] bucket1 = new String[] {"403", "401"};  
+	        String[] bucket2 = new String[] {"402", "404"}; 
 	        // 内桶个数对应的垃圾类型
 	        String[] buckets = null;
 	        if("511560163239595305DCFF35".equals(mbParseResult.mbDataObject.getMbId())) {
