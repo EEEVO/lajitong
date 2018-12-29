@@ -2,15 +2,11 @@ package com.auts.lajitong.dao;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
 
 import com.auts.lajitong.model.dao.LitteredhatDeliveryListModel;
-import com.auts.lajitong.model.dao.UserModel;
 
 /**
  * 订单表，投递记录.
@@ -20,6 +16,20 @@ import com.auts.lajitong.model.dao.UserModel;
 public interface DeliveryMapper {
 
     @Select("select * from tbl_order where user_id=#{user_id}")
+    @Results({
+    	@Result(property = "id", column = "id"),
+    	@Result(property = "order_id", column = "order_id"),
+    	@Result(property = "user_id", column = "user_id"),
+    	@Result(property = "device_id", column = "device_id"),
+    	@Result(property = "bin_no", column = "bin_no"),
+    	@Result(property = "order_type", column = "order_type"),
+    	@Result(property = "delivery_time", column = "delivery_time"),
+    	@Result(property = "weight", column = "weight"),
+    	@Result(property = "price", column = "price"),
+    	@Result(property = "amount", column = "amount"),
+    	@Result(property = "create_time", column = "create_time"),
+    	@Result(property = "update_time", column = "update_time")
+    })
     public List<LitteredhatDeliveryListModel> getListByUser(String userId);
 
 //    @Update("update tbl_user set nick_name = #{nickName}, sex=#{sex} where id=#{id}")

@@ -7,7 +7,7 @@ package com.auts.lajitong.model.dao;
  *
  */
 public class LitteredhatDeliveryListModel {
-    private int id;
+    private Long id;
 
     private String order_id;
 
@@ -31,11 +31,11 @@ public class LitteredhatDeliveryListModel {
 
     private long update_time;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
