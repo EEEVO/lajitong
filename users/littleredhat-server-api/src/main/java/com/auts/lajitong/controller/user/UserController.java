@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +24,7 @@ import com.auts.lajitong.model.enums.GarbageTypeEnum;
 import com.auts.lajitong.model.response.litteredhat.LitteredHatDeliveryListResponse;
 import com.auts.lajitong.service.DeliveryService;
 import com.auts.lajitong.service.UserService;
-import com.auts.lajitong.util.DateUtils;
 import com.auts.lajitong.util.MyListUtils;
-import com.auts.lajitong.util.StringUtil;
 
 /**
  * 用户个人信息接口.
@@ -95,21 +94,26 @@ public class UserController extends SBaseController {
         PhiHomeBaseResponse rspObj = new PhiHomeBaseResponse();
         LitteredHatDeliveryListResponse model = new LitteredHatDeliveryListResponse();
 
-        List<LitteredHatDeliveryListResponse.DeliverModel> data = new ArrayList<>();
-        List<LitteredhatDeliveryListModel> models = deliveryService.getListByUser(userId);
-        if (!MyListUtils.isEmpty(models)) {
-            for (int i = 0; i < models.size(); i++) {
-                LitteredhatDeliveryListModel mm = models.get(i);
-                convertDTO(mm);
-                LitteredHatDeliveryListResponse.DeliverModel rspMM = new LitteredHatDeliveryListResponse.DeliverModel(
-                        mm);
+        try {
+        	List<LitteredHatDeliveryListResponse.DeliverModel> data = new ArrayList<>();
+            List<LitteredhatDeliveryListModel> models = deliveryService.getListByUser(userId);
+            if (!MyListUtils.isEmpty(models)) {
+                for (int i = 0; i < models.size(); i++) {
+                    LitteredhatDeliveryListModel mm = models.get(i);
+                    convertDTO(mm);
+                    LitteredHatDeliveryListResponse.DeliverModel rspMM = new LitteredHatDeliveryListResponse.DeliverModel(
+                            mm);
 
-                data.add(rspMM);
+                    data.add(rspMM);
+                }
             }
-        }
 
-        model.setData(data);
-        rspObj.setResult(model);
+            model.setData(data);
+            rspObj.setResult(model);
+		} catch (Exception e) {
+			LOGGER.warn("queryDelivers Exception:" + ExceptionUtils.getStackTrace(e));
+		} 
+        
         return successResponse(rspObj);
     }
     

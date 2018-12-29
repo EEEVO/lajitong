@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,7 +102,7 @@ public class PlatformController extends SBaseController {
 	        out.flush();
 
 		} catch (Exception e) {
-			LOGGER.warn("shake Exception:" + e.getMessage());
+			LOGGER.warn("shake Exception:" + ExceptionUtils.getStackTrace(e));
 		}
         
     }
@@ -137,7 +138,7 @@ public class PlatformController extends SBaseController {
 
 
 		} catch (Exception e) {
-			LOGGER.warn("verification Exception:" + e.getMessage());
+			LOGGER.warn("verification Exception:" + ExceptionUtils.getStackTrace(e));
 		} 
     }
 
@@ -192,7 +193,7 @@ public class PlatformController extends SBaseController {
 			out.flush();
 			
 		} catch (Exception e) {
-			LOGGER.warn("record Exception:" + e.getMessage());
+			LOGGER.warn("record Exception:" + ExceptionUtils.getStackTrace(e));
 		}
         
     }
