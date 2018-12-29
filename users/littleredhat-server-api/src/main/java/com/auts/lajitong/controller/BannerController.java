@@ -35,8 +35,8 @@ public class BannerController extends SBaseController {
         for (int i = 0; i < 3; i++) {
             Banner banner = new Banner();
             banner.setName("pic-" + i);
-            banner.setUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1521182162941&di=e61191aa974e4ea5e711bcf0b14a4a3a&imgtype=jpg&src=http%3A%2F%2Fimg4.imgtn.bdimg.com%2Fit%2Fu%3D3973334759%2C722530092%26fm%3D214%26gp%3D0.jpg");
-            banner.setLink_url("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1521182162941&di=e61191aa974e4ea5e711bcf0b14a4a3a&imgtype=jpg&src=http%3A%2F%2Fimg4.imgtn.bdimg.com%2Fit%2Fu%3D3973334759%2C722530092%26fm%3D214%26gp%3D0.jpg");
+            banner.setUrl("https://www.xiaoredcap.com/img/banner/banner_" + i + ".png");
+            banner.setLink_url("");
             list.add(banner);
         }
         Result result = new Result();
