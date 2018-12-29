@@ -30,7 +30,7 @@ public interface DeliveryMapper {
     	@Result(property = "create_time", column = "create_time"),
     	@Result(property = "update_time", column = "update_time")
     })
-    public List<LitteredhatDeliveryListModel> getListByUser(String userId);
+    public List<LitteredhatDeliveryListModel> getListByUser(String userId) throws Exception;
 
 //    @Update("update tbl_user set nick_name = #{nickName}, sex=#{sex} where id=#{id}")
 //    int updateUser(@Param("id") String id, @Param("nickName") String nickName,@Param("sex") int sex);

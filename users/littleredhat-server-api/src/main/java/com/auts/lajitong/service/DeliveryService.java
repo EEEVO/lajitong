@@ -6,6 +6,6 @@ import com.auts.lajitong.model.dao.LitteredhatDeliveryListModel;
 
 public interface DeliveryService {
 
-    List<LitteredhatDeliveryListModel> getListByUser(String userId);
+    List<LitteredhatDeliveryListModel> getListByUser(String userId) throws Exception;
 
 }

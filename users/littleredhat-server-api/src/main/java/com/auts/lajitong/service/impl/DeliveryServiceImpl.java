@@ -19,7 +19,7 @@ public class DeliveryServiceImpl implements DeliveryService {
     DeliveryMapper mapper;
 
     @Override
-    public List<LitteredhatDeliveryListModel> getListByUser(String userId) {
+    public List<LitteredhatDeliveryListModel> getListByUser(String userId) throws Exception{
         return mapper.getListByUser(userId);
     }
 
