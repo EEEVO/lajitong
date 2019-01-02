@@ -3,6 +3,7 @@ package com.auts.lajitong.dao;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Update;
 
 import com.auts.lajitong.model.dao.device.DeviceWatcherModel;
 
@@ -27,5 +28,26 @@ public interface DeviceWatcherMapper {
 
     int updateByPrimaryKeySelective(DeviceWatcherModel record);
 
+    @Update("update tbl_device_watcher set gps_lng=#{record.gpsLng}, "
+    		+ "gps_lng=#{record.gpsLng}, "
+    		+ "gps_lat=#{record.gpsLng}, "
+    		+ "signal_intensit=#{record.signalIntensit}, "
+    		+ "firmware_version=#{record.firmwareVersion}, "
+    		+ "charing_voltage=#{record.charingVoltage}, "
+    		+ "charing_current=#{record.charingCurrent}, "
+    		+ "daily_charge=#{record.dailyCharge}, "
+    		+ "daily_electricity=#{record.dailyElectricity}, "
+    		+ "mainboard_temperature=#{record.mainboardTemperature}, "
+    		+ "battery_temperature=#{record.batteryTemperature}, "
+    		+ "battery_voltage=#{record.batteryVoltage}, "
+    		+ "sort_sum=#{record.sortSum}, "
+    		+ "mainboard_id=#{record.mainboardId}, "
+    		+ "ws_time=#{record.wsTime}, "
+    		+ "capacity=#{record.capacity}, "
+    		+ "weight=#{record.weight}, "
+    		+ "temperatur=#{record.temperatur}, "
+    		+ "water_line=#{record.waterLine}, "
+    		+ "update_time=#{record.updateTime} "
+    		+ " where device_id=#{record.deviceId}")
     int updateByPrimaryKey(DeviceWatcherModel record);
 }

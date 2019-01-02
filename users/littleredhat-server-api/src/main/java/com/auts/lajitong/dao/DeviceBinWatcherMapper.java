@@ -3,6 +3,7 @@ package com.auts.lajitong.dao;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Update;
 
 import com.auts.lajitong.model.dao.device.DeviceBinWatcherModel;
 
@@ -23,5 +24,14 @@ public interface DeviceBinWatcherMapper {
 
     int updateByPrimaryKeySelective(DeviceBinWatcherModel record);
 
+    @Update("update tbl_bin_watcher set sort_no=#{record.sortNo}, "
+    		+ "volumn=#{record.volumn}, "
+    		+ "sszl=#{record.sszl}, "
+    		+ "wd=#{record.wd}, "
+    		+ "work_status=#{record.workStatus}, "
+    		+ "error_code=#{record.errorCode}, "
+    		+ "error_msg=#{record.errorMsg}, "
+    		+ "update_time=#{record.updateTime} "
+    		+ " where device_id=#{record.deviceId}")
     int updateByPrimaryKey(DeviceBinWatcherModel record);
 }
