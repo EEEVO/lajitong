@@ -70,7 +70,7 @@ public class PlatformController extends SBaseController {
      */
     @RequestMapping(value = "/fl/ws")
     public void shake(HttpServletRequest request, HttpServletResponse response) {
-    	LOGGER.info("shake test, time:" + DateUtils.parseDateToStr(new Date(), "yyyy-MM-dd HH:mm:ss")); 
+    	LOGGER.info("shake, time:" + DateUtils.parseDateToStr(new Date(), "yyyy-MM-dd HH:mm:ss")); 
         InputStream inputStream;
 		try {
 			inputStream = request.getInputStream();
@@ -114,7 +114,7 @@ public class PlatformController extends SBaseController {
      */
     @RequestMapping(value = "/fl/verification")
     public void verification(HttpServletRequest request, HttpServletResponse response) {
-    	LOGGER.info("verification test, time:" + DateUtils.parseDateToStr(new Date(), "yyyy-MM-dd HH:mm:ss"));
+    	LOGGER.info("verification, time:" + DateUtils.parseDateToStr(new Date(), "yyyy-MM-dd HH:mm:ss"));
         InputStream inputStream;
 		try {
 			inputStream = request.getInputStream();
@@ -149,7 +149,7 @@ public class PlatformController extends SBaseController {
      */
     @RequestMapping(value = "/fl/record")
     public void record(HttpServletRequest request, HttpServletResponse response) {
-    	LOGGER.info("record test, time:" + DateUtils.parseDateToStr(new Date(), "yyyy-MM-dd HH:mm:ss"));
+    	LOGGER.info("record, time:" + DateUtils.parseDateToStr(new Date(), "yyyy-MM-dd HH:mm:ss"));
         InputStream inputStream;
 		try {
 			inputStream = request.getInputStream();

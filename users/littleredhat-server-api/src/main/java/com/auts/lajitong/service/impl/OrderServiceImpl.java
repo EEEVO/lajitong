@@ -76,7 +76,7 @@ public class OrderServiceImpl implements OrderService {
 		String price = getPrice(deliveryCard.getBinNo() + "");
 		dto.setPrice(price);
 		//amout = wt * 10g(单位) * price (KG)
-		String amount = new BigDecimal(deliveryCard.getWeight()).multiply(new BigDecimal(price)).divide(new BigDecimal(1000)).setScale(1, BigDecimal.ROUND_HALF_UP).toString();
+		String amount = new BigDecimal(deliveryCard.getWeight()).multiply(new BigDecimal(price)).divide(new BigDecimal(1000)).setScale(2, BigDecimal.ROUND_HALF_UP).toString();
 		dto.setAmount(amount);
 		Date nowDate = new Date();
 		dto.setCreateTime(nowDate.getTime());
