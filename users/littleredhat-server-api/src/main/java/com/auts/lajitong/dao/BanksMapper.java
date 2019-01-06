@@ -15,7 +15,7 @@ import com.auts.lajitong.model.dao.BankModel;
  */
 public interface BanksMapper {
 
-    @Update("update tbl_banks set bankname = #{model.nickName}, bankno=#{model.bankno} username=#{model.username} where id=#{model.id}")
+    @Update("update tbl_banks set bankname=#{model.bankname}, bankno=#{model.bankno}, username=#{model.username} where id=#{model.id}")
     int updateBankBy(@Param("model") BankModel model);
 
     @Insert("insert into tbl_banks (user_id, bankname, bankno, username, status, create_time) "

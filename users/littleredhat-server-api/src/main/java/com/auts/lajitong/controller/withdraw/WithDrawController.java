@@ -116,22 +116,32 @@ public class WithDrawController extends SBaseController {
         //判断是否已经绑卡了，如果是，那就不继续绑了。
         List<BankModel> bankModel = banksService.queryBankByUserid(userId);
         if (!MyListUtils.isEmpty(bankModel)) {
-			return errorResponse(Const.ErrorCode.STATUS_ADD_BANK_FAILED_HAS_BANK);
-		}
-        
-        //插入到银行卡数据库
-        try {
-        	BankModel addModel = new BankModel();
-            addModel.setBankname(bankname);
-            addModel.setBankno(bankno);
-            addModel.setUsername(username);
-            addModel.setCreate_time(System.currentTimeMillis());
-            addModel.setStatus(0);
-            addModel.setUser_id(userId);
-            banksService.addBank(addModel);
-		} catch (Exception e) {
-			LOGGER.error("", e);
-			return errorResponse(Const.ErrorCode.ERROR_DATABASE_FATAL);
+        	//更新银行卡
+        	try {
+        		BankModel bmodel = bankModel.get(0);
+        		bmodel.setBankname(bankname);
+        		bmodel.setBankno(bankno);
+        		bmodel.setUsername(username);
+        		banksService.updateBank(bmodel);
+			} catch (Exception e) {
+				LOGGER.error("", e);
+				return errorResponse(Const.ErrorCode.ERROR_DATABASE_FATAL);
+			}
+		}else {
+			//插入到银行卡数据库
+	        try {
+	        	BankModel addModel = new BankModel();
+	            addModel.setBankname(bankname);
+	            addModel.setBankno(bankno);
+	            addModel.setUsername(username);
+	            addModel.setCreate_time(System.currentTimeMillis());
+	            addModel.setStatus(0);
+	            addModel.setUser_id(userId);
+	            banksService.addBank(addModel);
+			} catch (Exception e) {
+				LOGGER.error("", e);
+				return errorResponse(Const.ErrorCode.ERROR_DATABASE_FATAL);
+			}
 		}
         
         PhiHomeBaseResponse rspObj = new PhiHomeBaseResponse();
