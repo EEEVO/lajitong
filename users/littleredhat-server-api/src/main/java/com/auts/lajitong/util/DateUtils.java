@@ -141,6 +141,10 @@ public class DateUtils{
         return res;
     }
 
+    public static String transTime(long time){
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return format.format(new Date(time));
+    }
 	/**
      * 获取某日期的年份
      * @param date
