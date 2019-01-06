@@ -143,11 +143,13 @@ public class WithDrawController extends SBaseController {
     private String getWithdrawTypeMSG(int withdrawType) {
     	String msg = "";
     	if(withdrawType == 0) {
-    		msg = "微信体现";
+    		msg = "微信提现";
     	} else if(withdrawType == 1) {
-    		msg = "支付宝体现";
+    		msg = "支付宝提现";
     	} else if(withdrawType == 2) {
     		msg = "投递收益";
+    	}else if(withdrawType == 3) {
+    		msg = "银行卡提现";
     	}
     	return msg;
     }
@@ -160,6 +162,8 @@ public class WithDrawController extends SBaseController {
     		amountMsg = "-" + amount;
     	} else if(withdrawType == 2) {
     		amountMsg = "+" + amount;
+    	} else if(withdrawType == 3) {
+    		amountMsg = "-" + amount;
     	}
     	return amountMsg;
     }
