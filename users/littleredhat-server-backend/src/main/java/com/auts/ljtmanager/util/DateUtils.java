@@ -119,7 +119,7 @@ public class DateUtils{
 
 	/*
      * 将时间转换为时间戳
-     */
+     */    
     public static String dateToStamp(String s) throws ParseException{
         String res;
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -128,7 +128,7 @@ public class DateUtils{
         res = String.valueOf(ts);
         return res;
     }
-
+ 
     /*
      * 将时间戳转换为时间
      */
@@ -141,6 +141,10 @@ public class DateUtils{
         return res;
     }
 
+    public static String transTime(long time){
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return format.format(new Date(time));
+    }
 	/**
      * 获取某日期的年份
      * @param date
