@@ -113,8 +113,8 @@ public class WithDrawController extends SBaseController {
 		}
         
         //判断是否已经绑卡了，如果是，那就不继续绑了。
-        BankModel bankModel = banksService.queryBankByUserid(userId);
-        if (bankModel != null) {
+        List<BankModel> bankModel = banksService.queryBankByUserid(userId);
+        if (!MyListUtils.isEmpty(bankModel)) {
 			return errorResponse(Const.ErrorCode.STATUS_ADD_BANK_FAILED_HAS_BANK);
 		}
         
@@ -160,8 +160,8 @@ public class WithDrawController extends SBaseController {
         	return errorResponse(Const.ErrorCode.STATUS_WITHDRAW_FAILED_WRONG_AMOUNT);
 		}
         //1. 检查是否有绑定银行卡
-        BankModel bankModel = banksService.queryBankByUserid(userId);
-        if (bankModel == null) {
+        List<BankModel> bankModel = banksService.queryBankByUserid(userId);
+        if (MyListUtils.isEmpty(bankModel)) {
         	return errorResponse(Const.ErrorCode.STATUS_WITHDRAW_FAILED_NO_BANK);
 		}
         

@@ -6,6 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -24,6 +26,7 @@ import com.auts.lajitong.consts.Const;
 import com.auts.lajitong.controller.SBaseController;
 import com.auts.lajitong.model.common.PhiHomeBaseResponse;
 import com.auts.lajitong.model.dao.AccountModel;
+import com.auts.lajitong.model.dao.BankModel;
 import com.auts.lajitong.model.dao.CaptchaModel;
 import com.auts.lajitong.model.dao.TokenModel;
 import com.auts.lajitong.model.dao.UserModel;
@@ -37,10 +40,13 @@ import com.auts.lajitong.model.response.PropertyChangeResponseModel;
 import com.auts.lajitong.model.response.RedhatLoginResponseModel;
 import com.auts.lajitong.model.response.RegistResponseModel;
 import com.auts.lajitong.model.response.litteredhat.LitteredHatInfosResponseModel;
+import com.auts.lajitong.model.response.litteredhat.LitteredHatInfosResponseModel.BankResponseModel;
 import com.auts.lajitong.service.AccountService;
+import com.auts.lajitong.service.BanksService;
 import com.auts.lajitong.service.CaptchaService;
 import com.auts.lajitong.service.UserService;
 import com.auts.lajitong.util.Base64Utils;
+import com.auts.lajitong.util.MyListUtils;
 import com.auts.lajitong.util.MyResponseutils;
 import com.auts.lajitong.util.RegexUtils;
 import com.auts.lajitong.util.StringUtil;
@@ -67,6 +73,9 @@ public class AccountController extends SBaseController {
 
     @Autowired
     UserService userService;
+    
+    @Autowired
+    BanksService banksService;
 
     private static final String AVATAR_SAVE_PATH = "/root/deploy/img/avatar/lcss";
 
@@ -433,6 +442,22 @@ public class AccountController extends SBaseController {
         UserModel userModel = userService.queryUserByUserid(userId);
         if (userModel != null) {
             LitteredHatInfosResponseModel model = new LitteredHatInfosResponseModel(userModel);
+            
+            List<BankModel> bankModel = banksService.queryBankByUserid(userId);
+            if (MyListUtils.isEmpty(bankModel)) {
+				model.setBanks(null);
+			}else {
+				List<BankResponseModel> bankRspModel = new ArrayList<BankResponseModel>();
+				for (BankModel bm : bankModel) {
+					BankResponseModel rspBmModel = new BankResponseModel();
+					rspBmModel.setBankname(bm.getBankname());
+					rspBmModel.setBankno(bm.getBankno());
+					rspBmModel.setUsername(bm.getUsername());
+					bankRspModel.add(rspBmModel);
+				}
+				
+				model.setBanks(bankRspModel);
+			}
             rsp.setResult(model);
         }
 

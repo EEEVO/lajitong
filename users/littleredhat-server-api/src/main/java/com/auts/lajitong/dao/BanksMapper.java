@@ -1,5 +1,7 @@
 package com.auts.lajitong.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -20,6 +22,6 @@ public interface BanksMapper {
             + "values (#{model.user_id}, #{model.bankname},#{model.bankno},#{model.username},#{model.status},#{model.create_time})")
     int addBank(@Param("model") BankModel model);
 
-    @Select("select * from tbl_banks where user_id=#{userId} and status=0 limit 1")
-    BankModel queryBankByUserid(@Param("userId") String userId);
+    @Select("select * from tbl_banks where user_id=#{userId} and status=0")
+    List<BankModel> queryBankByUserid(@Param("userId") String userId);
 }

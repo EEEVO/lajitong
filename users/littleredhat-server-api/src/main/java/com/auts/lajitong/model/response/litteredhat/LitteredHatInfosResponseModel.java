@@ -1,5 +1,7 @@
 package com.auts.lajitong.model.response.litteredhat;
 
+import java.util.List;
+
 import com.auts.lajitong.model.dao.UserModel;
 
 public class LitteredHatInfosResponseModel {
@@ -23,6 +25,8 @@ public class LitteredHatInfosResponseModel {
     private int deliver_count;
 
     private String total_profit;
+    
+    private List<BankResponseModel> banks;
 
     public String getPhonenumber() {
         return phonenumber;
@@ -62,5 +66,46 @@ public class LitteredHatInfosResponseModel {
 
     public void setTotal_profit(String total_profit) {
         this.total_profit = total_profit;
+    }
+    
+    public List<BankResponseModel> getBanks() {
+		return banks;
+	}
+
+	public void setBanks(List<BankResponseModel> banks) {
+		this.banks = banks;
+	}
+
+	public static class BankResponseModel{
+    	
+    	private String bankname;
+    	
+    	private String bankno;
+    	
+    	private String username;
+
+		public String getBankname() {
+			return bankname;
+		}
+
+		public void setBankname(String bankname) {
+			this.bankname = bankname;
+		}
+
+		public String getBankno() {
+			return bankno;
+		}
+
+		public void setBankno(String bankno) {
+			this.bankno = bankno;
+		}
+
+		public String getUsername() {
+			return username;
+		}
+
+		public void setUsername(String username) {
+			this.username = username;
+		}
     }
 }

@@ -1,5 +1,7 @@
 package com.auts.lajitong.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +16,7 @@ public class BanksImpl implements BanksService {
     BanksMapper mapper;
 
 	@Override
-	public BankModel queryBankByUserid(String userId) {
+	public List<BankModel> queryBankByUserid(String userId) {
 		return mapper.queryBankByUserid(userId);
 	}
 
