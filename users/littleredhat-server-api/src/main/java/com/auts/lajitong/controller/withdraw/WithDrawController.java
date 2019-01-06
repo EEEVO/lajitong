@@ -97,6 +97,9 @@ public class WithDrawController extends SBaseController {
     		@RequestParam(value="bankno", required = true) String bankno,
     		@RequestParam(value="username", required = true) String username) {
         String userId = request.getHeader(Const.AUTHORIZATION);
+        if (StringUtil.isNullOrEmpty(userId)) {
+			return errorResponse(Const.ErrorCode.ERROR_NO_UID);
+		}
         LOGGER.info("add bank bankname [{}] bankno[{}] username[{}]", bankname, bankno, username);
         
         if (StringUtil.isNullOrEmpty(bankname)) {
@@ -146,6 +149,9 @@ public class WithDrawController extends SBaseController {
     		@RequestParam(value="amount", required = true) String amount) {
         String userId = request.getHeader(Const.AUTHORIZATION);
         LOGGER.info("bank withdraw userId [{}] amount[{}]", userId, amount);
+        if (StringUtil.isNullOrEmpty(userId)) {
+			return errorResponse(Const.ErrorCode.ERROR_NO_UID);
+		}
         
         if (StringUtil.isNullOrEmpty(amount)) {
 			return errorResponse(Const.ErrorCode.STATUS_WITHDRAW_FAILED_NO_AMOUNT);
@@ -154,8 +160,10 @@ public class WithDrawController extends SBaseController {
         	return errorResponse(Const.ErrorCode.STATUS_WITHDRAW_FAILED_WRONG_AMOUNT);
 		}
         //1. 检查是否有绑定银行卡
-//        return errorResponse(Const.ErrorCode.STATUS_WITHDRAW_FAILED_NO_BANK);
         BankModel bankModel = banksService.queryBankByUserid(userId);
+        if (bankModel == null) {
+        	return errorResponse(Const.ErrorCode.STATUS_WITHDRAW_FAILED_NO_BANK);
+		}
         
         //2. 查询提现金额是否超过可提现的金额
         UserModel userModel = userService.queryUserByUserid(userId);
