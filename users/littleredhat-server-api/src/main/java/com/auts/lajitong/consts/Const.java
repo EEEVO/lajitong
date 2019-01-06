@@ -58,6 +58,8 @@ public interface Const {
         int STATUS_WITHDRAW_FAILED_WRONG_AMOUNT = 10025;// 请输入提现金额
         int STATUS_WITHDRAW_FAILED_NO_BALANCE = 10026;// 请输入提现金额
         int STATUS_WITHDRAW_FAILED_NO_BANK = 10027;// 请输入提现金额
+        
+        int STATUS_ADD_BANK_FAILED_HAS_BANK = 10028;// 绑银行卡已经有卡了
 
         interface Account {
             int OK = 0;

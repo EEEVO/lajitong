@@ -45,4 +45,9 @@ public class UserImpl implements UserService {
     public UserModel queryUserByUserid(String userId) {
         return mapper.queryUserByUserid(userId);
     }
+
+	@Override
+	public int updateUserModel(UserModel model) {
+		return mapper.updateUserModel(model);
+	}
 }
