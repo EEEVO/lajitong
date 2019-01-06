@@ -453,6 +453,7 @@ public class AccountController extends SBaseController {
 					rspBmModel.setBankname(bm.getBankname());
 					rspBmModel.setBankno(bm.getBankno());
 					rspBmModel.setUsername(bm.getUsername());
+					rspBmModel.setBankid(bm.getId());
 					bankRspModel.add(rspBmModel);
 				}
 				

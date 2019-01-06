@@ -83,6 +83,8 @@ public class LitteredHatInfosResponseModel {
     	private String bankno;
     	
     	private String username;
+    	
+    	private String bankid;
 
 		public String getBankname() {
 			return bankname;
@@ -106,6 +108,14 @@ public class LitteredHatInfosResponseModel {
 
 		public void setUsername(String username) {
 			this.username = username;
+		}
+
+		public String getBankid() {
+			return bankid;
+		}
+
+		public void setBankid(String bankid) {
+			this.bankid = bankid;
 		}
     }
 }
