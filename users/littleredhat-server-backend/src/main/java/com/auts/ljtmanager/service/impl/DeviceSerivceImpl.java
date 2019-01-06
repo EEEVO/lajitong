@@ -1,27 +1,23 @@
 package com.auts.ljtmanager.service.impl;
 
-import java.lang.reflect.InvocationTargetException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSON;
 import com.auts.ljtmanager.controller.order.OrderController;
 import com.auts.ljtmanager.dao.DeviceBinWatcherMapper;
 import com.auts.ljtmanager.dao.DeviceWatcherMapper;
 import com.auts.ljtmanager.model.common.PageInfo;
 import com.auts.ljtmanager.model.dao.device.DeviceBinWatcherModel;
 import com.auts.ljtmanager.model.dao.device.DeviceWatcherModel;
-import com.auts.ljtmanager.model.dao.order.OrderModel;
-import com.auts.ljtmanager.model.enums.GarbageTypeEnum;
+import com.auts.ljtmanager.model.vo.DeviceBinVO;
 import com.auts.ljtmanager.model.vo.DeviceVO;
-import com.auts.ljtmanager.model.vo.OrderVO;
 import com.auts.ljtmanager.service.DeviceService;
 import com.github.pagehelper.PageHelper;
 
@@ -43,13 +39,19 @@ public class DeviceSerivceImpl implements DeviceService {
 			for(DeviceWatcherModel deviceWatcherModel : list) {
 				DeviceVO deviceVO = new DeviceVO();
 				try {
-					BeanUtils.copyProperties(deviceVO, deviceWatcherModel);
-				} catch (IllegalAccessException | InvocationTargetException e) {
+					BeanUtils.copyProperties(deviceWatcherModel, deviceVO);
+				} catch (BeansException e) {
 					e.printStackTrace();
 				}
 				
 				List<DeviceBinWatcherModel> deviceBin = deviceBinWatcherMapper.selectDeviceBinByFId(deviceWatcherModel.getId());
-//				convertVO(orderVO);
+				List<DeviceBinVO> deviceBinList = new ArrayList<>();
+				for(DeviceBinWatcherModel model :deviceBin) {
+					DeviceBinVO deviceBinVO = new DeviceBinVO();
+					BeanUtils.copyProperties(model, deviceBinVO);
+					deviceBinList.add(deviceBinVO);
+				}
+				deviceVO.setDeviceBinList(deviceBinList);
 				resultList.add(deviceVO);
 			}
 		}
@@ -61,10 +63,10 @@ public class DeviceSerivceImpl implements DeviceService {
 		return pageInfo;
 	}
 
-	private void convertVO(OrderVO orderVO) {
-		orderVO.setDeliveryTime(orderVO.getDeliveryTime());
-		orderVO.setOrderType(GarbageTypeEnum.valueToEnum(orderVO.getOrderType()).getText());
-    	String newprice = new BigDecimal(orderVO.getPrice()).setScale(2,BigDecimal.ROUND_HALF_UP).toString();
-    	orderVO.setPrice(newprice);
-	}
+//	private void convertVO(OrderVO orderVO) {
+//		orderVO.setDeliveryTime(orderVO.getDeliveryTime());
+//		orderVO.setOrderType(GarbageTypeEnum.valueToEnum(orderVO.getOrderType()).getText());
+//    	String newprice = new BigDecimal(orderVO.getPrice()).setScale(2,BigDecimal.ROUND_HALF_UP).toString();
+//    	orderVO.setPrice(newprice);
+//	}
 }

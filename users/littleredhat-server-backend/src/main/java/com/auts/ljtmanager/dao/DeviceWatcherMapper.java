@@ -10,7 +10,6 @@ import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 
 import com.auts.ljtmanager.model.dao.device.DeviceWatcherModel;
-import com.auts.ljtmanager.model.dao.order.OrderModel;
 
 public interface DeviceWatcherMapper {
     int deleteByPrimaryKey(Long id);
@@ -27,16 +26,46 @@ public interface DeviceWatcherMapper {
     @Options(useGeneratedKeys = true, keyProperty = "record.id")
     int insert(@Param("record") DeviceWatcherModel record) throws Exception;
 
-	@Select("SELECT * FROM tbl_device_watcher")
+    @Select("<script>"
+		+ "SELECT * FROM tbl_device_watcher a "
+		+ " WHERE 1=1 "
+		+ "<if test='deviceId != \"\"'>"
+		+ 	" and #{deviceId} = a.device_id "
+		+ "</if>"
+		+ "</script>")
     @Results({
     	@Result(property = "id", column = "id"),
     	@Result(property = "deviceId", column = "device_id"),
+    	@Result(property = "gpsLng", column = "gps_lng"),
+    	@Result(property = "gpsLat", column = "gps_lat"),
+    	@Result(property = "signalIntensit", column = "signal_intensit"),
+    	@Result(property = "firmwareVersion", column = "firmware_version"),
+    	@Result(property = "charingVoltage", column = "charing_voltage"),
+    	@Result(property = "charingCurrent", column = "charing_current"),
+    	@Result(property = "dailyCharge", column = "daily_charge"),
+    	@Result(property = "dailyElectricity", column = "daily_electricity"),
+    	@Result(property = "mainboardTemperature", column = "mainboard_temperature"),
+    	@Result(property = "batteryTemperature", column = "battery_temperature"),
+    	@Result(property = "batteryVoltage", column = "battery_voltage"),
+    	@Result(property = "sortSum", column = "sort_sum"),
+    	@Result(property = "mainboardId", column = "mainboard_id"),
+    	@Result(property = "wsTime", column = "ws_time"),
+    	@Result(property = "capacity", column = "capacity"),
+    	@Result(property = "weight", column = "weight"),
+    	@Result(property = "temperatur", column = "temperatur"),
+    	@Result(property = "waterLine", column = "water_line"),
     	@Result(property = "createTime", column = "create_time"),
     	@Result(property = "updateTime", column = "update_time")
     })
 	List<DeviceWatcherModel> queryDevices(@Param("deviceId") String deviceId, @Param("startDate") String startDate, @Param("endDate") String endDate);
 	
-	@Select("SELECT count(*) FROM tbl_device_watcher")
+    @Select("<script>"
+		+ "SELECT count(*) FROM tbl_device_watcher a "
+		+ " WHERE 1=1 "
+		+ "<if test='deviceId != \"\"'>"
+		+ 	" and #{deviceId} = a.device_id "
+		+ "</if>"
+		+ "</script>")
 	int queryDevicesCnt(@Param("deviceId") String deviceId, @Param("startDate") String startDate, @Param("endDate") String endDate);
 	
     int insertSelective(DeviceWatcherModel record);
