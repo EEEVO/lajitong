@@ -20,10 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.auts.lajitong.consts.Const;
 import com.auts.lajitong.controller.SBaseController;
 import com.auts.lajitong.model.common.PhiHomeBaseResponse;
+import com.auts.lajitong.model.dao.BankModel;
 import com.auts.lajitong.model.dao.UserModel;
 import com.auts.lajitong.model.dao.WithdrawModel;
 import com.auts.lajitong.model.response.litteredhat.LitteredBalanceListResponseModel;
 import com.auts.lajitong.model.response.litteredhat.LitteredBalanceListResponseModel.BalanceData;
+import com.auts.lajitong.service.BanksService;
 import com.auts.lajitong.service.UserService;
 import com.auts.lajitong.service.WithdrawService;
 import com.auts.lajitong.util.MyListUtils;
@@ -45,6 +47,9 @@ public class WithDrawController extends SBaseController {
     
     @Autowired
     UserService userService;
+    
+    @Autowired
+    BanksService banksService;
 
     /**
      * 余额明细查询，微信支付宝提现，订单收入.
@@ -78,6 +83,58 @@ public class WithDrawController extends SBaseController {
         return successResponse(rspObj);
     }
     
+    /**
+     * 增加银行卡
+     * @param request
+     * @param bankname
+     * @param bankno
+     * @param username
+     * @return
+     */
+    @RequestMapping(value = "/v1/bank/add", method = RequestMethod.POST, produces = { "application/json" })
+    public PhiHomeBaseResponse addBank(HttpServletRequest request,
+    		@RequestParam(value="bankname", required = true) String bankname,
+    		@RequestParam(value="bankno", required = true) String bankno,
+    		@RequestParam(value="username", required = true) String username) {
+        String userId = request.getHeader(Const.AUTHORIZATION);
+        LOGGER.info("add bank bankname [{}] bankno[{}] username[{}]", bankname, bankno, username);
+        
+        if (StringUtil.isNullOrEmpty(bankname)) {
+			return errorResponse(Const.ErrorCode.STATUS_WITHDRAW_FAILED_NO_BANKNAME);
+		}
+        if (StringUtil.isNullOrEmpty(bankno)) {
+        	return errorResponse(Const.ErrorCode.STATUS_WITHDRAW_FAILED_NO_BANKNO);
+		}
+        if (StringUtil.isNullOrEmpty(username)) {
+			return errorResponse(Const.ErrorCode.STATUS_WITHDRAW_FAILED_NO_USERNAME);
+		}
+        
+        //判断是否已经绑卡了，如果是，那就不继续绑了。
+        BankModel bankModel = banksService.queryBankByUserid(userId);
+        if (bankModel != null) {
+			return errorResponse(Const.ErrorCode.STATUS_ADD_BANK_FAILED_HAS_BANK);
+		}
+        
+        //插入到银行卡数据库
+        try {
+        	BankModel addModel = new BankModel();
+            addModel.setBankname(bankname);
+            addModel.setBankno(bankno);
+            addModel.setUsername(username);
+            addModel.setCreate_time(System.currentTimeMillis());
+            addModel.setStatus(0);
+            addModel.setUser_id(userId);
+            banksService.addBank(addModel);
+		} catch (Exception e) {
+			LOGGER.error("", e);
+			return errorResponse(Const.ErrorCode.ERROR_DATABASE_FATAL);
+		}
+        
+        PhiHomeBaseResponse rspObj = new PhiHomeBaseResponse();
+        rspObj.setResult(null);
+        return successResponse(rspObj);
+    }
+    
     
     /**
      * 银行卡提现接口
@@ -86,22 +143,10 @@ public class WithDrawController extends SBaseController {
      */
     @RequestMapping(value = "/v1/with_draw_bankcard", method = RequestMethod.POST, produces = { "application/json" })
     public PhiHomeBaseResponse withdrawBankcard(HttpServletRequest request,
-    		@RequestParam(value="bankname", required = true) String bankname,
-    		@RequestParam(value="bankno", required = true) String bankno,
-    		@RequestParam(value="username", required = true) String username,
     		@RequestParam(value="amount", required = true) String amount) {
         String userId = request.getHeader(Const.AUTHORIZATION);
-        LOGGER.info("bank withdraw userId [{}] bankname[{}] bankno[{}], username[{}] amount[{}]", userId, bankname, bankno,
-        		username, amount);
-        if (StringUtil.isNullOrEmpty(bankname)) {
-			return errorResponse(Const.ErrorCode.STATUS_WITHDRAW_FAILED_NO_BANKNAME);
-		}
-        if (StringUtil.isNullOrEmpty(bankno)) {
-			return errorResponse(Const.ErrorCode.STATUS_WITHDRAW_FAILED_NO_BANKNO);
-		}
-        if (StringUtil.isNullOrEmpty(username)) {
-			return errorResponse(Const.ErrorCode.STATUS_WITHDRAW_FAILED_NO_USERNAME);
-		}
+        LOGGER.info("bank withdraw userId [{}] amount[{}]", userId, amount);
+        
         if (StringUtil.isNullOrEmpty(amount)) {
 			return errorResponse(Const.ErrorCode.STATUS_WITHDRAW_FAILED_NO_AMOUNT);
 		}
@@ -110,6 +155,7 @@ public class WithDrawController extends SBaseController {
 		}
         //1. 检查是否有绑定银行卡
 //        return errorResponse(Const.ErrorCode.STATUS_WITHDRAW_FAILED_NO_BANK);
+        BankModel bankModel = banksService.queryBankByUserid(userId);
         
         //2. 查询提现金额是否超过可提现的金额
         UserModel userModel = userService.queryUserByUserid(userId);
@@ -127,7 +173,7 @@ public class WithDrawController extends SBaseController {
         withdrawModel.setAmount(amount);
         withdrawModel.setCreateTime(System.currentTimeMillis());
         withdrawModel.setOrderNo("");
-        withdrawModel.setReason(bankname + "---" + bankno + "---" + username);
+        withdrawModel.setReason("");
         withdrawModel.setStatus(0);
         withdrawModel.setUserId(userId);
         withdrawModel.setWithdrawType(3);
