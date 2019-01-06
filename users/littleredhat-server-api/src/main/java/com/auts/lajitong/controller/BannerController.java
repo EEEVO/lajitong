@@ -1,5 +1,6 @@
 package com.auts.lajitong.controller;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,13 +9,18 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.auts.lajitong.consts.Const;
+import com.auts.lajitong.model.common.PhiHomeBaseResponse;
+import com.auts.lajitong.model.dao.UserModel;
+import com.auts.lajitong.model.dao.WithdrawModel;
 import com.auts.lajitong.model.response.BannerResponseModel;
 import com.auts.lajitong.model.response.BannerResponseModel.Banner;
 import com.auts.lajitong.model.response.BannerResponseModel.Result;
 import com.auts.lajitong.util.MyResponseutils;
+import com.auts.lajitong.util.StringUtil;
 
 /**
  * 首页Banner图的控制.
@@ -45,4 +51,5 @@ public class BannerController extends SBaseController {
 
         return rsp;
     }
+    
 }

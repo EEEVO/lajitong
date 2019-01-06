@@ -19,4 +19,9 @@ public class WithdrawImpl implements WithdrawService {
     public List<WithdrawModel> getByUserId(String userId) {
         return mapper.getByUid(userId);
     }
+
+	@Override
+	public int saveWithdraw(WithdrawModel withdrawModel) {
+		return mapper.insertWithdraw(withdrawModel);
+	}
 }

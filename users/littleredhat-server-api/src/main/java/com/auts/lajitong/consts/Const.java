@@ -50,6 +50,14 @@ public interface Const {
         int STAUS_UID_NOT_BIND_OPEN_ID = 10018;//还没有绑定微信OPENID
         int STAUS_MORE_THAN_1_PROCESSING_WITHDRAW_RECORD = 10019;//提现出现问题，请联系客服
         int STAUS_ORDER_FAILED = 10020;//提现失败
+        
+        int STATUS_WITHDRAW_FAILED_NO_BANKNAME = 10021; //提现缺少银行卡名称
+        int STATUS_WITHDRAW_FAILED_NO_BANKNO = 10022; //提现缺少银行卡号码
+        int STATUS_WITHDRAW_FAILED_NO_USERNAME = 10023;//提现缺少用户名称
+        int STATUS_WITHDRAW_FAILED_NO_AMOUNT = 10024;// 请输入提现金额
+        int STATUS_WITHDRAW_FAILED_WRONG_AMOUNT = 10025;// 请输入提现金额
+        int STATUS_WITHDRAW_FAILED_NO_BALANCE = 10026;// 请输入提现金额
+        int STATUS_WITHDRAW_FAILED_NO_BANK = 10027;// 请输入提现金额
 
         interface Account {
             int OK = 0;
