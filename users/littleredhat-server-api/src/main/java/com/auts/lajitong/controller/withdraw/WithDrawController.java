@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -144,6 +145,7 @@ public class WithDrawController extends SBaseController {
      * @param request
      * @return
      */
+    @Transactional
     @RequestMapping(value = "/v1/with_draw_bankcard", method = RequestMethod.POST, produces = { "application/json" })
     public PhiHomeBaseResponse withdrawBankcard(HttpServletRequest request,
     		@RequestParam(value="amount", required = true) String amount) {
@@ -185,9 +187,11 @@ public class WithDrawController extends SBaseController {
         withdrawModel.setStatus(0);
         withdrawModel.setUserId(userId);
         withdrawModel.setWithdrawType(3);
-        
         withdrawService.saveWithdraw(withdrawModel);
         
+        //4. 减少当前余额
+        userModel.setCurrentProfit(savedBalance.subtract(passedBalance).toString());
+        userService.updateUserModel(userModel);
         
         PhiHomeBaseResponse rspObj = new PhiHomeBaseResponse();
         rspObj.setResult(null);

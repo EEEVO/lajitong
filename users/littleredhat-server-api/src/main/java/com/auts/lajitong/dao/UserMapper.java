@@ -19,6 +19,9 @@ public interface UserMapper {
 
     @Update("update tbl_user set nick_name = #{nickName}, sex=#{sex} where id=#{id}")
     int updateUser(@Param("id") String id, @Param("nickName") String nickName,@Param("sex") int sex);
+    
+    @Update("update tbl_user set nick_name = #{model.nickName}, sex=#{model.sex},status=#{model.status},current_profit=#{model.currentProfit},deliver_count=#{model.deliverCount},total_profit=#{model.totalProfit},wxs_open_id=#{model.wxsOpenId} where id=#{model.id}")
+    int updateUserModel(@Param("model") UserModel model);
 
     @Update("update tbl_user set nick_name = #{nickName} where id=#{id}")
     int updateUserNickName(@Param("id") String id, @Param("nickName") String nickName);
