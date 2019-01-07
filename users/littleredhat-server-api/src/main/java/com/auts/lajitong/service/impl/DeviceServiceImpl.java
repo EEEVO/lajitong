@@ -30,17 +30,38 @@ public class DeviceServiceImpl implements DeviceService {
 	public int saveShake(MbParseResult<Shake> mbParseResult) throws Exception{
 		
 		Shake shake = (Shake)mbParseResult.mbDataObject;
-		DeviceWatcherModel record = convertDeviceDTO(shake);
-		int result = deviceWatcherMapper.insert(record);
-		if(result > 0) {
-			List<Points> pointList = shake.getPointsList();
-			for(Points points : pointList) {
-				DeviceBinWatcherModel dto = convertDevicePointDTO(points);
-				dto.setfId(record.getId());
-				dto.setDeviceId(record.getDeviceId());
-				deviceBinWatcherMapper.insert(dto);
+		DeviceWatcherModel deviceWatcherModelDB = deviceWatcherMapper.selectByDeviceId(shake.getMbId());
+		if(deviceWatcherModelDB != null) {
+			//删除数据，新插入设备信息
+			deviceWatcherMapper.deleteByDeviceId(shake.getMbId());
+			deviceBinWatcherMapper.deleteByDeviceId(shake.getMbId());
+			//新插入设备信息
+			DeviceWatcherModel record = convertDeviceDTO(shake);
+			int result = deviceWatcherMapper.insert(record);
+			if(result > 0) {
+				List<Points> pointList = shake.getPointsList();
+				for(Points points : pointList) {
+					DeviceBinWatcherModel dto = convertDevicePointDTO(points);
+					dto.setfId(record.getId());
+					dto.setDeviceId(record.getDeviceId());
+					deviceBinWatcherMapper.insert(dto);
+				}
+			}
+		} else {
+			//第一次设备安装
+			DeviceWatcherModel record = convertDeviceDTO(shake);
+			int result = deviceWatcherMapper.insert(record);
+			if(result > 0) {
+				List<Points> pointList = shake.getPointsList();
+				for(Points points : pointList) {
+					DeviceBinWatcherModel dto = convertDevicePointDTO(points);
+					dto.setfId(record.getId());
+					dto.setDeviceId(record.getDeviceId());
+					deviceBinWatcherMapper.insert(dto);
+				}
 			}
 		}
+		
 		return 0;
 	}
 	

@@ -1,5 +1,6 @@
 package com.auts.lajitong.dao;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
@@ -9,6 +10,9 @@ import com.auts.lajitong.model.dao.device.DeviceBinWatcherModel;
 
 public interface DeviceBinWatcherMapper {
     int deleteByPrimaryKey(Long id);
+    
+    @Delete("delete from tbl_bin_watcher where device_id = #{deviceId}")
+    int deleteByDeviceId(@Param("deviceId") String deviceId);
 
     @Insert("insert into tbl_bin_watcher (f_id, device_id,sort_no, volumn, sszl, wd, work_status, "
     		+ "error_code, error_msg, create_time, update_time) "
